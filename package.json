@@ -1,5 +1,5 @@
 {
-  "name": "astraldao",
+  "name": "astralprotocol",
   "private": true,
   "workspaces": ["packages/*"],
   "scripts": {
