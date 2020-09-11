@@ -1,12 +1,14 @@
 {
   "name": "astraldao",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "bootstrap": "yarn install --frozen-lockfile && lerna bootstrap --hoist --ci",
     "test": "lerna run test",
     "build": "lerna run build",
-    "publish": "lerna run tsc && lerna publish --independent",
+    "publish": "lerna run tsc && lerna publish",
     "publish:next": "lerna publish --no-push --conventional-prerelease --dist-tag next",
     "publish:latest": "lerna publish --allow-branch master --conventional-graduate --create-release github",
     "lint": "lerna run lint",
