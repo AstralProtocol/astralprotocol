@@ -13,8 +13,8 @@ This repo is made up of several different packages.
 
 | Package | Current Version | Description |
 | -- | -- | -- |
-| @protocol/astral-core | -- | Core Astral Protocol Implementation |
-| @protocol/astral-contracts | -- | Astral Smart Contracts |
+| @astralprotocol/astral-core | -- | Core Astral Protocol Implementation |
+| @astralprotocol/astral-contracts | -- | Astral Smart Contracts |
 
 ## Development
 

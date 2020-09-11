@@ -1,5 +1,5 @@
 {
-  "name": "@protocol/astral-core",
+  "name": "@astralprotocol/astral-core",
   "version": "0.0.0",
   "description": "The core implementation of Astral Protocol. This package contains the methods that will define the Astral Protcol. GeoDID and NuCypher Implementation will mostly likely be used in here.",
   "author": "Jared Childers <jared.childers97@gmail.com>",

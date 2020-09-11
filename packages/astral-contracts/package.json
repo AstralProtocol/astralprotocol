@@ -1,5 +1,5 @@
 {
-  "name": "@protocol/astral-contracts",
+  "name": "@astralprotocol/astral-contracts",
   "version": "0.0.0",
   "description": "This package will be responsible for containing all of the smart contracts for the Astral Protocol Implementation, including the GeoDID Resolver.",
   "author": "Jared Childers <jared.childers97@gmail.com>",
