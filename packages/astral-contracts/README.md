@@ -7,5 +7,7 @@
 ```
 const astralContracts = require('astral-contracts');
 
+// Hello World
+
 // TODO: DEMONSTRATE API
 ```
