@@ -16,8 +16,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/astralDAO/astralprotocol.git"
+    "url": "git+https://github.com/astralDAO/astralprotocol.git",
+    "directory": "packages/astral-contracts"
   },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "scripts": {
     "tsc": "tsc",
     "test": "echo \"Error: run tests from root\" && exit 1",

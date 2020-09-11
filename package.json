@@ -1,6 +1,7 @@
 {
-  "name": "root",
+  "name": "astralprotocol",
   "private": true,
+  "workspaces": ["packages/*"],
   "scripts": {
     "bootstrap": "yarn install --frozen-lockfile && lerna bootstrap --hoist --ci",
     "test": "lerna run test",
