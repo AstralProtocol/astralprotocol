@@ -1,6 +1,6 @@
 {
   "name": "@astralprotocol/astral-core",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "> TODO: description",
   "author": "Jared Childers <jared.childers97@gmail.com>",
   "homepage": "https://github.com/astralDAO/astralprotocol#readme",
@@ -26,4 +26,3 @@
     "url": "https://github.com/astralDAO/astralprotocol/issues"
   }
 }
-

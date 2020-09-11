@@ -1,6 +1,6 @@
 {
   "name": "@astralprotocol/astral-contracts",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "> TODO: description",
   "author": "Jared Childers <jared.childers97@gmail.com>",
   "homepage": "https://github.com/astralDAO/astralprotocol#readme",
@@ -49,4 +49,3 @@
     "truffle": "^5.1.44"
   }
 }
-
