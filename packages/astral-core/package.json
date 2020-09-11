@@ -1,6 +1,6 @@
 {
   "name": "@astraldao/astral-core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "> TODO: description",
   "author": "Jared Childers <jared.childers97@gmail.com>",
   "homepage": "https://github.com/astralDAO/astralprotocol#readme",
@@ -19,7 +19,9 @@
     "url": "git+https://github.com/astralDAO/astralprotocol.git",
     "directory": "packages/astral-core"
   },
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "scripts": {
     "tsc": "tsc",
     "test": "echo \"Error: run tests from root\" && exit 1"
