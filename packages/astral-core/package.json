@@ -1,0 +1,28 @@
+{
+  "name": "@protocol/astral-core",
+  "version": "0.0.0",
+  "description": "The core implementation of Astral Protocol. This package contains the methods that will define the Astral Protcol. GeoDID and NuCypher Implementation will mostly likely be used in here.",
+  "author": "Jared Childers <jared.childers97@gmail.com>",
+  "homepage": "https://github.com/astralDAO/protocol#readme",
+  "license": "ISC",
+  "main": "lib/astral-core.js",
+  "typings": "lib/astral-core.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astralDAO/protocol.git"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/astralDAO/protocol/issues"
+  }
+}
