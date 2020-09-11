@@ -1,5 +1,5 @@
 {
-  "name": "@astralprotocol/astral-contracts",
+  "name": "@astraldao/astral-contracts",
   "version": "0.0.3",
   "description": "> TODO: description",
   "author": "Jared Childers <jared.childers97@gmail.com>",
@@ -51,5 +51,6 @@
     "@openzeppelin/contracts": "^3.2.0",
     "@truffle/hdwallet-provider": "^1.0.44",
     "truffle": "^5.1.44"
-  }
+  },
+  "gitHead": "3d58b9a513701830735fbc867cc175edc2d7f71f"
 }

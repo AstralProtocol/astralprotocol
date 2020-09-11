@@ -1,5 +1,5 @@
 {
-  "name": "@astralprotocol/astral-core",
+  "name": "@astraldao/astral-core",
   "version": "0.0.3",
   "description": "> TODO: description",
   "author": "Jared Childers <jared.childers97@gmail.com>",
@@ -28,5 +28,6 @@
   },
   "bugs": {
     "url": "https://github.com/astralDAO/astralprotocol/issues"
-  }
+  },
+  "gitHead": "3d58b9a513701830735fbc867cc175edc2d7f71f"
 }
