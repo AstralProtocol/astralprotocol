@@ -1,12 +1,11 @@
 {
-  "name": "@astraldao/astral-contracts",
-  "version": "0.0.4",
+  "name": "@astraldao/astral-protocol-contracts",
+  "version": "0.0.0",
   "description": "> TODO: description",
-  "author": "Jared Childers <jared.childers97@gmail.com>",
+  "author": "AstralDAO <contact@astraldao.org>",
   "homepage": "https://github.com/astralDAO/astralprotocol#readme",
   "license": "ISC",
-  "main": "lib/astral-contracts.js",
-  "typings": "lib/astral-contracts.d.ts",
+  "main": "truffle-config.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -17,7 +16,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/astralDAO/astralprotocol.git",
-    "directory": "packages/astral-contracts"
+    "directory": "packages/astral-protocol-contracts"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
@@ -51,6 +50,5 @@
     "@openzeppelin/contracts": "^3.2.0",
     "@truffle/hdwallet-provider": "^1.0.44",
     "truffle": "^5.1.44"
-  },
-  "gitHead": "3d58b9a513701830735fbc867cc175edc2d7f71f"
+  }
 }

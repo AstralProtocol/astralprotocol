@@ -1,12 +1,12 @@
 {
-  "name": "@astraldao/astral-core",
-  "version": "0.0.4",
+  "name": "@astraldao/astral-protocol-core",
+  "version": "0.0.0",
   "description": "> TODO: description",
-  "author": "Jared Childers <jared.childers97@gmail.com>",
+  "author": "AstralDAO <contact@astraldao.org>",
   "homepage": "https://github.com/astralDAO/astralprotocol#readme",
   "license": "ISC",
-  "main": "lib/astral-core.js",
-  "typings": "lib/astral-core.d.ts",
+  "main": "lib/astral-protocol-core.js",
+  "typings": "lib/astral-protocol-core.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -17,7 +17,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/astralDAO/astralprotocol.git",
-    "directory": "packages/astral-core"
+    "directory": "packages/astral-protocol-core"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
@@ -28,6 +28,5 @@
   },
   "bugs": {
     "url": "https://github.com/astralDAO/astralprotocol/issues"
-  },
-  "gitHead": "3d58b9a513701830735fbc867cc175edc2d7f71f"
+  }
 }
