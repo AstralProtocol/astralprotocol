@@ -64,6 +64,10 @@ contract SpatialAssetRegistrar is Ownable {
         return geoDIDs[_addr][_hash];
     }
 
+    function checkExistence(bytes32 _hash) public view returns (bool) {
+        return geoDidExists[_hash];
+    }
+
     //---------------- Internal functions -----------------
 
     function createGeoDID(bytes32 _hash, string memory _cid) internal {
