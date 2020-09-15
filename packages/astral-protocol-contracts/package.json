@@ -50,5 +50,8 @@
     "@openzeppelin/contracts": "^3.2.0",
     "@truffle/hdwallet-provider": "^1.0.44",
     "truffle": "^5.1.44"
+  },
+  "devDependencies": {
+    "solidity-coverage": "^0.7.10"
   }
 }

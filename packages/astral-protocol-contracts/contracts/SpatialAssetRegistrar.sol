@@ -27,6 +27,7 @@ contract SpatialAssetRegistrar is Ownable {
 
     mapping(bytes32 => bool) geoDidExists;
 
+
     //---------------- Modifiers -----------------
 
     modifier nonCreatedGeoDID(bytes32 _hash) {
@@ -72,7 +73,7 @@ contract SpatialAssetRegistrar is Ownable {
 
     function createGeoDID(bytes32 _hash, string memory _cid) internal {
         geoDIDs[msg.sender][_hash] = _cid;
-
+        geoDidExists[_hash] = true;
         emit CreateGeoDID(msg.sender, _hash, _cid);
     }
 

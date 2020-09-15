@@ -49,13 +49,33 @@ contract("SpatialAssetRegistrar", async (accounts) => {
     assert.equal(nextCid, resolvedCid, "The cid was incorrectly resolved");
   });
 
-  // In this test we want to test the fail case. We use try catch to test the fail case.
   it("Should delete the geoDid correctly", async () => {
-    await registrar.deregister(nextHash, { from: accounts[1] });
+    await registrar.deregister(nextHash, { from: accounts[0] });
     const nextExists = await registrar.checkExistence(nextHash, {
       from: accounts[0],
     });
 
     assert.isFalse(nextExists, "The geoDid was not deleted");
+  });
+
+  it("Shouldn't let a user register the same hash", async () => {
+    // it was deactivated before, reactivating it
+    await registrar.register(nextHash, nextCid, { from: accounts[1] });
+
+    try {
+      await registrar.register(nextHash, nextCid, { from: accounts[1] });
+      assert(false);
+    } catch (err) {
+      assert(err.message.includes("The geoDID hash was already created"));
+    }
+  });
+
+  it("Shouldn't let a user update a non existent hash", async () => {
+    try {
+      await registrar.update(hash, nextHash, cid, { from: accounts[1] });
+      assert(false);
+    } catch (err) {
+      assert(err.message.includes("geoDID does not exist"));
+    }
   });
 });
