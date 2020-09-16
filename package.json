@@ -1,9 +1,13 @@
 {
   "name": "astraldao",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": ["packages/*"],
+    "nohoist": [
+      "packages/subgraph/@graphprotocol/graph-ts",
+      "packages/subgraph/@graphprotocol/graph-ts/**"
+    ]
+  },
   "scripts": {
     "bootstrap": "yarn install --frozen-lockfile && lerna bootstrap --hoist --ci",
     "test": "lerna run test",
@@ -12,7 +16,8 @@
     "publish:next": "lerna run tsc && lerna publish --no-push --conventional-prerelease --dist-tag next",
     "publish:latest": "lerna run tsc && lerna publish --allow-branch master --conventional-graduate --create-release github",
     "lint": "lerna run lint",
-    "clean": "rm -rf ./lib"
+    "clean": "rm -rf ./lib",
+    "lerna-add": "lerna add @astraldao/astral-protocol-contracts --scope=@astraldao/astral-protocol-subgraph"
   },
   "devDependencies": {
     "@types/node": "^14.10.0",

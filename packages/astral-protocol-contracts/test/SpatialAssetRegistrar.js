@@ -6,10 +6,10 @@ contract("SpatialAssetRegistrar", async (accounts) => {
     "0x5519c53ea99f0d33f6a57941ccb197dd2bafef51a5b1786972721b2f2ea66e11";
 
   const cid = "ipfs:abcdefghi123456";
-
-  const nextHash =
-    "0xa3457fe7659b902c0c6a1af7a37669900c6208566a1bacc87e514690dbe853e0";
   const nextCid = "ipfs:zxy:123456";
+
+  const nonCreatedHash =
+    "0xa3457fe7659b902c0c6a1af7a37669900c6208566a1bacc87e514690dbe853e0";
 
   before(async () => {
     registrar = await SpatialAssetRegistrar.deployed();
@@ -35,35 +35,30 @@ contract("SpatialAssetRegistrar", async (accounts) => {
   });
 
   it("Should update the geoDid correctly", async () => {
-    await registrar.update(hash, nextHash, nextCid, { from: accounts[1] });
-    const exists = await registrar.checkExistence(hash, { from: accounts[0] });
-    const nextExists = await registrar.checkExistence(nextHash, {
-      from: accounts[0],
-    });
-    const resolvedCid = await registrar.geoDIDResolver(accounts[1], nextHash, {
+    await registrar.update(hash, nextCid, { from: accounts[1] });
+
+    const resolvedCid = await registrar.geoDIDResolver(accounts[1], hash, {
       from: accounts[0],
     });
 
-    assert.isFalse(exists, "The geoDid was not updated");
-    assert.isTrue(nextExists, "The geoDid was not updated");
     assert.equal(nextCid, resolvedCid, "The cid was incorrectly resolved");
   });
 
   it("Should delete the geoDid correctly", async () => {
-    await registrar.deregister(nextHash, { from: accounts[0] });
-    const nextExists = await registrar.checkExistence(nextHash, {
+    await registrar.deregister(hash, { from: accounts[0] });
+    const exists = await registrar.checkExistence(hash, {
       from: accounts[0],
     });
 
-    assert.isFalse(nextExists, "The geoDid was not deleted");
+    assert.isFalse(exists, "The geoDid was not deleted");
   });
 
   it("Shouldn't let a user register the same hash", async () => {
     // it was deactivated before, reactivating it
-    await registrar.register(nextHash, nextCid, { from: accounts[1] });
+    await registrar.register(hash, nextCid, { from: accounts[1] });
 
     try {
-      await registrar.register(nextHash, nextCid, { from: accounts[1] });
+      await registrar.register(hash, nextCid, { from: accounts[1] });
       assert(false);
     } catch (err) {
       assert(err.message.includes("The geoDID hash was already created"));
@@ -72,7 +67,7 @@ contract("SpatialAssetRegistrar", async (accounts) => {
 
   it("Shouldn't let a user update a non existent hash", async () => {
     try {
-      await registrar.update(hash, nextHash, cid, { from: accounts[1] });
+      await registrar.update(nonCreatedHash, cid, { from: accounts[1] });
       assert(false);
     } catch (err) {
       assert(err.message.includes("geoDID does not exist"));
