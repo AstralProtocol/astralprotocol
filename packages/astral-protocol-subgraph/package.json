@@ -1,0 +1,43 @@
+{
+  "name": "@astraldao/astral-protocol-subgraph",
+  "version": "0.0.1",
+  "description": "> TODO: description",
+  "author": "AstralDAO <contact@astraldao.org>",
+  "homepage": "https://github.com/astralDAO/astralprotocol#readme",
+  "license": "ISC",
+  "main": "src/mapping.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astralDAO/astralprotocol.git",
+    "directory": "packages/astral-protocol-core"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "graph-node": "sudo rm -rf graph-node/docker/data/postgres && docker-compose -f graph-node/docker/docker-compose.yml up",
+    "create": "graph create astralprotocol/subgraph --node https://api.thegraph.com/deploy/",
+    "create-local": "graph create astralprotocol/subgraph --node http://127.0.0.1:8020",
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy astralprotocol/subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy-local": "graph deploy astralprotocol/subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
+    "remove-subgraph": "graph remove astralprotocol/subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020"
+  },
+  "bugs": {
+    "url": "https://github.com/astralDAO/astralprotocol/issues"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "^0.18.0",
+    "@graphprotocol/graph-ts": "^0.18.1"
+  }
+}

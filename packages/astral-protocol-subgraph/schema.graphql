@@ -1,0 +1,7 @@
+type GeoDID @entity {
+  id: ID!
+  owner: String!
+  cid: String!
+  exists: Boolean!
+}
+

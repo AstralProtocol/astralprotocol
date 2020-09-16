@@ -7,8 +7,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract SpatialAssetRegistrar is Ownable {
     //----------------- Events ------------------
 
-    event CreateGeoDID(address caller, bytes32 hash, string cid);
-    event UpdateGeoDID(address caller, bytes32 hash, string cid);
+    event CreateGeoDID(address indexed caller, bytes32 hash, string cid);
+    event UpdateGeoDID(address indexed caller, bytes32 hash, string cid);
     event DeleteGeoDID(bytes32 hash);
 
     //----------------- Storage -----------------
@@ -26,6 +26,7 @@ contract SpatialAssetRegistrar is Ownable {
     mapping(address => mapping(bytes32 => string)) geoDIDs;
 
     mapping(bytes32 => bool) geoDidExists;
+
 
     //---------------- Modifiers -----------------
 
@@ -50,8 +51,8 @@ contract SpatialAssetRegistrar is Ownable {
     }
 
         // make this function payable and require an amount
-    function update(bytes32 _previousHash, bytes32 _hash, string memory _cid) public onlyValidGeoDID(_previousHash) {
-        updateGeoDID(_previousHash, _hash, _cid);
+    function update(bytes32 _hash, string memory _cid) public onlyValidGeoDID(_hash) {
+        updateGeoDID(_hash, _cid);
     }
 
 
@@ -64,18 +65,20 @@ contract SpatialAssetRegistrar is Ownable {
         return geoDIDs[_addr][_hash];
     }
 
+    function checkExistence(bytes32 _hash) public view returns (bool) {
+        return geoDidExists[_hash];
+    }
+
     //---------------- Internal functions -----------------
 
     function createGeoDID(bytes32 _hash, string memory _cid) internal {
         geoDIDs[msg.sender][_hash] = _cid;
-
+        geoDidExists[_hash] = true;
         emit CreateGeoDID(msg.sender, _hash, _cid);
     }
 
-    function updateGeoDID(bytes32 _previousHash, bytes32 _hash, string memory _cid) internal {
-        geoDidExists[_previousHash] = false;
+    function updateGeoDID(bytes32 _hash, string memory _cid) internal {
         geoDIDs[msg.sender][_hash] = _cid;
-        geoDidExists[_hash] = true;
         emit UpdateGeoDID(msg.sender, _hash, _cid);
     }
 
