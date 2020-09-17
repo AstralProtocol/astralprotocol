@@ -9,7 +9,6 @@
     ]
   },
   "scripts": {
-    "bootstrap": "yarn install --frozen-lockfile && lerna bootstrap --hoist --ci",
     "test": "lerna run test",
     "build": "lerna run build",
     "publish": "lerna run tsc && lerna publish",

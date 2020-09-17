@@ -20,9 +20,9 @@ This repo is made up of several different packages.
 ## Development
 
 ### Project setup
-This project uses yarn and lerna to manage packages and dependencies. To install dependencies for all packages in this repo:
+This project uses yarn and lerna to manage packages and dependencies. To install dependencies for all packages in this repo, go to root dir and run:
 ```
-$ yarn run bootstrap
+$ yarn install
 ```
 Then build all packages:
 ```

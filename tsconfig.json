@@ -1,20 +1,28 @@
 {
-    "compilerOptions": {
-      "module": "commonjs",
-      "declaration": true,
-      "noImplicitAny": false,
-      "removeComments": true,
-      "noLib": false,
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "target": "es6",
-      "sourceMap": true,
-      "lib": [
-        "es6"
-      ]
-    },
-    "exclude": [
-      "node_modules",
-      "**/*.spec.ts"
-    ]
-   }
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": ["dom", "es2017"],
+    "target": "es6",
+    "declaration": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "baseUrl": "./packages",
+    "paths": {
+      "@astraldao/*": ["./*/"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
+  "references": [
+    { "path": "./packages/astral-protocol-core" },
+    { "path": "./packages/geo-did-resolver" },
+    { "path": "./packages/astral-protocol-lib" },
+  ]
+}
