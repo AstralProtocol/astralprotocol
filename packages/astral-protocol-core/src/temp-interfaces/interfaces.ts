@@ -1,5 +1,4 @@
 import type { DIDDocument } from "did-resolver"
-import { EventEmitter } from "events"
 
 export interface StacItemMetadata {
     stac_version: string;
@@ -41,17 +40,4 @@ export interface Link {
 
 export interface GeoDIDDocument extends DIDDocument {
     stac_item_metadata: StacItemMetadata;
-}
-
-
-export abstract class DocType extends EventEmitter {
-    constructor(){
-        super();
-    }
-
-    // create the document ID 
-
-    // 
-
-    
 }
