@@ -1,16 +1,17 @@
 //import { fetchJson } from './utils'
-import Document from './document'
+//import Document from './document'
 import { Context } from "./context/context"
+import { Powergate } from "./powergate/powergate-pinning"
 import data from './data/stacitem.json'
-import { GeoDocState, GeoDoctype } from "./geo-doctype/geo-tile-doctype"
+import { GeoDocState, GeoDoctype} from "./geo-doctype/geo-tile-doctype"
+//import { GeoDoctypeHandler } from "./geo-doctype/geo-tile-handler"
+import { GeoDoctypeUtils } from "./geo-doctype/utils/geo-tile-utils"
 
 import { DID } from 'dids'
 
-const ASTRAL_HOST = 'http://localhost:7007'
-
 // The Astral API Interface
 export interface AstralAPI {
-    createGeoDID(): Promise<Document>;
+    createGeoDID(): Promise<any>;
     loadGeoDocument(): Promise<Document>;
 }
 
@@ -18,18 +19,21 @@ export interface SampleStac{
     stacitem: any;
 }
 
-export class AstralClient implements AstralAPI{
-    // The Mapping of the Documents
+export class AstralClient {
+    // The Mapping of the Documents for storing
     private readonly _docmap: Record<string, Document>
+    // The GeoDoctypeHandler -- we only have one as of right now 
+    //public readonly _doctypeHandlers: Record<string, GeoDoctypeHandler>
 
     // Manaages the Geo Document State 
     public readonly geodocstate:GeoDocState
     // Manages the Context of the Astral Instance, GeoDocType Instance, and the Powergate Instance
     public readonly context: Context
 
-    constructor(context: Context, sampledata: SampleStac){ 
-        this.context.astral = this
-        sampledata = <any>data; // initialize the sample data 
+    
+    constructor(context: Context){ 
+        this.context = { astral: this }
+        this._docmap = {}
     }
 
     // get the from the Context 
@@ -37,21 +41,41 @@ export class AstralClient implements AstralAPI{
         return this.context.did
     }
 
-    async createGeoDID<T extends GeoDoctype>(): Promise<T> {
+    // astral.createGeoDID(stacitem)
+    async createGeoDID<T extends Object>(stacjson:Object): Promise<any> {
+
+        // scrape the sampledata and pin perform the pinning 
+        let stac = new StacItem(samplejson, context)
+
+        // should return the metadata from the Stac Item (StacItem Instance)
+        const stacmetadata = stac.loadMetadeta();
+        
+        // return a list of the assets (StacItem Instance)
+
+        // pin the assets (StacItem Instance)
+
+        // create CID for Document identifier (Function in Utils)
+
+        // create the Document with the assets (CIDS) and the stacmetadata (Document instance)
+
+        // map the document
+
+        // return the making identifier ( the geo did string )
+
         // 1) DoctypeUtil fucntion that will make the GeoDID Specific Id
-    
+        const genesis = await GeoDoctypeUtils.createGeodidFromGenesis(this.geodocstate.log[0])
         // 2) call the createFromGenesis Function in Document to create the Document (param: geo_id )
-        const doc = await Document.createFromGenesis(this._apiUrl, genesis, this.context, opts)
+        const doc = await Document.createFromGenesis(genesis, this.context)
 
         // 3) Normalize the GeoDID ID 
-        const normalizedId = DoctypeUtils.normalizeDocId(doc.id)
+        const normalizedId = GeoDoctypeUtils.normalizeDocId(doc.id)
         if (!this._docmap[normalizedId]) {
             this._docmap[normalizedId] = doc
         }
         // 4) map the document in a Record for the Doctype Instance 
 
         // 5) return the document mapping
-        //return this._docmap[normalizedId] as unknown as T
+        
     }
 
     async loadGeoDocument(): Promise<Document> {
@@ -60,15 +84,3 @@ export class AstralClient implements AstralAPI{
     }
 
 }
-
-// TODO: 
-
-// script 1: scrape the sampledata for the metadata that we will push to the geoDID
-
-// script 2: Pin the Assets to Powergate
-
-// Keep Record of the Asset to CID
-
-// Then create the final GeoDID Document 
-
-// Upload the GeoDID Document to FFS and keep record of the GeoDIDs CID (GeoDID -> CID)

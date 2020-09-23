@@ -21,7 +21,7 @@ export enum JobStatus {
 }
 
 // create powergate instance
-export class PowergatePinning implements Pinning {
+export class Powergate implements Pinning {
 
     readonly endpoint: string
     readonly token: string

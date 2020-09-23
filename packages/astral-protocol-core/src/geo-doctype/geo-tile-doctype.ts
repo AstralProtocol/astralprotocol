@@ -37,7 +37,7 @@ export class GeoDoctype extends EventEmitter {
     }
 
     get id(): string {
-        return GeoDoctypeUtils.createDocIdFromGenesis(this._state.log[0])
+        return GeoDoctypeUtils.createGeodidFromGenesis(this._state.log[0])
     }
 
     get geodoctype(): string {

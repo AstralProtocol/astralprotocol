@@ -5,8 +5,8 @@ import {AstralClient} from "../astral-client"
 import { DID } from "dids"
 
 export interface Context {
-    did: DID;
-    astral: AstralClient;
-    powergate: PowergatePinning;
-    resolver: Resolver;
+    did?: DID;
+    astral?: AstralClient;
+    powergate?: PowergatePinning;
+    resolver?: Resolver;
 }

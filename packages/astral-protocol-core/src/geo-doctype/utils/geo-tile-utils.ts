@@ -10,9 +10,10 @@ export class GeoDoctypeUtils {
 
     static validator: any = new ajv({ allErrors: true })
 
-    static createDocIdFromGenesis(genesisCid: any, version: any = null): string {
+    // create the GeoDID 
+    static createGeodidFromGenesis(genesisCid: any): string {
         const baseDocId = ['geo:/', genesisCid.toString()].join('/')
-        return version? `${baseDocId}?version=${version.toString()}` : baseDocId
+        return baseDocId
     }
 
     static normalizeDocId(docId: string): string {
