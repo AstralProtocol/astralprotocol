@@ -1,0 +1,43 @@
+{
+  "name": "@astraldao/stac-validator",
+  "version": "0.0.1",
+  "description": "> TODO: description",
+  "author": "AstralDAO <contact@astraldao.org>",
+  "homepage": "https://github.com/astralDAO/astralprotocol#readme",
+  "license": "ISC",
+  "main": "lib/stac-validator.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/astralDAO/astralprotocol.git",
+    "directory": "packages/astral-protocol-core"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "test": "jest --coverage --runInBand",
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "yarn run build",
+    "prebuild": "yarn run clean",
+    "lint": "eslint ./src '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "clean": "rm -rf ./lib"
+  },
+  "bugs": {
+    "url": "https://github.com/astralDAO/astralprotocol/issues"
+  },
+  "devDependencies": {
+    "@apidevtools/json-schema-ref-parser": "^9.0.1",
+    "ajv": "^6.12.2",
+    "compare-versions": "^3.6.0",
+    "fs-extra": "^9.0.0",
+    "klaw": "^3.0.0",
+    "minimist": "^1.2.5"
+  }
+}
