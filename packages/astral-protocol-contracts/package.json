@@ -27,6 +27,7 @@
     "console": "truffle console --network development",
     "ganache": "ganache-cli -h 0.0.0.0 -p 8545 -d -b 3 -i 333",
     "truffle": "truffle compile --all && truffle migrate --network development --reset && cp -vr ./build/contracts/SpatialAssetRegistrar.json ../astral-protocol-subgraph/abi",
+    "truffle-ropsten": "truffle deploy --network ropsten && cp -vr ./build/contracts/SpatialAssetRegistrar.json ../astral-protocol-subgraph/abi",
     "mythx": "truffle run verify",
     "slither": "slither .",
     "truffle-test": "truffle test",
@@ -37,10 +38,12 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^3.2.0",
-    "@truffle/hdwallet-provider": "^1.0.44",
-    "truffle": "^5.1.44"
+    "@truffle/hdwallet-provider": "^1.1.0",
+    "truffle": "^5.1.46"
   },
   "devDependencies": {
-    "solidity-coverage": "^0.7.10"
+    "@types/node": "^14.11.2",
+    "solidity-coverage": "^0.7.10",
+    "typescript": "^4.0.3"
   }
 }

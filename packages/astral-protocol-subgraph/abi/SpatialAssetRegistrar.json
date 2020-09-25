@@ -5466,6 +5466,95 @@
     "version": "0.6.12+commit.27d51765.Emscripten.clang"
   },
   "networks": {
+    "3": {
+      "events": {
+        "0xca7ef9513180d64c0e8072cb92c12309c4d75be142029657ab83626aa55970f1": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "caller",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "bytes32",
+              "name": "hash",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "cid",
+              "type": "string"
+            }
+          ],
+          "name": "CreateGeoDID",
+          "type": "event"
+        },
+        "0x3cd9322e9b62685f09095d6f91ed43d0bd07789d118456ac89b45c5efff1223b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "bytes32",
+              "name": "hash",
+              "type": "bytes32"
+            }
+          ],
+          "name": "DeleteGeoDID",
+          "type": "event"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0x8cdb4804aa415861e126363d8a491ea12c0c04282e74041c0c1a4c7c1b2bd2cf": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "caller",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "bytes32",
+              "name": "hash",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "cid",
+              "type": "string"
+            }
+          ],
+          "name": "UpdateGeoDID",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xeb7529118AC266Da950b473D2E9944cF0f575240",
+      "transactionHash": "0x70cec1c8c0301b287d6ab47e79daf76468f28e3f61e481eda7c48645d73d9c86"
+    },
     "333": {
       "events": {
         "0xca7ef9513180d64c0e8072cb92c12309c4d75be142029657ab83626aa55970f1": {
@@ -5608,7 +5697,7 @@
     }
   },
   "schemaVersion": "3.2.5",
-  "updatedAt": "2020-09-16T16:38:56.455Z",
+  "updatedAt": "2020-09-25T12:11:37.888Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
