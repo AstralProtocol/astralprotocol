@@ -30,16 +30,19 @@ export class Powergate implements Pinning {
     #pow: any // The powergate instance type
 
     // Readonly properties must be initialized at their declaration or in the constructor.
-    constructor (context: Context) {
-        //super();
+    constructor () {
         this.#host = "http://0.0.0.0:6002"
-        
     }
     
     async open(): Promise<void> {
         this.#pow = createPow({host: this.endpoint})
         this.#pow.setToken(this.token)
     }
+
+    async getToken():Promise<string>{
+        return this.token
+    }
+
     async close(): Promise<void> {
         throw new Error("Method not implemented.")
     }

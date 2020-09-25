@@ -1,5 +1,4 @@
-import { GeoDocState, GeoDoctype } from "./geo-doctype/geo-tile-doctype"
-import { SampleStac } from "./astral-client"
+/*import { SampleStac } from "./astral-client"
 import { GeoDoctypeUtils } from "./geo-doctype/utils/geo-tile-utils"
 import { Context } from "./context/context"
 //import { fetchJson } from "fetch-json"
@@ -8,26 +7,20 @@ import { Context } from "./context/context"
 
 export default class Document extends GeoDoctype{
 
-    constructor (state: GeoDocState, private _context: Context) {
-      super(state, _context)
+    constructor (state: GeoDocState, public context: Context) {
+      super(state, context)
     }
   
     get id(): string {
-      return GeoDoctypeUtils.createDocIdFromGenesis(this.state.log[0])
+      return GeoDoctypeUtils.createGeodidFromGenesis(this.state.log[0])
     }
 
-    public get context(): Context {
-        return this._context
-    }
+    // create the Document here but don't 
+    static async createFromGenesis(genesis: string , context: Context): Promise<Document> {
+        
 
-    public set context(value: Context) {
-        this._context = value
     }
-  
-    /*
-    static async create (content:Content, context: Context): Promise<Document> {
-    }
-  
+    
     static async load (id: string, context: Context): Promise<Document> {
-    }*/
-}
+    }
+}*/

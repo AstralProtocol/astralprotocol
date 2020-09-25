@@ -13,3 +13,9 @@ export async function fetchJson(url: string, payload?: any): Promise<any> {
     if (res.error) throw new Error(res.error)
     return res
 }
+
+export async function fetchAsset(url: string): Promise<any>{
+    const res = await fetch(url)
+    if (res.error) throw new Error(res.error)
+    return res
+}

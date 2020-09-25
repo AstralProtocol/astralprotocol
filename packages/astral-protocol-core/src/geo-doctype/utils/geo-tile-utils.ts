@@ -1,5 +1,6 @@
 import ajv from "ajv"
 import CID from 'cids'
+import { multihashing } from "multihashing-async"
 import { GeoDocState, GeoDocMetadata, GeoDoctype, GeoDocParams } from "../geo-tile-doctype"
 
 
@@ -11,7 +12,8 @@ export class GeoDoctypeUtils {
     static validator: any = new ajv({ allErrors: true })
 
     // create the GeoDID 
-    static createGeodidFromGenesis(genesisCid: any): string {
+    static createGeodidIdFromGenesis(stacid:string): string {
+        const genesisCid = this.createCID(stacid)
         const baseDocId = ['geo:/', genesisCid.toString()].join('/')
         return baseDocId
     }
@@ -23,6 +25,7 @@ export class GeoDoctypeUtils {
         return docId
     }
 
+    // still needs to be fixed 
     static getGenesis(docId: string): string {
         const genesis = (docId.startsWith('geo://')) ? docId.split('//')[1] : docId.split('/')[2]
         const indexOfVersion = genesis.indexOf('?')
@@ -30,6 +33,14 @@ export class GeoDoctypeUtils {
             return genesis.substring(0, indexOfVersion)
         }
         return genesis
+    }
+
+    static async createCID(stacid:string): Promise<string> {
+        const bytes = new TextEncoder().encode(stacid)
+        const hash = await multihashing(bytes, 'sha2-256')
+        const cid = new CID(0, 'raw', hash, 'base64')
+
+        return cid.toString();
     }
 
 }

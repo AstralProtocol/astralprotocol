@@ -1,7 +1,8 @@
 import { Powergate } from "./powergate-pinning"
 import { plainToClass } from "class-transformer"
-import { IStacItemMetadata, IGeometry, IProperties, IService } from "../temp-interfaces/interfaces"
-import { StacItem } from "./stacitem"
+import { IStacItemMetadata, IGeometry, IProperties, IService, IServiceList } from "../temp-interfaces/interfaces"
+import { RootObject, Assets, Properties } from "./stac-item"
+import CID from "cids"
 import { Context } from "../context/context"
 
 export interface IMetadata{
@@ -9,16 +10,32 @@ export interface IMetadata{
 }
 
 export class StacItemExtension implements IMetadata{
-    private stacjsonObj:any
+    private stacjsonObj: any
+    private token: string
+
+    private geoDIDid: string
 
     stacItemMetadata: IStacItemMetadata
     geometry: IGeometry
     properties: IProperties
-    service: IService
+    services: IService[]
+    //services: IServiceList
+
+    powergate: Powergate
     
-    constructor(jsonObj: Object){
-        this.stacjsonObj = plainToClass(StacItem, jsonObj);
+    constructor(jsonObj: Object, context: Context){
+        this.stacjsonObj = plainToClass(RootObject, jsonObj);
+        this.stacjsonObj.setAssetToAssestList()
+        this.setGeometry()
+        this.setProperties()
+        this.setServices()
+        this.setStacItemMetadata()
+
+        // create a new Powergate instance
+        this.powergate = new Powergate()
     }
+
+    
     
     // setter for the Geometry
     async setGeometry(){
@@ -40,29 +57,34 @@ export class StacItemExtension implements IMetadata{
 
     // setter for the Assets 
     async setServices(){
-        let assetmetadata = await this.stacjsonObj.getAssetMetadata()
-        this.service = {
-            id: "", // we need to create geoDID for the endpoint
-            type: assetmetadata.name,
-            serviceEndpoint: assetmetadata.href,
-            description: "Geotiff"
+        let serviceList = this.stacjsonObj.getAssetToAssetList()
+        for(let i = 0; i < serviceList.length; i++){
+            this.services[i] = {
+                id: "",
+                type: serviceList[i].type,
+                serviceEndpoint: serviceList[i].href,
+                description: serviceList[i].title,
+                role: serviceList[i].roles,
+                //'pl.type': serviceList[i].('pl:type')
+            }
         }
     }
 
     // use this to pin and asign the
-    async getServices(): Promise<IService>{
-        return this.service
+    async getServices(): Promise<IService[]>{
+        return this.services
     }
 
     // setter for the StacItemMetadata
     async setStacItemMetadata(){
         this.stacItemMetadata = {
-            stac_version: this.stacjsonObj.stac_version,
-            stac_extensions: this.stacjsonObj.stac_extensions,
-            type: this.stacjsonObj.type,
-            id: this.stacjsonObj.id,
-            bbox: this.stacjsonObj.bbox,
+            stac_version: await this.stacjsonObj.getStacVersion(),
+            stac_extensions: await this.stacjsonObj.getStacExtensions(),
+            type: await this.stacjsonObj.getType(),
+            id: await this.stacjsonObj.getId(),
+            bbox: await this.stacjsonObj.getBbox(),
             geometry: await this.getGeometry(),
+            collection: await this.stacjsonObj.getCollection(),
             properties: await this.getProperties()
         }
     }
@@ -71,4 +93,14 @@ export class StacItemExtension implements IMetadata{
     async getStacItemMetadata(): Promise<IStacItemMetadata>{
         return this.stacItemMetadata
     }
+
+    
+    async pinServices(): Promise<any>{
+        await this.powergate.open()
+        this.token = await this.powergate.getToken();
+
+        // fetch the file from the URL 
+        let assetmetadata = await this.stacjsonObj.getAssetMetadata() 
+    }
+
 }

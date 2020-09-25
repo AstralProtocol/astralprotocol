@@ -2,10 +2,9 @@
 //import Document from './document'
 import { Context } from "./context/context"
 import { Powergate } from "./powergate/powergate-pinning"
-import data from './data/stacitem.json'
 import { GeoDocState, GeoDoctype} from "./geo-doctype/geo-tile-doctype"
-//import { GeoDoctypeHandler } from "./geo-doctype/geo-tile-handler"
 import { GeoDoctypeUtils } from "./geo-doctype/utils/geo-tile-utils"
+import { StacItemExtension } from "./powergate/stac-item-scraper"
 
 import { DID } from 'dids'
 
@@ -42,17 +41,19 @@ export class AstralClient {
     }
 
     // astral.createGeoDID(stacitem)
-    async createGeoDID<T extends Object>(stacjson:Object): Promise<any> {
+    async createGeoDID(stacjson:Object): Promise<any> {
 
         // scrape the sampledata and pin perform the pinning 
-        let stac = new StacItem(samplejson, context)
+        let stac = new StacItemExtension(stacjson, this.context)
 
         // should return the metadata from the Stac Item (StacItem Instance)
-        const stacmetadata = stac.loadMetadeta();
+        const stacmetadata = stac.getStacItemMetadata();
         
         // return a list of the assets (StacItem Instance)
+        const services = stac.getServices();
 
         // pin the assets (StacItem Instance)
+        
 
         // create CID for Document identifier (Function in Utils)
 
@@ -61,17 +62,7 @@ export class AstralClient {
         // map the document
 
         // return the making identifier ( the geo did string )
-
-        // 1) DoctypeUtil fucntion that will make the GeoDID Specific Id
-        const genesis = await GeoDoctypeUtils.createGeodidFromGenesis(this.geodocstate.log[0])
-        // 2) call the createFromGenesis Function in Document to create the Document (param: geo_id )
-        const doc = await Document.createFromGenesis(genesis, this.context)
-
-        // 3) Normalize the GeoDID ID 
-        const normalizedId = GeoDoctypeUtils.normalizeDocId(doc.id)
-        if (!this._docmap[normalizedId]) {
-            this._docmap[normalizedId] = doc
-        }
+        
         // 4) map the document in a Record for the Doctype Instance 
 
         // 5) return the document mapping
@@ -81,6 +72,10 @@ export class AstralClient {
     async loadGeoDocument(): Promise<Document> {
         // call the load function in document.ts
         throw new Error("Method not implemented.")
+    }
+
+    async createCID(){
+        
     }
 
 }

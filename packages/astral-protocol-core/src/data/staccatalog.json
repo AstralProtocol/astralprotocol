@@ -1,0 +1,17 @@
+{
+    "stac_version": "1.0.0-beta.1",
+    "id": "hurricane-harvey",
+    "title": "Hurricane Harvey",
+    "description": "Planet Disaster Data makes imagery available directly to the public, volunteers, humanitarian organizations, and other coordinating bodies in support of the International Charter for Space and Major Disasters. This catalog of data is released for Hurricane Harvey, providing a 30 day window pre- and post-disaster. Imagery is provided under Creative Commons licenses, free of charge, with either CC-BY-SA or CC-BY-NC. All new Planet scenes are made available each day, immediately after production. ",
+  
+    "links": [
+      { 
+        "rel": "root", "href": "../catalog.json" 
+      },
+      {
+        "rel": "parent",
+        "href": "../catalog.json"
+      },
+      { "rel": "child", "href": "0831/catalog.json", "title": "8/31" }
+    ]
+}

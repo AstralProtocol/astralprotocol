@@ -5,6 +5,7 @@ export interface IStacItemMetadata {
     id: string;
     bbox: number[];
     geometry: IGeometry;
+    collection?: string;
     properties: IProperties;
 }
 
@@ -20,9 +21,15 @@ export interface IProperties {
 
 export interface IService {
     id: string
-    type: string
+    type?: string
     serviceEndpoint: string
     description?: string
+    role?: string[]
+    'pl.type'?: string
+}
+
+export interface IServiceList {
+    services: IService[]
 }
 
 

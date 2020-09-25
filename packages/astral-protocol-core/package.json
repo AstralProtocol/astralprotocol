@@ -56,6 +56,7 @@
     "fetch-json": "^2.2.7",
     "jest": "^26.4.2",
     "lodash.clonedeep": "^4.5.0",
+    "multihashing-async": "^2.0.1",
     "prettier": "^2.1.1"
   },
   "dependencies": {
