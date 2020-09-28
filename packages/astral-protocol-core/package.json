@@ -65,5 +65,5 @@
     "did-jwt": "^4.5.1",
     "libp2p": "^0.29.0"
   },
-  "gitHead": "0b55d064ea99ed4021470d332a436d2bbd56754a"
+  "gitHead": "de2bb57301d75e304568d8a556ce26875b85a6cc"
 }
