@@ -70,7 +70,7 @@ export class AstralClient {
         console.log(services)
 
         // create the Document with the assets (CIDS) and the stacmetadata (Document instance)
-        let document = new Document(stacmetadata, services)
+        //let document = new Document(stacmetadata, services)
         
         // map the document
 
