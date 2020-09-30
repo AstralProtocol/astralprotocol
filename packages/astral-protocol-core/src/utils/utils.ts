@@ -29,7 +29,7 @@ export class GeoDoctypeUtils {
 
     static normalizeDocId(docId: string): string {
         if (docId.startsWith('geo://')) {
-            return docId.replace('geo://', '/geo/')
+            return docId.replace('geo://', 'did:geo:')
         }
         return docId
     }

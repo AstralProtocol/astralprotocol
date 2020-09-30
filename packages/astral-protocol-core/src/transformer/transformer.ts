@@ -4,9 +4,8 @@ import { GeoDoctypeUtils } from "../utils/utils"
 import { IStacItemMetadata, IGeometry, IProperties, IService, IAssetList} from "../geo-document/geo-did-spec"
 import { fetchAsset } from "../scripts/fetch"
 import { RootObject, AssetType, Assets, Properties } from "./stac-item-spec"
-import CID from "cids"
 import { Context } from "../context/context"
-import fs from "fs"
+import cliProgress from "cli-progress"
 
 export class Transformer {
     private stacjsonObj: any
@@ -30,9 +29,7 @@ export class Transformer {
 
     
     constructor(jsonObj: Object, powergate: Powergate, _context: Context){
-
         this.powergate = powergate
-
 
         this.stacjsonObj = plainToClass(RootObject, jsonObj);
         this.stacID = this.stacjsonObj.getId()
@@ -73,7 +70,8 @@ export class Transformer {
     }
 
     async getGeoDIDid(): Promise<string>{
-        this.geoDIDid = await GeoDoctypeUtils.createGeodidIdFromGenesis(this.stacID)
+        let geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(this.stacID)
+        this.geoDIDid = await GeoDoctypeUtils.normalizeDocId(geoId)
         return this.geoDIDid
     }
 
@@ -99,7 +97,7 @@ export class Transformer {
     async setService(index: number, cid: any){
         this.services[index] = {
             // TODO: Please fix the service endpoint generator later
-            id: this.geoDIDid + `/${this.assetList[index].roles[0]}`, // this will work for demo but not production
+            id: this.geoDIDid + `#${this.assetList[index].roles[0]}`, // this will work for demo but not production
             type: this.assetList[index].type,
             serviceEndpoint: cid,
             description: this.assetList[index].title,
@@ -138,21 +136,37 @@ export class Transformer {
 
 
     async pinDocumentAssets(){
+        console.log("Asset Pinning Progress: ")
+        const b1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic,);
+         
+        // initialize the bar - defining payload token "speed" with the default value "N/A"
+        b1.start(1000, 0, {
+            speed: "N/A"
+        });
+
         for (let i = 0; i < this.assetList.length; i++){
             try {
                 var blob = await fetchAsset(this.assetList[i].href)
+                b1.increment(100);
                 var buffer = await blob.arrayBuffer();
-                let uint8 = await new Uint8Array(buffer);
+                b1.increment(25);
+                let uint8 = new Uint8Array(buffer);
 
                 const cid = await this.powergate.getAssetCid(uint8)
-                console.log(cid)
+                b1.increment(25);
+                //console.log(cid)
 
                 await this.powergate.pin(cid)
+                b1.increment(35);
                 await this.setService(i, cid)
+                b1.increment(15);
+
             }catch(err){
                 console.log(err)
             }
-            
         }
+        b1.update(1000);
+        b1.stop();
     }
 }
+ 

@@ -18,11 +18,8 @@ export async function fetchJson(url: string, payload?: any): Promise<any> {
 }
 
 export async function fetchAsset(url: string): Promise<any>{
-
     const blob =  await (await fetch(url)).blob()
-
     return blob
-
 }
 
 /*

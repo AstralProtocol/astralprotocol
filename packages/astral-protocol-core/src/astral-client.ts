@@ -54,27 +54,23 @@ export class AstralClient {
         // scrape the sampledata and pin perform the pinning 
         let stac = new Transformer(stacjson, powergate, this.context)
 
-        const geodidid = await stac.getGeoDIDid();
-        const normalizedGeoDidId = GeoDoctypeUtils.normalizeDocId(geodidid)
-        console.log(normalizedGeoDidId)
-
-        const geoassets = await stac.getAssetList()
-        console.log(geoassets)
+        // return the normalized GeoDID
+        const normalizedGeoDidId = await stac.getGeoDIDid();
+        console.log(normalizedGeoDidId + '\n')
 
         // should return the metadata from the Stac Item (StacItem Instance)
         const stacmetadata = await stac.getStacItemMetadata();
         console.log(stacmetadata)
 
-        // should return IService with the proper CIDs
-        // TODO: Figure out how to bypass the grpc limit
+        // Pin the assets in the STAC Item
         await stac.pinDocumentAssets()
         
         // return a list of the assets (StacItem Instance)
-        //const services = stac.getServices();
-
-        //console.log(services)
+        const services = stac.getServices();
+        console.log(services)
 
         // create the Document with the assets (CIDS) and the stacmetadata (Document instance)
+        let document = new Document(stacmetadata, services)
         
         // map the document
 

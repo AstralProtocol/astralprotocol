@@ -41,6 +41,7 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-typescript": "^7.10.4",
     "@types/blob-to-buffer": "^1.2.0",
+    "@types/cli-progress": "^3.8.0",
     "@types/lodash.clonedeep": "^4.5.6",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
@@ -48,8 +49,10 @@
     "async": "^3.2.0",
     "axios": "^0.20.0",
     "babel-jest": "^26.3.0",
+    "blob": "^0.1.0",
     "cids": "^1.0.0",
     "class-transformer": "^0.3.1",
+    "cli-progress": "^3.8.2",
     "cross-fetch": "^3.0.6",
     "did-resolver": "^2.1.1",
     "dids": "^0.5.1",
@@ -65,7 +68,7 @@
     "reflect-metadata": "^0.1.13"
   },
   "dependencies": {
-    "@textile/powergate-client": "1.0.0",
+    "@textile/powergate-client": "^2.0.1",
     "async": "^3.2.0",
     "did-jwt": "^4.5.1"
   },
