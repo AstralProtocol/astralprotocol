@@ -1,8 +1,7 @@
-import { createPow, PushStorageConfigOptions, ffsTypes} from "@textile/powergate-client"
+import { Pow, createPow, PushStorageConfigOptions, ffsTypes, Config } from "@textile/powergate-client"
 //import async from "async"
-import { Context } from "../context/context"
+import { Context } from "../Context/context"
 import CID from "cids"
-
 
 export interface Pinning {
     open(): Promise<void>;
@@ -23,29 +22,65 @@ export enum JobStatus {
 // create powergate instance
 export class Powergate implements Pinning {
 
-    readonly endpoint: string
-    readonly token: string
+    readonly endpoint?: string
+    readonly token?: string
 
-    #host: string
-    #pow: any // The powergate instance type
+    #host?: string
+    #pow?: Pow // The powergate instance type
 
     // Readonly properties must be initialized at their declaration or in the constructor.
-    constructor () {
-        this.#host = "http://0.0.0.0:6002"
+    constructor (host: string, pow: Pow, tokenval: string) {
+        this.#host = host
+        this.#pow = pow
+        this.token = tokenval
+
+        console.log("The Auth Token value is: " + this.token)
+    }
+
+
+    static async build (): Promise<Powergate> {
+        const host: string = "http://0.0.0.0:6002"
+        const pow: Pow = createPow({ host })
+        let tokenval: string  = ""
+        try {
+            const { token } = await pow.ffs.create() // save this token for later use!
+            tokenval = token
+            pow.setToken(token)
+        }
+        catch(err){
+            console.log(err)
+        }
+        return new Powergate(host, pow, tokenval);
+    }
+
+    async createToken (): Promise<any>{
+        const { token } = await this.#pow.ffs.create() // save this token for later use!
+        this.#pow.setToken(token)
+        return token
+    }
+
+    get pow() {
+        return this.#pow
     }
     
     async open(): Promise<void> {
-        this.#pow = createPow({host: this.endpoint})
+        this.#pow = createPow({host: this.#host})
         this.#pow.setToken(this.token)
     }
 
-    async getToken():Promise<string>{
+    async getToken(): Promise<any>{
         return this.token
     }
 
     async close(): Promise<void> {
         throw new Error("Method not implemented.")
     }
+
+    async getAssetCid(buffer: any): Promise<any>{
+        const {cid} = await this.#pow.ffs.stage(buffer)
+        return cid
+    }
+
     async pin(cid: any): Promise<void> {
         try {
             await this.#pow.ffs.pushStorageConfig(cid.toString())

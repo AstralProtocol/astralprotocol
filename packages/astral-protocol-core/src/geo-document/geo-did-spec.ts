@@ -28,9 +28,14 @@ export interface IService {
     'pl.type'?: string
 }
 
-export interface IServiceList {
-    services: IService[]
+export interface IAssetList{
+    href?: string;
+    title?: string;
+    roles?: string[];
+    'pl:type'?: string;
+    type?: string;
 }
+
 
 
 

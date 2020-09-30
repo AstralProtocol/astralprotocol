@@ -1,5 +1,5 @@
 import {createPow} from "@textile/powergate-client"
-import { PowergatePinning } from "../powergate/powergate-pinning"
+import { Powergate} from "../pinning/powergate"
 import { Resolver } from "did-resolver"
 import {AstralClient} from "../astral-client"
 import { DID } from "dids"
@@ -7,6 +7,8 @@ import { DID } from "dids"
 export interface Context {
     did?: DID;
     astral?: AstralClient;
-    powergate?: PowergatePinning;
+    transformer?: Transformer;
+    powergate?: Powergate;
+    token?: any;
     resolver?: Resolver;
 }

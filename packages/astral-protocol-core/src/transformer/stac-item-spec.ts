@@ -1,4 +1,5 @@
 import { Type, Exclude, Expose } from "class-transformer"
+import "reflect-metadata"
 
 // TODO: Review later with the STAC Spec to validate required fields
 
@@ -77,9 +78,6 @@ export class Udm extends AssetType{}
 export class Visual extends AssetType{}
 
 export class Assets {
-
-    @Exclude()
-    assetList: AssetType[]
     
     @Type(() => Thumbnail)
     thumbnail: Thumbnail;
@@ -114,19 +112,6 @@ export class Assets {
 
     getVisual(): Visual {
         return this.visual
-    }
-
-    // convert the Assets into an Asset List
-    setAssetToAssetList(){
-        this.assetList[0] = this.thumbnail
-        this.assetList[1] = this.analytic
-        this.assetList[2] = this.analytic_xml
-        this.assetList[3] = this.udm
-        this.assetList[4] = this.visual
-    }
-
-    getAssetToAssetList(): AssetType[]{
-        return this.assetList
     }
 
 }
@@ -191,6 +176,7 @@ export class RootObject {
     getAssets(): Assets {
         return this.assets
     }
+
 }
 
 

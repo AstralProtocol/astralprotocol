@@ -1,26 +1,16 @@
-/*import { SampleStac } from "./astral-client"
-import { GeoDoctypeUtils } from "./geo-doctype/utils/geo-tile-utils"
+import { SampleStac } from "./astral-client"
 import { Context } from "./context/context"
+//import { Transformer } from "./transformer/transformer"
+//import { GeoDoctype, GeoDocState } from "./geo-document/geo-did-doc"
 //import { fetchJson } from "fetch-json"
 
+/*
 
+export default class Document extends Transformer{
 
-export default class Document extends GeoDoctype{
-
-    constructor (state: GeoDocState, public context: Context) {
-      super(state, context)
-    }
-  
-    get id(): string {
-      return GeoDoctypeUtils.createGeodidFromGenesis(this.state.log[0])
+    constructor (jsonObj: Object, context: Context) {
+      super(jsonObj, context)
     }
 
-    // create the Document here but don't 
-    static async createFromGenesis(genesis: string , context: Context): Promise<Document> {
-        
-
-    }
     
-    static async load (id: string, context: Context): Promise<Document> {
-    }
 }*/

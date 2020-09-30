@@ -1,7 +1,7 @@
 import { EventEmitter } from "events"
 import { Context } from "../context/context"
 import CID from "cids"
-import { GeoDoctypeUtils } from "./utils/geo-tile-utils"
+import { GeoDoctypeUtils } from "../utils/utils"
 import cloneDeep from "lodash.clonedeep"
 
 export interface GeoDocMetadata {
@@ -35,10 +35,10 @@ export class GeoDoctype extends EventEmitter {
     constructor(private _state: GeoDocState, private _context: Context) {
         super()
     }
-
+    /*
     get id(): string {
-        return GeoDoctypeUtils.createGeodidIdFromGenesis(this._state.log[0])
-    }
+        return GeoDoctypeUtils.createGeodidIdFromGenesis()
+    }*/
 
     get geodoctype(): string {
         return this._state.doctype
