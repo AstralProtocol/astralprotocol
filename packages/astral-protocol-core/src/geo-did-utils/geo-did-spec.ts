@@ -19,7 +19,7 @@ export interface IProperties {
     collection: string;
 }
 
-export interface IService {
+export interface ServiceEndpoint {
     id: string
     type?: string
     serviceEndpoint: string

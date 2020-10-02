@@ -11,20 +11,20 @@ export class GeoDoctypeUtils {
 
     static validator: any = new ajv({ allErrors: true })
 
+    static async encodeGeoIdentifier(_stacid: string, _ethereumAddress: string): Promise<any>{
+        const bytes = new TextEncoder().encode(_stacid + _ethereumAddress)
+        const hash = await multihashing(bytes, 'sha2-256')
+
+        return hash
+    }
+
     // create the GeoDID 
-    static async createGeodidIdFromGenesis(stacid:string): Promise<string> {
-        const genesisCid = await this.createCID(stacid)
+    static async createGeodidIdFromGenesis(_stacid: string, _ethereumAddress: string): Promise<string> {
+        const genesisCid = await this.createCID(_stacid, _ethereumAddress)
 
         const baseDocId = ['geo:/', genesisCid.toString()].join('/')
         
         return baseDocId
-    }
-
-    static createGeodidServiceEndpointId(geodidId: string): string{
-
-        const serviceEndpointId = geodidId
-        
-        return serviceEndpointId
     }
 
     static normalizeDocId(docId: string): string {
@@ -44,9 +44,8 @@ export class GeoDoctypeUtils {
         return genesis
     }
 
-    static async createCID(stacid:string): Promise<string> {
-        const bytes = new TextEncoder().encode(stacid)
-        const hash = await multihashing(bytes, 'sha2-256')
+    static async createCID(_stacid:string, _ethereumAddress: string): Promise<string> {
+        const hash = await GeoDoctypeUtils.encodeGeoIdentifier(_stacid, _ethereumAddress)
 
         const cid = new CID(0, 'dag-pb', hash, 'base58btc')
 

@@ -1,7 +1,7 @@
 import { Powergate } from "../pinning/powergate"
 import { plainToClass } from "class-transformer"
-import { GeoDoctypeUtils } from "../utils/utils"
-import { IStacItemMetadata, IGeometry, IProperties, IService, IAssetList} from "../geo-document/geo-did-spec"
+import { GeoDoctypeUtils } from "../geo-did-utils/utils"
+import { IStacItemMetadata, IGeometry, IProperties, ServiceEndpoint, IAssetList} from "../geo-did-utils/geo-did-spec"
 import { fetchAsset } from "../scripts/fetch"
 import { RootObject, AssetType, Assets, Properties } from "./stac-item-spec"
 import { Context } from "../context/context"
@@ -20,16 +20,14 @@ export class Transformer {
     properties: IProperties
     private assets: Assets
 
-    powergate: Powergate
-
-    //listOfservice: any
+    //powergate: Powergate
     
-    services: IService[] = new Array(5)
+    services: ServiceEndpoint[] = new Array(5)
     assetList: IAssetList[] = new Array(5)
 
     
-    constructor(jsonObj: Object, powergate: Powergate, _context: Context){
-        this.powergate = powergate
+    constructor(jsonObj: Object, private powergate: Powergate){
+        //this.powergate = powergate
 
         this.stacjsonObj = plainToClass(RootObject, jsonObj);
         this.stacID = this.stacjsonObj.getId()
@@ -69,8 +67,8 @@ export class Transformer {
         return this.assetList
     }
 
-    async getGeoDIDid(): Promise<string>{
-        let geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(this.stacID)
+    async getGeoDIDid(_ethereumAddress: string): Promise<string>{
+        let geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(this.stacID, _ethereumAddress)
         this.geoDIDid = await GeoDoctypeUtils.normalizeDocId(geoId)
         return this.geoDIDid
     }
@@ -107,7 +105,7 @@ export class Transformer {
     }
 
     // use this to pin the services
-    async getServices(): Promise<IService[]>{
+    async getServices(): Promise<ServiceEndpoint[]>{
         return this.services
     }
 

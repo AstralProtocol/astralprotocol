@@ -1,7 +1,7 @@
 import fetch from "cross-fetch"
 import { Context } from "../context/context"
 import axios from "axios"
-import { IAssetList } from "../geo-document/geo-did-spec"
+import { IAssetList } from "../geo-did-utils/geo-did-spec"
 
 export async function fetchJson(url: string, payload?: any): Promise<any> {
     let opts

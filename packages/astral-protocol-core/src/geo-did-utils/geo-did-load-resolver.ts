@@ -1,18 +1,15 @@
-/*
-import bs58 from 'bs58'
-import { Doctype } from ""
+import type bs58 from 'bs58'
 import { ParsedDID, DIDResolver, DIDDocument } from "did-resolver"
-
+/*
 interface Astral {
     loadDocument(): Promise<Document>
 }
-
 
 interface ResolverRegistry {
     [index: string]: DIDResolver
 }
 
-export function loadGeoDID(){}
+export function geoload(){}
 
 export function getResolver() {
     async function resolve(
@@ -28,8 +25,8 @@ export function getResolver() {
         return didDoc
     }
   
-    return { createGeoDID: resolve }
-}
+    return { geoload: resolve }
+}*/
 
 
   // {method: 'geo', id: 'cid', did: 'did:geo:abcdefg/service/#fragment=123', path: '/some/path', fragment: 'fragment=123'}*/
