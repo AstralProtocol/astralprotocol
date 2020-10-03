@@ -1,3 +1,5 @@
+import { ServiceEndpoint } from "did-resolver"
+
 export interface IStacItemMetadata {
     stac_version: string;
     stac_extensions: string[];
@@ -19,9 +21,9 @@ export interface IProperties {
     collection: string;
 }
 
-export interface ServiceEndpoint {
+export interface IServiceEndpoint extends ServiceEndpoint {
     id: string
-    type?: string
+    type: string
     serviceEndpoint: string
     description?: string
     role?: string[]

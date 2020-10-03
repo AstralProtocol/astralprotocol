@@ -1,11 +1,11 @@
 import { EventEmitter } from "events"
-import { IStacItemMetadata, ServiceEndpoint } from "./geo-did-utils/geo-did-spec"
+import { IStacItemMetadata, IServiceEndpoint } from "./geo-did-utils/geo-did-spec"
 import CID from "cids"
 import { Powergate } from "./pinning/powergate"
 import { Transformer } from "./transformer/transformer"
 import { Resolver, DIDDocument, PublicKey, Authentication, LinkedDataProof } from "did-resolver"
-import geobuild from './geo-did-utils/geo-did-build-resolver'
-//import geoload from './geo-did-utils/geo-did-load-resolver'
+import GeoDIDResolver from './geo-did-utils/geo-did-resolver'
+
 
 export enum SignatureStatus {
   GENESIS, PARTIAL, SIGNED
@@ -55,21 +55,38 @@ export interface GeoDocState {
   log: Array<CID>;
 }
 
-export default class Document extends EventEmitter {
 
-  #stacItemMetadata: IStacItemMetadata
-  #service: ServiceEndpoint[]
+export default class Document extends EventEmitter {
   #normalizedGeoDidId: string
-  #stacmetadata: IStacItemMetadata
   #transformer: Transformer
+
+  #stacmetadata: IStacItemMetadata
+  #service: IServiceEndpoint[]
+
+  #geoDIDResolver: any
+  #didResolver: any
 
   constructor (private _state: GeoDocState, private _stacjson:Object, private _ethereumAddress: string, private powergate: Powergate) {
     super()
   }
 
-  // build the DIDDocument type
-  async buildDocument(){
-    
+  async createGeoDIDDocument(){
+    this.#geoDIDResolver = GeoDIDResolver.getResolver(this)
+    this.#didResolver = new Resolver(this.#geoDIDResolver)
+  }
+
+  async loadGeoDIDDocument(){
+    const doc = await this.#didResolver.resolve(this.#normalizedGeoDidId)
+    //console.log(doc)
+    return doc
+  }
+  
+  async getStacItemMetadata(): Promise<IStacItemMetadata>{
+    return this.#stacmetadata
+  }
+
+  async getServices(): Promise<IServiceEndpoint[]>{
+    return this.#service
   }
 
   protected async instantiateTransformer(){
@@ -95,25 +112,16 @@ export default class Document extends EventEmitter {
       // return a list of the assets (StacItem Instance)
       this.#service = await this.#transformer.getServices();
       console.log(this.#service)
+
     }catch(err){
       console.log(err)
     }
   }
 
-  // return the GeoDIDDocument
-  async getDocument(){
-
-  }
-
-  async loadDocument(){}
+  //async loadDocument(){}
 
   get doctype(): string {
       return this._state.doctype
-  }
-
-  get content(): any {
-      const { content } = this._state
-      return content
   }
 
   get metadata(): DocMetadata {

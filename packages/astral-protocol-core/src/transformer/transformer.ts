@@ -1,7 +1,7 @@
 import { Powergate } from "../pinning/powergate"
 import { plainToClass } from "class-transformer"
 import { GeoDoctypeUtils } from "../geo-did-utils/utils"
-import { IStacItemMetadata, IGeometry, IProperties, ServiceEndpoint, IAssetList} from "../geo-did-utils/geo-did-spec"
+import { IStacItemMetadata, IGeometry, IProperties, IServiceEndpoint, IAssetList} from "../geo-did-utils/geo-did-spec"
 import { fetchAsset } from "../scripts/fetch"
 import { RootObject, AssetType, Assets, Properties } from "./stac-item-spec"
 import { Context } from "../context/context"
@@ -22,7 +22,7 @@ export class Transformer {
 
     //powergate: Powergate
     
-    services: ServiceEndpoint[] = new Array(5)
+    services: IServiceEndpoint[] = new Array(5)
     assetList: IAssetList[] = new Array(5)
 
     
@@ -49,19 +49,6 @@ export class Transformer {
         this.assetList[3] = this.assets.getUdm()
         this.assetList[4] = this.assets.getVisual() 
     }
-
-    /*
-    async fetchAssetsAndPin(){
-        try{
-            await fetchAssets(this.assetList, this.context)
-            .then()
-        }catch(err){
-            console.log(err)
-        }
-
-        console.log(this.listOfservice)
-    }*/
-
 
     async getAssetList(): Promise<IAssetList[]>{
         return this.assetList
@@ -105,7 +92,7 @@ export class Transformer {
     }
 
     // use this to pin the services
-    async getServices(): Promise<ServiceEndpoint[]>{
+    async getServices(): Promise<IServiceEndpoint[]>{
         return this.services
     }
 

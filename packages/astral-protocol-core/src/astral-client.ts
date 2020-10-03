@@ -53,13 +53,10 @@ export class AstralClient implements AstralAPI{
         await document.scrapeStac()
         
         // map the document
+        await document.createGeoDIDDocument()
 
-        // return the making identifier ( the geo did string )
-
-        // 4) map the document in a Record for the Doctype Instance 
-
-        // 5) return the document mapping
-        
+        let doc = await document.loadGeoDIDDocument()
+        console.log(doc)
     }
 
     async loadDocument(docId: string): Promise<Document> {
