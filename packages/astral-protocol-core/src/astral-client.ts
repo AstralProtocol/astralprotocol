@@ -73,8 +73,10 @@ export class AstralClient implements AstralAPI{
 
         let doc = await document.loadcreateGeoDIDDocument()
         console.log(doc)
+
+        let stringdoc = JSON.stringify(doc)
         
-        var uint8array = new TextEncoder().encode(doc)
+        var uint8array = new TextEncoder().encode(stringdoc)
         const cid = await powergate.getAssetCid(uint8array)
         await powergate.pin(cid)
 
@@ -96,11 +98,8 @@ export class AstralClient implements AstralAPI{
             if(this._docmap[docId]){
                 let powergate = await Powergate.build(this._docmap[docId].authToken)
                 let bytes: Uint8Array = await powergate.getGeoDIDDocument(this._docmap[docId].cid)
-                const strj = new TextDecoder("utf-8").decode(bytes);
-                console.log(typeof strj)
-                console.log(strj)
-                //geoDidDoc = JSON.parse(strj)
-                //console.log(geoDidDoc)
+                var strj = new TextDecoder("utf-8").decode(bytes);
+                geoDidDoc = JSON.parse(strj)
             }
         }
         catch(err){
