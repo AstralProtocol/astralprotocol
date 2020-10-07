@@ -38,18 +38,23 @@ export class Powergate implements Pinning {
     }
 
 
-    static async build (): Promise<Powergate> {
+    static async build (tokenval: string = ""): Promise<Powergate> {
         const host: string = "http://0.0.0.0:6002"
         const pow: Pow = createPow({ host })
-        let tokenval: string  = ""
-        try {
-            const { token } = await pow.ffs.create() // save this token for later use!
-            tokenval = token
-            pow.setToken(token)
+        if(tokenval == ""){
+            try {
+                const { token } = await pow.ffs.create() // save this token for later use!
+                tokenval = token
+                pow.setToken(token)
+            }
+            catch(err){
+                console.log(err)
+            }
         }
-        catch(err){
-            console.log(err)
+        else{
+            pow.setToken(tokenval)
         }
+        
         return new Powergate(host, pow, tokenval);
     }
 
@@ -76,9 +81,14 @@ export class Powergate implements Pinning {
         throw new Error("Method not implemented.")
     }
 
-    async getAssetCid(buffer: any): Promise<any>{
+    async getAssetCid(buffer: any): Promise<string>{
         const {cid} = await this.#pow.ffs.stage(buffer)
         return cid
+    }
+
+    async getGeoDIDDocument(cid: string): Promise<Uint8Array>{
+        const bytes = await this.pow.ffs.get(cid)
+        return bytes
     }
 
     async pin(cid: any): Promise<void> {

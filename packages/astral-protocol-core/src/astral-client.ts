@@ -3,6 +3,7 @@ import Document from './document'
 import { GeoDocState } from './document'
 import { Context } from "./context/context"
 import { Powergate } from "./pinning/powergate"
+import CID from "cids"
 import { GeoDoctypeUtils } from "./geo-did-utils/utils"
 import { Transformer } from "./transformer/transformer"
 //import Geo from './geo-document/geo-did-resolver'
@@ -12,18 +13,29 @@ import { DID } from 'dids'
 // The Astral API Interface
 export interface AstralAPI {
     createGeoDID(stacjson:Object, ethereumAddress: string): Promise<any>;
-    loadDocument(docId: string): Promise<Document>;
+    loadDocument(docId: string): Promise<any>;
+}
+
+export interface DocMap{
+    [key: string]: Instance
+}
+
+export interface Instance {
+    authToken: string;
+    cid: string;
+    document: Document;
 }
 
 export interface SampleStac{
     stacitem: any;
 }
 
+
 export class AstralClient implements AstralAPI{
-    // The Mapping of the Documents for storing
-    private readonly _docmap: Record<string, Document>
-    // The GeoDoctypeHandler -- we only have one as of right now 
-    //public readonly _doctypeHandlers: Record<string, GeoDoctypeHandler>
+
+    // GeoDID id -> Instance
+    //private _docmap: Record<string, Instance>
+    private _docmap: DocMap
 
     // Manaages the Geo Document State 
     public readonly state:GeoDocState
@@ -45,7 +57,7 @@ export class AstralClient implements AstralAPI{
     // astral.createGeoDID(stacitem)
     async createGeoDID(stacjson:Object, ethereumAddress: string): Promise<any> {
         // create powergate instance 
-        let powergate = await Powergate.build();
+        let powergate = await Powergate.build("");
 
         // create the Document with the assets (CIDS) and the stacmetadata (Document instance)
         let document = new Document(this.state, stacjson, ethereumAddress, powergate)
@@ -55,12 +67,46 @@ export class AstralClient implements AstralAPI{
         // map the document
         await document.createGeoDIDDocument()
 
-        let doc = await document.loadGeoDIDDocument()
+        const geodidid = await document.getGeoDidId()
+        
+        //this._docmap[geodidid]
+
+        let doc = await document.loadcreateGeoDIDDocument()
         console.log(doc)
+        
+        var uint8array = new TextEncoder().encode(doc)
+        const cid = await powergate.getAssetCid(uint8array)
+        await powergate.pin(cid)
+
+        // pin it to powergate
+        this._docmap[geodidid] = {
+                authToken: await powergate.getToken(),
+                cid: cid,
+                document: document
+            }
+
+        console.log(this._docmap)
+
+        return geodidid
     }
 
-    async loadDocument(docId: string): Promise<Document> {
-        throw new Error('Method not implemented.')
+    async loadDocument(docId: string): Promise<any> {
+        let geoDidDoc: Object;
+        try{
+            if(this._docmap[docId]){
+                let powergate = await Powergate.build(this._docmap[docId].authToken)
+                let bytes: Uint8Array = await powergate.getGeoDIDDocument(this._docmap[docId].cid)
+                const strj = new TextDecoder("utf-8").decode(bytes);
+                console.log(typeof strj)
+                console.log(strj)
+                //geoDidDoc = JSON.parse(strj)
+                //console.log(geoDidDoc)
+            }
+        }
+        catch(err){
+            console.log(err)
+        }
+        return geoDidDoc
     }
 
 

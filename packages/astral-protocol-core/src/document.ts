@@ -75,10 +75,14 @@ export default class Document extends EventEmitter {
     this.#didResolver = new Resolver(this.#geoDIDResolver)
   }
 
-  async loadGeoDIDDocument(){
+  async loadcreateGeoDIDDocument(){
     const doc = await this.#didResolver.resolve(this.#normalizedGeoDidId)
     //console.log(doc)
     return doc
+  }
+
+  async pinGeoDIDDocument() {
+    
   }
   
   async getStacItemMetadata(): Promise<IStacItemMetadata>{
@@ -92,6 +96,11 @@ export default class Document extends EventEmitter {
   protected async instantiateTransformer(){
     // create an instance of the Transformer as well
     this.#transformer = new Transformer(this._stacjson, this.powergate)
+  }
+
+  // return the GeoDID ID
+  async getGeoDidId(): Promise<string> {
+    return this.#normalizedGeoDidId
   }
 
   async scrapeStac(){
