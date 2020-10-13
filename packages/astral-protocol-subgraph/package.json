@@ -16,7 +16,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/astralDAO/astralprotocol.git",
-    "directory": "packages/astral-protocol-core"
+    "directory": "packages/astral-protocol-subgraph"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
@@ -40,5 +40,5 @@
     "@graphprotocol/graph-cli": "^0.18.0",
     "@graphprotocol/graph-ts": "^0.18.1"
   },
-  "gitHead": "de2bb57301d75e304568d8a556ce26875b85a6cc"
+  "gitHead": "d8230f930572d1d3d7b10eda4cf93161f51607fa"
 }

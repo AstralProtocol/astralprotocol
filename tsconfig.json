@@ -21,9 +21,4 @@
     "**/*.spec.ts",
     "**/*.test.ts"
   ],
-  "references": [
-    { "path": "./packages/astral-protocol-core" },
-    { "path": "./packages/geo-did-resolver" },
-    { "path": "./packages/astral-protocol-lib" },
-  ]
 }
