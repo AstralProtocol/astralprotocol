@@ -38,10 +38,11 @@ export class Powergate implements Pinning {
     }
 
 
-    static async build (tokenval: string = ""): Promise<Powergate> {
-        const host: string = "http://0.0.0.0:6002"
+    static async build (tokenval?: string): Promise<Powergate> {
+        //const host: string = "http://0.0.0.0:6002"
+        const host: string = "http://40.114.81.87:6002"
         const pow: Pow = createPow({ host })
-        if(tokenval == ""){
+        if(tokenval == undefined){
             try {
                 const { token } = await pow.ffs.create() // save this token for later use!
                 tokenval = token

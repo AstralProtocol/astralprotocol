@@ -28,13 +28,12 @@ export function wrapDocument(stacmetadata: IStacItemMetadata, service: IServiceE
         id: `${did}#MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnzyis1ZjfNB0bBgKFMSv`,
         type: 'Secp256k1VerificationKey2018',
         controller: did,
-          // remove multicodec varint and encode to hex
+          // remove multicodec variant and encode to hex
         publicKeyHex: 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnzyis1ZjfNB0bBgKFMSv'
     })
 
   return startDoc
 }
-
 
 // pass in a instance of astral into 
 export default {

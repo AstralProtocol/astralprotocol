@@ -35,6 +35,7 @@ export class Transformer {
         this.assets = this.stacjsonObj.getAssets()
         this.createAssetList()
 
+
         this.setGeometry()
         this.setProperties()
 
@@ -47,7 +48,7 @@ export class Transformer {
         this.assetList[1] = this.assets.getAnalytic()
         this.assetList[2] = this.assets.getAnalyticXml()
         this.assetList[3] = this.assets.getUdm()
-        this.assetList[4] = this.assets.getVisual() 
+        this.assetList[4] = this.assets.getVisual()
     }
 
     async getAssetList(): Promise<IAssetList[]>{
@@ -79,12 +80,12 @@ export class Transformer {
     }
 
     // setter for the Assets 
-    async setService(index: number, cid: any){
+    async setService(index: number){
         this.services[index] = {
             // TODO: Please fix the service endpoint generator later
             id: this.geoDIDid + `#${this.assetList[index].roles[0]}`, // this will work for demo but not production
             type: this.assetList[index].type,
-            serviceEndpoint: cid,
+            serviceEndpoint: this.assetList[index].href,
             description: this.assetList[index].title,
             role: this.assetList[index].roles,
             //'pl.type': serviceList[i].('pl:type')
@@ -119,7 +120,13 @@ export class Transformer {
         return this.geoDIDid
     }
 
+    async assetToService(){
+        for(let i = 0; i <this.assetList.length; i++){
+            await this.setService(i)
+        }
+    }
 
+    /*
     async pinDocumentAssets(){
         console.log("Asset Pinning Progress: ")
         const b1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic,);
@@ -152,6 +159,6 @@ export class Transformer {
         }
         b1.update(1000);
         b1.stop();
-    }
+    }*/
 }
  

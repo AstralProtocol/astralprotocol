@@ -80,10 +80,6 @@ export default class Document extends EventEmitter {
     //console.log(doc)
     return doc
   }
-
-  async pinGeoDIDDocument() {
-    
-  }
   
   async getStacItemMetadata(): Promise<IStacItemMetadata>{
     return this.#stacmetadata
@@ -116,7 +112,9 @@ export default class Document extends EventEmitter {
       console.log(this.#stacmetadata)
 
       // Pin the assets in the STAC Item
-      await this.#transformer.pinDocumentAssets()
+      //await this.#transformer.pinDocumentAssets()
+
+      await this.#transformer.assetToService()
     
       // return a list of the assets (StacItem Instance)
       this.#service = await this.#transformer.getServices();

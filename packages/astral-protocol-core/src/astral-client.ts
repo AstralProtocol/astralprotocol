@@ -49,15 +49,10 @@ export class AstralClient implements AstralAPI{
         this._docmap = {}
     }
 
-    // get the from the Context 
-    get(): DID | undefined {
-        return this.context.did
-    }
-
     // astral.createGeoDID(stacitem)
     async createGeoDID(stacjson:Object, ethereumAddress: string): Promise<any> {
         // create powergate instance 
-        let powergate = await Powergate.build("");
+        let powergate = await Powergate.build();
 
         // create the Document with the assets (CIDS) and the stacmetadata (Document instance)
         let document = new Document(this.state, stacjson, ethereumAddress, powergate)
@@ -68,12 +63,8 @@ export class AstralClient implements AstralAPI{
         await document.createGeoDIDDocument()
 
         const geodidid = await document.getGeoDidId()
-        
-        //this._docmap[geodidid]
 
         let doc = await document.loadcreateGeoDIDDocument()
-        console.log(doc)
-
         let stringdoc = JSON.stringify(doc)
         
         var uint8array = new TextEncoder().encode(stringdoc)
@@ -86,8 +77,6 @@ export class AstralClient implements AstralAPI{
                 cid: cid,
                 document: document
             }
-
-        console.log(this._docmap)
 
         return geodidid
     }

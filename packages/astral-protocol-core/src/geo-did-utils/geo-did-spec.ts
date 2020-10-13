@@ -30,7 +30,7 @@ export interface IServiceEndpoint extends ServiceEndpoint {
     'pl.type'?: string
 }
 
-export interface IAssetList{
+export interface IAssetList {
     href?: string;
     title?: string;
     roles?: string[];
