@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GeoDID = void 0;
 const graph_ts_1 = require("@graphprotocol/graph-ts");
+const console_1 = require("console");
 class GeoDID extends graph_ts_1.Entity {
     constructor(id) {
         super();
@@ -9,8 +10,8 @@ class GeoDID extends graph_ts_1.Entity {
     }
     save() {
         let id = this.get("id");
-        assert(id !== null, "Cannot save GeoDID entity without an ID");
-        assert(id.kind == graph_ts_1.ValueKind.STRING, "Cannot save GeoDID entity with non-string ID. " +
+        console_1.assert(id !== null, "Cannot save GeoDID entity without an ID");
+        console_1.assert(id.kind == graph_ts_1.ValueKind.STRING, "Cannot save GeoDID entity with non-string ID. " +
             'Considering using .toHex() to convert the "id" to a string.');
         graph_ts_1.store.set("GeoDID", id.toString(), this);
     }
