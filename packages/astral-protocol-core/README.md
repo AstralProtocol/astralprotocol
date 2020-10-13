@@ -23,7 +23,7 @@ async function runApp(){
     const geodidid = await astral.createGeoDID(data, ethrAddress);
     
     // Use the resolver to obtain the did document itself 
-    // @param: The GeoDID ID: did:geo:QmQhrMWAyxPRpFnS1UPZSUmKj7N7DNNSWi2cfQYDMR4Zgm
+    // @param: The GeoDID ID: "did:geo:QmQhrMWAyxPRpFnS1UPZSUmKj7N7DNNSWi2cfQYDMR4Zgm"
     const geodiddoc = await astral.loadDocument(geodidid);    
 
 };
