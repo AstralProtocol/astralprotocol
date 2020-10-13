@@ -1,7 +1,10 @@
 import bs58 from 'bs58'
+import web3 from 'web3'
 import Document from "../document"
 import { ParsedDID, DIDResolver, DIDDocument } from "did-resolver"
 import { IStacItemMetadata, IGeometry, IProperties, IServiceEndpoint, IAssetList} from "../geo-did-utils/geo-did-spec"
+
+// contract address
 
 interface GeoDIDDocument extends DIDDocument{
     stacmetadata: IStacItemMetadata
@@ -24,6 +27,7 @@ export function wrapDocument(stacmetadata: IStacItemMetadata, service: IServiceE
         stacmetadata: stacmetadata
     }
 
+    // replace the public key with the ethereum address 
     startDoc.publicKey.push({
         id: `${did}#MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnzyis1ZjfNB0bBgKFMSv`,
         type: 'Secp256k1VerificationKey2018',
@@ -39,9 +43,16 @@ export function wrapDocument(stacmetadata: IStacItemMetadata, service: IServiceE
 export default {
   getResolver: (document: Document): ResolverRegistry => ({
     'geo': async (did: string, parsed: ParsedDID): Promise<DIDDocument | null> => {
+      // resolver 
+      if(parsed.fragment == undefined){
         const stacitemmetadata = await document.getStacItemMetadata()
         const services = await document.getServices()
         return wrapDocument(stacitemmetadata, services, did)
+      }
+      // dereferencer
+      else{
+        console.log(did)
+      }
     }
   })
 }
