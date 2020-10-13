@@ -34,7 +34,7 @@
   "bugs": {
     "url": "https://github.com/astralDAO/astralprotocol/issues"
   },
-  "devDependencies": {
+  "dependencies": {
     "@babel/core": "^7.11.6",
     "@babel/plugin-proposal-decorators": "^7.10.5",
     "@babel/plugin-transform-modules-commonjs": "^7.10.4",
@@ -67,11 +67,8 @@
     "lodash.clonedeep": "^4.5.0",
     "multihashing-async": "^2.0.1",
     "prettier": "^2.1.1",
-    "reflect-metadata": "^0.1.13"
-  },
-  "dependencies": {
+    "reflect-metadata": "^0.1.13",
     "@textile/powergate-client": "^2.0.1",
-    "async": "^3.2.0",
     "did-jwt": "^4.5.1"
   },
   "gitHead": "995472d4aa1a26c67b84d26b3970b731b9c28ca7"

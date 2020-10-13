@@ -3,12 +3,6 @@ import Document from './document'
 import { GeoDocState } from './document'
 import { Context } from "./context/context"
 import { Powergate } from "./pinning/powergate"
-import CID from "cids"
-import { GeoDoctypeUtils } from "./geo-did-utils/utils"
-import { Transformer } from "./transformer/transformer"
-//import Geo from './geo-document/geo-did-resolver'
-
-import { DID } from 'dids'
 
 // The Astral API Interface
 export interface AstralAPI {
@@ -31,7 +25,7 @@ export interface SampleStac{
 }
 
 
-export class AstralClient implements AstralAPI{
+class AstralClient implements AstralAPI{
 
     // GeoDID id -> Instance
     //private _docmap: Record<string, Instance>
@@ -99,3 +93,5 @@ export class AstralClient implements AstralAPI{
 
 
 }
+
+export default AstralClient

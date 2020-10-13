@@ -31,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/astralDAO/astralprotocol/issues"
   },
-  "devDependencies": {
+  "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^9.0.1",
     "ajv": "^6.12.2",
     "compare-versions": "^3.6.0",
