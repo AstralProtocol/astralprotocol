@@ -74,5 +74,5 @@
     "async": "^3.2.0",
     "did-jwt": "^4.5.1"
   },
-  "gitHead": "d8230f930572d1d3d7b10eda4cf93161f51607fa"
+  "gitHead": "b610c76fa64f96323e8f01523d4ecee0afc5f918"
 }

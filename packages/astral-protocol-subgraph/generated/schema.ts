@@ -11,6 +11,7 @@ import {
   BigInt,
   BigDecimal
 } from "@graphprotocol/graph-ts";
+import { assert } from "console";
 
 export class GeoDID extends Entity {
   constructor(id: string) {
