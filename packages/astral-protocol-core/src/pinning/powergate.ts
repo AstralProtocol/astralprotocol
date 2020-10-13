@@ -1,6 +1,4 @@
 import { Pow, createPow, PushStorageConfigOptions, ffsTypes, Config } from "@textile/powergate-client"
-//import async from "async"
-import { Context } from "../Context/context"
 import CID from "cids"
 
 export interface Pinning {

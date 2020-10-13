@@ -16,7 +16,7 @@ export interface Instance {
 export interface SampleStac {
     stacitem: any;
 }
-export declare class AstralClient implements AstralAPI {
+declare class AstralClient implements AstralAPI {
     private _docmap;
     readonly state: GeoDocState;
     readonly context: Context;
@@ -25,3 +25,4 @@ export declare class AstralClient implements AstralAPI {
     createGeoDID(stacjson: Object, ethereumAddress: string): Promise<any>;
     loadDocument(docId: string): Promise<any>;
 }
+export default AstralClient;

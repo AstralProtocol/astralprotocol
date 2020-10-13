@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AstralClient = void 0;
 const document_1 = __importDefault(require("./document"));
 const powergate_1 = require("./pinning/powergate");
 class AstralClient {
@@ -58,5 +57,5 @@ class AstralClient {
         });
     }
 }
-exports.AstralClient = AstralClient;
+exports.default = AstralClient;
 //# sourceMappingURL=astral-client.js.map
