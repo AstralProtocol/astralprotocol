@@ -1,6 +1,6 @@
 {
   "name": "@astraldao/astral-protocol-core",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "> TODO: description",
   "author": "AstralDAO <contact@astraldao.org>",
   "homepage": "https://github.com/astralDAO/astralprotocol#readme",
@@ -40,6 +40,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.10.4",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-typescript": "^7.10.4",
+    "@textile/powergate-client": "^2.0.1",
     "@types/blob-to-buffer": "^1.2.0",
     "@types/bs58": "^4.0.1",
     "@types/cli-progress": "^3.8.0",
@@ -56,6 +57,7 @@
     "class-transformer": "^0.3.1",
     "cli-progress": "^3.8.2",
     "cross-fetch": "^3.0.6",
+    "did-jwt": "^4.5.1",
     "did-resolver": "^2.1.1",
     "dids": "^0.5.1",
     "eslint": "^7.8.1",
@@ -67,9 +69,7 @@
     "lodash.clonedeep": "^4.5.0",
     "multihashing-async": "^2.0.1",
     "prettier": "^2.1.1",
-    "reflect-metadata": "^0.1.13",
-    "@textile/powergate-client": "^2.0.1",
-    "did-jwt": "^4.5.1"
+    "reflect-metadata": "^0.1.13"
   },
   "gitHead": "995472d4aa1a26c67b84d26b3970b731b9c28ca7"
 }
