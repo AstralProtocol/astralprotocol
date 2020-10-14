@@ -1,4 +1,4 @@
-import { Type, Exclude, Expose } from "class-transformer"
+import { Type } from "class-transformer"
 import "reflect-metadata"
 
 // TODO: Review later with the STAC Spec to validate required fields

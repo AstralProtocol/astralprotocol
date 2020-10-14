@@ -1,4 +1,4 @@
-import { Pow, createPow, PushStorageConfigOptions, ffsTypes, Config } from "@textile/powergate-client"
+import { Pow, createPow, ffsTypes} from "@textile/powergate-client"
 import CID from "cids"
 
 export interface Pinning {

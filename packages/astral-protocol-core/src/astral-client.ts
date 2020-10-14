@@ -90,6 +90,4 @@ export default class AstralClient implements AstralAPI{
         }
         return geoDidDoc
     }
-
-
 }

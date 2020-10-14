@@ -1,11 +1,5 @@
-/*import {  AstralClient } from "./astral-client";
+/*import AstralClient from "./astral-client";
 import data from "./data/stacitem.json"
-import { createPow } from "@textile/powergate-client"
-
-
-//const host = "http://40.114.81.87:6002"
-
-//const pow = createPow({ host })
 
 let astral = new AstralClient()
 
