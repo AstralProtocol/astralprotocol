@@ -1,6 +1,5 @@
 //import { fetchJson } from './utils'
-import Document from './document'
-import { GeoDocState } from './document'
+import { Document, GeoDocState } from './document'
 import { Context } from "./context/context"
 import { Powergate } from "./pinning/powergate"
 
@@ -25,7 +24,7 @@ export interface SampleStac{
 }
 
 
-export default class AstralClient implements AstralAPI{
+export class AstralClient implements AstralAPI{
 
     // GeoDID id -> Instance
     //private _docmap: Record<string, Instance>

@@ -1,6 +1,6 @@
 import bs58 from 'bs58'
 import web3 from 'web3'
-import Document from "../document"
+import { Document } from "../document"
 import { ParsedDID, DIDResolver, DIDDocument } from "did-resolver"
 import { IStacItemMetadata, IGeometry, IProperties, IServiceEndpoint, IAssetList} from "../geo-did-utils/geo-did-spec"
 

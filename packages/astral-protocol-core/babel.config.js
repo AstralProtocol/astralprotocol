@@ -5,7 +5,7 @@ module.exports = {
 			targets: {
 				node: 'current',
 			},
-			modules: 'commonjs',
+			modules: 'auto',
 			useBuiltIns: false,
 			debug: false,
 		}],

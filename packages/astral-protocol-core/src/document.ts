@@ -3,7 +3,7 @@ import { IStacItemMetadata, IServiceEndpoint } from "./geo-did-utils/geo-did-spe
 import CID from "cids"
 import { Powergate } from "./pinning/powergate"
 import { Transformer } from "./transformer/transformer"
-import { Resolver, DIDDocument, PublicKey, Authentication, LinkedDataProof } from "did-resolver"
+import { Resolver } from "did-resolver"
 import GeoDIDResolver from './geo-did-utils/geo-did-resolver'
 
 
@@ -56,7 +56,7 @@ export interface GeoDocState {
 }
 
 
-export default class Document extends EventEmitter {
+export class Document extends EventEmitter {
   #normalizedGeoDidId: string
   #transformer: Transformer
 
