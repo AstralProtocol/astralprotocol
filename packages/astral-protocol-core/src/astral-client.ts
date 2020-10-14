@@ -24,7 +24,7 @@ export interface SampleStac{
 }
 
 
-export class AstralClient implements AstralAPI{
+export default class AstralClient implements AstralAPI{
 
     // GeoDID id -> Instance
     //private _docmap: Record<string, Instance>

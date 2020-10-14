@@ -5,8 +5,8 @@
   "author": "AstralDAO <contact@astraldao.org>",
   "homepage": "https://github.com/astralDAO/astralprotocol#readme",
   "license": "ISC",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "lib/astral-client.js",
+  "typings": "lib/astral-client.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -72,5 +72,5 @@
     "prettier": "^2.1.1",
     "reflect-metadata": "^0.1.13"
   },
-  "gitHead": "870a1496cedc6b7de262e2b6745e0bbf410fe9a8"
+  "gitHead": "ce7463cc44fbded0b826deed2ffc8427758252da"
 }
