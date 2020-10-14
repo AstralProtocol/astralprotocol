@@ -4,17 +4,8 @@ module.exports = {
 		["@babel/preset-env", {
 			targets: {
 				node: 'current',
-			},
-			modules: 'auto',
-			useBuiltIns: false,
-			debug: false,
+			}
 		}],
 		'@babel/preset-typescript',
-	],
-	"plugins": [
-		["@babel/plugin-transform-modules-commonjs", {
-			"allowTopLevelThis": true
-		}],
-		["@babel/plugin-proposal-decorators", {"legacy": true}],
 	]
 }
