@@ -5,7 +5,7 @@
   "author": "AstralDAO <contact@astraldao.org>",
   "homepage": "https://github.com/astralDAO/astralprotocol#readme",
   "license": "ISC",
-  "main": "src/mapping.ts",
+  "main": "lib/mapping.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -40,5 +40,5 @@
     "@graphprotocol/graph-cli": "^0.18.0",
     "@graphprotocol/graph-ts": "^0.18.1"
   },
-  "gitHead": "594547daf7d91e133ec41baafe0fdf99354378ab"
+  "gitHead": "8284ace10dbcb6a42c4009979297ac1831d26bf8"
 }

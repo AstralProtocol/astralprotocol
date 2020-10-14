@@ -21,4 +21,8 @@
     "**/*.spec.ts",
     "**/*.test.ts"
   ],
+  "references": [
+    { "path": "./packages/astral-protocol-core" },
+    { "path": "./packages/astral-protocol-subgraph" }
+  ]
 }

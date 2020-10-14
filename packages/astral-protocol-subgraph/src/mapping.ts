@@ -2,10 +2,10 @@ import {
   CreateGeoDID,
   UpdateGeoDID,
   DeleteGeoDID
-} from "../generated/SpatialAssetRegistrar/SpatialAssetRegistrar";
+} from "./generated/SpatialAssetRegistrar/SpatialAssetRegistrar";
 import {
   GeoDID
-} from "../generated/schema";
+} from "./generated/schema";
 
 //----------------- SpatialAssetRegistrar Event Handlers ------------------
 

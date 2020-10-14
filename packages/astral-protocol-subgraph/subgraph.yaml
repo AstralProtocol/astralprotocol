@@ -19,7 +19,7 @@ dataSources:
         - GeoDID
       abis:
         - name: SpatialAssetRegistrar
-          file:  ./abi/SpatialAssetRegistrar.json
+          file:  ./src/abi/SpatialAssetRegistrar.json
       eventHandlers:
         - event: CreateGeoDID(indexed address,bytes32,string)
           handler: handleCreateGeoDID
