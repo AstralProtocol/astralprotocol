@@ -4,23 +4,19 @@ import { Context } from "./context/context"
 import { Powergate } from "./pinning/powergate"
 
 // The Astral API Interface
-export interface AstralAPI {
+interface AstralAPI {
     createGeoDID(stacjson:Object, ethereumAddress: string): Promise<any>;
     loadDocument(docId: string): Promise<any>;
 }
 
-export interface DocMap{
+interface DocMap{
     [key: string]: Instance
 }
 
-export interface Instance {
+interface Instance {
     authToken: string;
     cid: string;
     document: Document;
-}
-
-export interface SampleStac{
-    stacitem: any;
 }
 
 

@@ -40,5 +40,5 @@
     "@graphprotocol/graph-cli": "^0.18.0",
     "@graphprotocol/graph-ts": "^0.18.1"
   },
-  "gitHead": "ce7463cc44fbded0b826deed2ffc8427758252da"
+  "gitHead": "9a3bf97745a254712db4a8cd1614b476529f3016"
 }
