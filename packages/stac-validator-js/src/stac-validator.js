@@ -3,9 +3,6 @@
 
 const RefParser = require("@apidevtools/json-schema-ref-parser");
 const Ajv = require("ajv");
-const fs = require("fs-extra");
-const klaw = require("klaw");
-const path = require("path");
 const compareVersions = require("compare-versions");
 
 let COMPILED = {};
@@ -14,23 +11,15 @@ let ajv = new Ajv({
   missingRefs: "ignore",
 });
 
-module.exports = async function validate(file) {
+module.exports = async function validate(json) {
   try {
-    // Read STAC file
-    let json;
-    try {
-      json = await fs.readJson(file);
-    } catch (error) {
-      console.error("-- " + error.message);
-    }
-
     let isApiList = false;
     let entries;
     if (Array.isArray(json.collections)) {
       entries = json.collections;
       isApiList = true;
       console.log(
-        file +
+        json +
           " is a /collections endpoint. Validating all " +
           entries.length +
           " collections, but ignoring the other parts of the response.\n"
@@ -39,7 +28,7 @@ module.exports = async function validate(file) {
       entries = json.features;
       isApiList = true;
       console.log(
-        file +
+        json +
           " is a /collections/:id/items endpoint. Validating all " +
           entries.length +
           " items, but ignoring the other parts of the response.\n"
@@ -50,7 +39,7 @@ module.exports = async function validate(file) {
 
     let fileValid = true;
     for (let data of entries) {
-      let id = file;
+      let id = json;
       if (isApiList) {
         id += " -> " + data.id;
       }
@@ -150,20 +139,6 @@ function isUrl(uri) {
     return true;
   }
   return false;
-}
-
-async function readExamples(folder) {
-  var files = [];
-  for await (let file of klaw(folder)) {
-    let relPath = path.relative(folder, file.path);
-    if (
-      relPath.includes(path.sep + "examples" + path.sep) &&
-      path.extname(relPath) === ".json"
-    ) {
-      files.push(file.path);
-    }
-  }
-  return files;
 }
 
 async function loadSchema(baseUrl = null, version = null, shortcut = null) {

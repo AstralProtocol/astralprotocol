@@ -34,10 +34,7 @@
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "^9.0.1",
     "ajv": "^6.12.2",
-    "compare-versions": "^3.6.0",
-    "fs-extra": "^9.0.0",
-    "klaw": "^3.0.0",
-    "minimist": "^1.2.5"
+    "compare-versions": "^3.6.0"
   },
   "gitHead": "8284ace10dbcb6a42c4009979297ac1831d26bf8"
 }
