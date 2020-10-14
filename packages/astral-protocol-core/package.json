@@ -5,8 +5,8 @@
   "author": "AstralDAO <contact@astraldao.org>",
   "homepage": "https://github.com/astralDAO/astralprotocol#readme",
   "license": "ISC",
-  "main": "lib/astral-protocol-core.ts",
-  "typings": "lib/astral-protocol-core.d.ts",
+  "main": "lib/astral-client.js",
+  "typings": "lib/astral-client.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
