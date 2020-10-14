@@ -3,8 +3,8 @@
     "compilerOptions": {
       "target": "es2017",
       "module": "commonjs",
-      "outDir": "lib",
-      "rootDir": "src",
+      "outDir": "./lib",
+      "rootDir": "./src",
       "composite": true
     },
     "include": [
