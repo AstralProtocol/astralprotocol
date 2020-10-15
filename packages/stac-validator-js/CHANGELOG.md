@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.18](https://github.com/astralDAO/astralprotocol/compare/@astraldao/stac-validator-js@0.0.17...@astraldao/stac-validator-js@0.0.18) (2020-10-15)
+
+**Note:** Version bump only for package @astraldao/stac-validator-js
+
+
+
+
+
 ## [0.0.17](https://github.com/astralDAO/astralprotocol/compare/@astraldao/stac-validator-js@0.0.16...@astraldao/stac-validator-js@0.0.17) (2020-10-14)
 
 **Note:** Version bump only for package @astraldao/stac-validator-js
