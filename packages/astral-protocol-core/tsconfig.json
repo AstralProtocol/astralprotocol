@@ -1,11 +1,16 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "outDir": "./lib",
-      "rootDir": "./src",
-      "composite": true
-    },
-    "include": [
-      "./src/**/*"
-    ]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "composite": true,
+    "strictNullChecks": false,
+    "strict": false,
+    "sourceRoot": "./lib",                    /* Specify the location where debugger should locate TypeScript files instead of source locations. */
+    "mapRoot": "./lib", 
+  },
+  "include": [
+    "./src/**/*"
+  ]
 }

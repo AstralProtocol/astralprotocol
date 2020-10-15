@@ -31,7 +31,8 @@
     "build": "graph build",
     "deploy": "graph deploy astralprotocol/subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy-local": "graph deploy astralprotocol/subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
-    "remove-subgraph": "graph remove astralprotocol/subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020"
+    "remove-subgraph": "graph remove astralprotocol/subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
+    "clean": "rm -rf ./lib ./tsconfig.tsbuildinfo"
   },
   "bugs": {
     "url": "https://github.com/astralDAO/astralprotocol/issues"
@@ -40,5 +41,5 @@
     "@graphprotocol/graph-cli": "^0.18.0",
     "@graphprotocol/graph-ts": "^0.18.1"
   },
-  "gitHead": "9a3bf97745a254712db4a8cd1614b476529f3016"
+  "gitHead": "2be9e06568b0069a0067127ef1362b2a61d5ad6e"
 }

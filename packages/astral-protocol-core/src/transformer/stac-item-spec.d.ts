@@ -1,4 +1,4 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 export declare abstract class AssetType {
     href: string;
     title: string;
@@ -42,16 +42,11 @@ export declare class Link {
     rel: string;
     href: string;
 }
-export declare class Thumbnail extends AssetType {
-}
-export declare class Analytic extends AssetType {
-}
-export declare class AnalyticXml extends AssetType {
-}
-export declare class Udm extends AssetType {
-}
-export declare class Visual extends AssetType {
-}
+export declare class Thumbnail extends AssetType {}
+export declare class Analytic extends AssetType {}
+export declare class AnalyticXml extends AssetType {}
+export declare class Udm extends AssetType {}
+export declare class Visual extends AssetType {}
 export declare class Assets {
     thumbnail: Thumbnail;
     analytic: Analytic;

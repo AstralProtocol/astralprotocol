@@ -1,5 +1,5 @@
-import { Type } from "class-transformer"
-import "reflect-metadata"
+import { Type } from 'class-transformer';
+import 'reflect-metadata';
 
 // TODO: Review later with the STAC Spec to validate required fields
 
@@ -17,7 +17,6 @@ export class Geometry {
 }
 
 export class Properties {
-
     @Type(() => Date)
     datetime: Date;
 
@@ -30,7 +29,7 @@ export class Properties {
 
     @Type(() => Date)
     updated: Date;
-    
+
     gsd: number;
     'eo:cloud_cover': number;
     'view:sun_azimuth': number;
@@ -50,15 +49,15 @@ export class Properties {
     'pl:usable_data': number;
 
     getDatetime(): Date {
-        return this.datetime
+        return this.datetime;
     }
 
     getCreated(): Date {
-        return this.created
+        return this.created;
     }
 
     getUpdated(): Date {
-        return this.updated
+        return this.updated;
     }
 }
 
@@ -67,18 +66,17 @@ export class Link {
     href: string;
 }
 
-export class Thumbnail extends AssetType{}
+export class Thumbnail extends AssetType {}
 
-export class Analytic extends AssetType{}
+export class Analytic extends AssetType {}
 
-export class AnalyticXml extends AssetType{}
+export class AnalyticXml extends AssetType {}
 
-export class Udm extends AssetType{}
+export class Udm extends AssetType {}
 
-export class Visual extends AssetType{}
+export class Visual extends AssetType {}
 
 export class Assets {
-    
     @Type(() => Thumbnail)
     thumbnail: Thumbnail;
 
@@ -93,27 +91,26 @@ export class Assets {
 
     @Type(() => Visual)
     visual: Visual;
-    
+
     getThumbnail(): Thumbnail {
-        return this.thumbnail
+        return this.thumbnail;
     }
 
     getAnalytic(): Analytic {
-        return this.analytic
+        return this.analytic;
     }
 
     getAnalyticXml(): AnalyticXml {
-        return this.analytic_xml
+        return this.analytic_xml;
     }
 
     getUdm(): Udm {
-        return this.udm
+        return this.udm;
     }
 
     getVisual(): Visual {
-        return this.visual
+        return this.visual;
     }
-
 }
 
 export class RootObject {
@@ -132,53 +129,48 @@ export class RootObject {
     properties: Properties;
 
     @Type(() => Link)
-    links: Link[]
+    links: Link[];
 
     @Type(() => Assets)
-    assets: Assets
+    assets: Assets;
 
-    getStacVersion(): string{
+    getStacVersion(): string {
         return this.stac_version;
     }
 
-    getStacExtensions(): string[]{
+    getStacExtensions(): string[] {
         return this.stac_extensions;
     }
 
-    getType(): string{
+    getType(): string {
         return this.type;
     }
 
-    getId(): string{
+    getId(): string {
         return this.id;
     }
 
-    getBbox(): number[]{
+    getBbox(): number[] {
         return this.bbox;
     }
 
-    getCollection(): string{
+    getCollection(): string {
         return this.collection;
     }
 
     getGeometry(): Geometry {
-        return this.geometry
+        return this.geometry;
     }
 
     getProperties(): Properties {
-        return this.properties
+        return this.properties;
     }
 
     getLinks(): Link[] {
-        return this.links
+        return this.links;
     }
-    
+
     getAssets(): Assets {
-        return this.assets
+        return this.assets;
     }
-
 }
-
-
-
-

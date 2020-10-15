@@ -1,25 +1,25 @@
-import fetch from "cross-fetch"
-import { Context } from "../context/context"
-import axios from "axios"
-import { IAssetList } from "../geo-did-utils/geo-did-spec"
+import fetch from 'cross-fetch';
+import { Context } from '../context/context';
+import axios from 'axios';
+import { IAssetList } from '../geo-did-utils/geo-did-spec';
 
 export async function fetchJson(url: string, payload?: any): Promise<any> {
-    let opts
+    let opts;
     if (payload) {
         opts = {
             method: 'post',
             body: JSON.stringify(payload),
-            headers: { 'Content-Type': 'application/json' }
-        }
+            headers: { 'Content-Type': 'application/json' },
+        };
     }
-    const res = await (await fetch(url, opts)).json()
-    if (res.error) throw new Error(res.error)
-    return res
+    const res = await (await fetch(url, opts)).json();
+    if (res.error) throw new Error(res.error);
+    return res;
 }
 
-export async function fetchAsset(url: string): Promise<any>{
-    const blob =  await (await fetch(url)).blob()
-    return blob
+export async function fetchAsset(url: string): Promise<any> {
+    const blob = await (await fetch(url)).blob();
+    return blob;
 }
 
 /*
@@ -44,7 +44,7 @@ export async function fetchAssets(assetList: IAssetList[], context: Context): Pr
 
 }*/
 
- /*
+/*
 export async function fetchAssetsAndPin2(assetList: IAssetList[], context: Context){
     let obj = new Array(5)
     axios.all([

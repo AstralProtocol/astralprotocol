@@ -57,17 +57,31 @@ export interface GeoDocState {
 
 
 export class Document extends EventEmitter {
-  #normalizedGeoDidId: string
-  #transformer: Transformer
-
-  #stacmetadata: IStacItemMetadata
-  #service: IServiceEndpoint[]
 
   #geoDIDResolver: any
   #didResolver: any
 
-  constructor (private _state: GeoDocState, private _stacjson:Object, private _ethereumAddress: string, private powergate: Powergate) {
+  constructor (private _transformer: Transformer, private _normalizedGeoDidId: string, private _stacmetadata: IStacItemMetadata, private _service: IServiceEndpoint[]) {
     super()
+
+    console.log(this._normalizedGeoDidId + '\n')
+    console.log(this._stacmetadata)
+    console.log(this._service)
+  }
+
+  static async build (stacjson:Object, ethereumAddress: string, powergate: Powergate): Promise<any> {
+
+    const transformer = new Transformer(stacjson, powergate)
+
+    const normalizedGeoDidId = await transformer.getGeoDIDid(ethereumAddress)
+      
+    const stacmetadata = await transformer.getStacItemMetadata()
+
+    await transformer.assetToService()
+
+    const service = await transformer.getServices()
+    
+    return new Document(transformer, normalizedGeoDidId, stacmetadata, service);
   }
 
   async createGeoDIDDocument(){
@@ -76,57 +90,26 @@ export class Document extends EventEmitter {
   }
 
   async loadcreateGeoDIDDocument(){
-    const doc = await this.#didResolver.resolve(this.#normalizedGeoDidId)
+    const doc = await this.#didResolver.resolve(this._normalizedGeoDidId)
     //console.log(doc)
     return doc
   }
   
   async getStacItemMetadata(): Promise<IStacItemMetadata>{
-    return this.#stacmetadata
+    return this._stacmetadata
   }
 
   async getServices(): Promise<IServiceEndpoint[]>{
-    return this.#service
-  }
-
-  protected async instantiateTransformer(){
-    // create an instance of the Transformer as well
-    this.#transformer = new Transformer(this._stacjson, this.powergate)
+    return this._service
   }
 
   // return the GeoDID ID
   async getGeoDidId(): Promise<string> {
-    return this.#normalizedGeoDidId
-  }
-
-  async scrapeStac(){
-    try{
-      // initialize the Transformer class 
-      await this.instantiateTransformer()
-      // return the normalized GeoDID
-      this.#normalizedGeoDidId = await this.#transformer.getGeoDIDid(this._ethereumAddress);
-      console.log(this.#normalizedGeoDidId + '\n')
-
-      // should return the metadata from the Stac Item (StacItem Instance)
-      this.#stacmetadata = await this.#transformer.getStacItemMetadata();
-      console.log(this.#stacmetadata)
-
-      // Pin the assets in the STAC Item
-      //await this.#transformer.pinDocumentAssets()
-
-      await this.#transformer.assetToService()
-    
-      // return a list of the assets (StacItem Instance)
-      this.#service = await this.#transformer.getServices();
-      console.log(this.#service)
-
-    }catch(err){
-      console.log(err)
-    }
+    return this._normalizedGeoDidId
   }
 
   //async loadDocument(){}
-
+  /*
   get doctype(): string {
       return this._state.doctype
   }
@@ -138,15 +121,16 @@ export class Document extends EventEmitter {
 
   get owners(): Array<string> {
       return this.metadata.owners
-  }
+  }*/
 
+  /*
   get state(): GeoDocState {
       return this._state
   }
 
   set state(state: GeoDocState) {
       this._state = state
-  }
+  }*/
 
   /*
   set context(context: Context) {

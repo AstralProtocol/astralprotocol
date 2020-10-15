@@ -1,16 +1,38 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const document_1 = require("./document");
-const powergate_1 = require("./pinning/powergate");
+'use strict';
+var __awaiter =
+    (this && this.__awaiter) ||
+    function (thisArg, _arguments, P, generator) {
+        function adopt(value) {
+            return value instanceof P
+                ? value
+                : new P(function (resolve) {
+                      resolve(value);
+                  });
+        }
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) {
+                try {
+                    step(generator.next(value));
+                } catch (e) {
+                    reject(e);
+                }
+            }
+            function rejected(value) {
+                try {
+                    step(generator['throw'](value));
+                } catch (e) {
+                    reject(e);
+                }
+            }
+            function step(result) {
+                result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+            }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+    };
+Object.defineProperty(exports, '__esModule', { value: true });
+const document_1 = require('./document');
+const powergate_1 = require('./pinning/powergate');
 class AstralClient {
     constructor() {
         this.context = { astral: this };
@@ -31,7 +53,7 @@ class AstralClient {
             this._docmap[geodidid] = {
                 authToken: yield powergate.getToken(),
                 cid: cid,
-                document: document
+                document: document,
             };
             return geodidid;
         });
@@ -43,11 +65,10 @@ class AstralClient {
                 if (this._docmap[docId]) {
                     let powergate = yield powergate_1.Powergate.build(this._docmap[docId].authToken);
                     let bytes = yield powergate.getGeoDIDDocument(this._docmap[docId].cid);
-                    var strj = new TextDecoder("utf-8").decode(bytes);
+                    var strj = new TextDecoder('utf-8').decode(bytes);
                     geoDidDoc = JSON.parse(strj);
                 }
-            }
-            catch (err) {
+            } catch (err) {
                 console.log(err);
             }
             return geoDidDoc;

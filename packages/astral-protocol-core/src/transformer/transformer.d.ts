@@ -1,5 +1,5 @@
-import { Powergate } from "../pinning/powergate";
-import { IStacItemMetadata, IGeometry, IProperties, IServiceEndpoint, IAssetList } from "../geo-did-utils/geo-did-spec";
+import { Powergate } from '../pinning/powergate';
+import { IStacItemMetadata, IGeometry, IProperties, IServiceEndpoint, IAssetList } from '../geo-did-utils/geo-did-spec';
 export declare class Transformer {
     private powergate;
     private stacjsonObj;

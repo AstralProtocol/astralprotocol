@@ -1,5 +1,5 @@
 import { GeoDocState } from './document';
-import { Context } from "./context/context";
+import { Context } from './context/context';
 interface AstralAPI {
     createGeoDID(stacjson: Object, ethereumAddress: string): Promise<any>;
     loadDocument(docId: string): Promise<any>;

@@ -1,86 +1,84 @@
-import { Powergate } from "../pinning/powergate"
-import { plainToClass } from "class-transformer"
-import { GeoDoctypeUtils } from "../geo-did-utils/utils"
-import { IStacItemMetadata, IGeometry, IProperties, IServiceEndpoint, IAssetList} from "../geo-did-utils/geo-did-spec"
-import { fetchAsset } from "../scripts/fetch"
-import { RootObject, AssetType, Assets, Properties } from "./stac-item-spec"
-import { Context } from "../context/context"
-import cliProgress from "cli-progress"
+import { Powergate } from '../pinning/powergate';
+import { plainToClass } from 'class-transformer';
+import { GeoDoctypeUtils } from '../geo-did-utils/utils';
+import { IStacItemMetadata, IGeometry, IProperties, IServiceEndpoint, IAssetList } from '../geo-did-utils/geo-did-spec';
+import { fetchAsset } from '../scripts/fetch';
+import { RootObject, AssetType, Assets, Properties } from './stac-item-spec';
+import { Context } from '../context/context';
+import cliProgress from 'cli-progress';
 
 export class Transformer {
-    private stacjsonObj: any
-    private token: string
+    private stacjsonObj: any;
+    private token: string;
 
     // TODO: We need to get the GeoDIDid into this instance
-    private geoDIDid: string
-    private stacID: string
+    private geoDIDid: string;
+    private stacID: string;
 
-    stacItemMetadata: IStacItemMetadata
-    geometry: IGeometry
-    properties: IProperties
-    private assets: Assets
+    stacItemMetadata: IStacItemMetadata;
+    geometry: IGeometry;
+    properties: IProperties;
+    private assets: Assets;
 
     //powergate: Powergate
-    
-    services: IServiceEndpoint[] = new Array(5)
-    assetList: IAssetList[] = new Array(5)
 
-    
-    constructor(jsonObj: Object, private powergate: Powergate){
+    services: IServiceEndpoint[] = new Array(5);
+    assetList: IAssetList[] = new Array(5);
+
+    constructor(jsonObj: Object, private powergate: Powergate) {
         //this.powergate = powergate
 
         this.stacjsonObj = plainToClass(RootObject, jsonObj);
-        this.stacID = this.stacjsonObj.getId()
+        this.stacID = this.stacjsonObj.getId();
 
-        this.assets = this.stacjsonObj.getAssets()
-        this.createAssetList()
+        this.assets = this.stacjsonObj.getAssets();
+        this.createAssetList();
 
+        this.setGeometry();
+        this.setProperties();
 
-        this.setGeometry()
-        this.setProperties()
-
-        this.setStacItemMetadata()
+        this.setStacItemMetadata();
     }
 
     // TODO: Figure out a more effective way to create the AssetList
-    async createAssetList(){  
-        this.assetList[0] = this.assets.getThumbnail()
-        this.assetList[1] = this.assets.getAnalytic()
-        this.assetList[2] = this.assets.getAnalyticXml()
-        this.assetList[3] = this.assets.getUdm()
-        this.assetList[4] = this.assets.getVisual()
+    async createAssetList() {
+        this.assetList[0] = this.assets.getThumbnail();
+        this.assetList[1] = this.assets.getAnalytic();
+        this.assetList[2] = this.assets.getAnalyticXml();
+        this.assetList[3] = this.assets.getUdm();
+        this.assetList[4] = this.assets.getVisual();
     }
 
-    async getAssetList(): Promise<IAssetList[]>{
-        return this.assetList
+    async getAssetList(): Promise<IAssetList[]> {
+        return this.assetList;
     }
 
-    async getGeoDIDid(_ethereumAddress: string): Promise<string>{
-        let geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(this.stacID, _ethereumAddress)
-        this.geoDIDid = await GeoDoctypeUtils.normalizeDocId(geoId)
-        return this.geoDIDid
+    async getGeoDIDid(_ethereumAddress: string): Promise<string> {
+        const geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(this.stacID, _ethereumAddress);
+        this.geoDIDid = await GeoDoctypeUtils.normalizeDocId(geoId);
+        return this.geoDIDid;
     }
 
     // setter for the Geometry
-    async setGeometry(){
-        this.geometry = await this.getGeometry()
+    async setGeometry() {
+        this.geometry = await this.getGeometry();
     }
 
-    async getGeometry(): Promise<IGeometry>{
-        return this.geometry
+    async getGeometry(): Promise<IGeometry> {
+        return this.geometry;
     }
 
     // setter for the Properties
-    async setProperties(){
-        this.properties = await this.stacjsonObj.getProperties()
+    async setProperties() {
+        this.properties = await this.stacjsonObj.getProperties();
     }
 
-    async getProperties(): Promise<IProperties>{
-        return this.properties
+    async getProperties(): Promise<IProperties> {
+        return this.properties;
     }
 
-    // setter for the Assets 
-    async setService(index: number){
+    // setter for the Assets
+    async setService(index: number) {
         this.services[index] = {
             // TODO: Please fix the service endpoint generator later
             id: this.geoDIDid + `#${this.assetList[index].roles[0]}`, // this will work for demo but not production
@@ -89,16 +87,16 @@ export class Transformer {
             description: this.assetList[index].title,
             role: this.assetList[index].roles,
             //'pl.type': serviceList[i].('pl:type')
-        }
+        };
     }
 
     // use this to pin the services
-    async getServices(): Promise<IServiceEndpoint[]>{
-        return this.services
+    async getServices(): Promise<IServiceEndpoint[]> {
+        return this.services;
     }
 
     // setter for the StacItemMetadata
-    async setStacItemMetadata(){
+    async setStacItemMetadata() {
         this.stacItemMetadata = {
             stac_version: await this.stacjsonObj.getStacVersion(),
             stac_extensions: await this.stacjsonObj.getStacExtensions(),
@@ -107,22 +105,22 @@ export class Transformer {
             bbox: await this.stacjsonObj.getBbox(),
             geometry: await this.getGeometry(),
             collection: await this.stacjsonObj.getCollection(),
-            properties: await this.getProperties()
-        }
+            properties: await this.getProperties(),
+        };
     }
 
-    // add to this the document later 
-    async getStacItemMetadata(): Promise<IStacItemMetadata>{
-        return this.stacItemMetadata
+    // add to this the document later
+    async getStacItemMetadata(): Promise<IStacItemMetadata> {
+        return this.stacItemMetadata;
     }
 
-    async getGeoDidId(): Promise<string>{
-        return this.geoDIDid
+    async getGeoDidId(): Promise<string> {
+        return this.geoDIDid;
     }
 
-    async assetToService(){
-        for(let i = 0; i <this.assetList.length; i++){
-            await this.setService(i)
+    async assetToService() {
+        for (let i = 0; i < this.assetList.length; i++) {
+            await this.setService(i);
         }
     }
 
@@ -161,4 +159,3 @@ export class Transformer {
         b1.stop();
     }*/
 }
- 

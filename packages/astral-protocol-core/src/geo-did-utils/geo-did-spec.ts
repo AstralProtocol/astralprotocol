@@ -1,4 +1,4 @@
-import { ServiceEndpoint } from "did-resolver"
+import { ServiceEndpoint } from 'did-resolver';
 
 export interface IStacItemMetadata {
     stac_version: string;
@@ -22,12 +22,12 @@ export interface IProperties {
 }
 
 export interface IServiceEndpoint extends ServiceEndpoint {
-    id: string
-    type: string
-    serviceEndpoint: string
-    description?: string
-    role?: string[]
-    'pl.type'?: string
+    id: string;
+    type: string;
+    serviceEndpoint: string;
+    description?: string;
+    role?: string[];
+    'pl.type'?: string;
 }
 
 export interface IAssetList {
@@ -37,8 +37,3 @@ export interface IAssetList {
     'pl:type'?: string;
     type?: string;
 }
-
-
-
-
-
