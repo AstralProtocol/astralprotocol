@@ -1,11 +1,7 @@
 # `astral-protocol-contracts`
 
-> TODO: description
-
 ## Usage
 
-```
-const astralProtocolContracts = require('astral-protocol-contracts');
-
-// TODO: DEMONSTRATE API
-```
+- Run a blockchain, e.g. ganache, in a separate termina `yarn ganache`
+- Deploy contracts with `yarn truffle`
+- Run tests with `yarn truffle-test`

@@ -136,3 +136,4 @@ build
 # End of https://www.toptal.com/developers/gitignore/api/node,yarn
 
 .mnemonic
+.provider

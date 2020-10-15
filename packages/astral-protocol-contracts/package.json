@@ -7,11 +7,12 @@
   "license": "ISC",
   "main": "truffle-config.js",
   "directories": {
-    "lib": "lib",
-    "test": "__tests__"
+    "build": "build",
+    "contracts": "contracts",
+    "migrations": "migrations"
   },
   "files": [
-    "lib"
+    "build"
   ],
   "repository": {
     "type": "git",
