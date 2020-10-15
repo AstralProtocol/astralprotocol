@@ -2,7 +2,9 @@
   "name": "astraldao",
   "private": true,
   "workspaces": {
-    "packages": ["packages/*"],
+    "packages": [
+      "packages/*"
+    ],
     "nohoist": [
       "packages/subgraph/@graphprotocol/graph-ts",
       "packages/subgraph/@graphprotocol/graph-ts/**"
@@ -11,6 +13,7 @@
   "scripts": {
     "test": "lerna run test",
     "build": "lerna run build",
+    "publish:simple": "lerna publish",
     "publish": "lerna run tsc && lerna publish",
     "publish:next": "lerna run tsc && lerna publish --no-push --conventional-prerelease --dist-tag next",
     "publish:latest": "lerna run tsc && lerna publish --allow-branch master --conventional-graduate --create-release github",
