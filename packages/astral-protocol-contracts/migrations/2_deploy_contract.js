@@ -1,12 +1,12 @@
-const SpatialAssetRegistrar = artifacts.require("./SpatialAssetRegistrar.sol");
+const SpatialAssets = artifacts.require("./SpatialAssets.sol");
 
 module.exports = async function (deployer) {
-  await deployer.deploy(SpatialAssetRegistrar);
+  await deployer.deploy(SpatialAssets);
 
-  const spatialAssetRegistrarContract = await SpatialAssetRegistrar.deployed();
+  const SpatialAssetsContract = await SpatialAssets.deployed();
 
   console.log(
     "Spatial Asset Registrar deployed at:",
-    spatialAssetRegistrarContract.address
+    SpatialAssetsContract.address
   );
 };
