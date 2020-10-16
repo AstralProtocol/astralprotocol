@@ -6,5 +6,5 @@
     "resolveJsonModule": true
   },
   "include": ["./build/**/*"],
-  "files": ["./build/contracts/SpatialAssetRegistrar.json"]
+  "files": ["./build/contracts/SpatialAssets.json"]
 }
