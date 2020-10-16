@@ -2,12 +2,8 @@
 
 import {
   ethereum,
-  JSONValue,
-  TypedMap,
-  Entity,
   Bytes,
   Address,
-  BigInt
 } from "@graphprotocol/graph-ts";
 
 export class CreateGeoDID extends ethereum.Event {
