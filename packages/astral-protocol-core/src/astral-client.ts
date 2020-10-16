@@ -1,7 +1,7 @@
 //import { fetchJson } from './utils'
-import { Document, GeoDocState } from './document';
+import { GeoDocument, GeoDocState } from './geo-document';
 import { Context } from './context/context';
-import { Powergate } from './pinning/powergate';
+import { Powergate } from './pin/powergate';
 
 // The Astral API Interface
 interface AstralAPI {
@@ -40,7 +40,7 @@ class AstralClient implements AstralAPI {
         const powergate = await Powergate.build();
 
         // create the Document with the assets (CIDS) and the stacmetadata (Document instance)
-        const document = await Document.build(stacjson, ethereumAddress, powergate);
+        const document = await GeoDocument.build(stacjson, ethereumAddress, powergate);
         console.log(document)
         // map the document
         await document.createGeoDIDDocument();

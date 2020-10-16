@@ -1,4 +1,4 @@
-import { Powergate } from '../pinning/powergate';
+import { Powergate } from '../pin/powergate';
 import { plainToClass } from 'class-transformer';
 import { GeoDoctypeUtils } from '../geo-did-utils/utils';
 import { IStacItemMetadata, IGeometry, IProperties, IServiceEndpoint, IAssetList } from '../geo-did-utils/geo-did-spec';

@@ -26,7 +26,6 @@
     "tsc": "tsc",
     "test": "jest --coverage --runInBand",
     "build": "../../node_modules/.bin/tsc -p tsconfig.json",
-    "build-babel": "../../node_modules/.bin/babel src --out-dir lib",
     "prepublishOnly": "yarn run build",
     "prebuild": "yarn run clean",
     "lint": "eslint ./src '*/**/*.{js,ts,tsx}' --quiet --fix",

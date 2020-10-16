@@ -1,7 +1,7 @@
 import { EventEmitter } from "events"
 import { IStacItemMetadata, IServiceEndpoint } from "./geo-did-utils/geo-did-spec"
 import CID from "cids"
-import { Powergate } from "./pinning/powergate"
+import { Powergate } from "./pin/powergate"
 import { Transformer } from "./transformer/transformer"
 import { Resolver } from "did-resolver"
 import GeoDIDResolver from './geo-did-utils/geo-did-resolver'
@@ -56,7 +56,7 @@ export interface GeoDocState {
 }
 
 
-export class Document extends EventEmitter {
+export class GeoDocument extends EventEmitter {
 
   #geoDIDResolver: any
   #didResolver: any
@@ -81,7 +81,7 @@ export class Document extends EventEmitter {
 
     const service = await transformer.getServices()
     
-    return new Document(transformer, normalizedGeoDidId, stacmetadata, service);
+    return new GeoDocument(transformer, normalizedGeoDidId, stacmetadata, service);
   }
 
   async createGeoDIDDocument(){

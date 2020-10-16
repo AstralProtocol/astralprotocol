@@ -1,5 +1,5 @@
 import { createPow } from '@textile/powergate-client';
-import { Powergate } from '../pinning/powergate';
+import { Powergate } from '../pin/powergate';
 import { Resolver } from 'did-resolver';
 import AstralClient from '../astral-client';
 import { DID } from 'dids';

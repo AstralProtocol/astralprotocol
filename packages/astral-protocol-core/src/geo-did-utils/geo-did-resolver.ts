@@ -1,6 +1,6 @@
 import bs58 from 'bs58';
 import web3 from 'web3';
-import { Document } from '../document';
+import { GeoDocument } from '../geo-document';
 import { ParsedDID, DIDResolver, DIDDocument } from 'did-resolver';
 import { IStacItemMetadata, IGeometry, IProperties, IServiceEndpoint, IAssetList } from '../geo-did-utils/geo-did-spec';
 
@@ -45,7 +45,7 @@ export function wrapDocument(
 
 // pass in a instance of astral into
 export default {
-    getResolver: (document: Document): ResolverRegistry => ({
+    getResolver: (document: GeoDocument): ResolverRegistry => ({
         geo: async (did: string, parsed: ParsedDID): Promise<DIDDocument | null> => {
             // resolver
             const stacitemmetadata = await document.getStacItemMetadata();
