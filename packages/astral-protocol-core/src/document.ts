@@ -89,7 +89,7 @@ export class Document extends EventEmitter {
     this.#didResolver = new Resolver(this.#geoDIDResolver)
   }
 
-  async loadcreateGeoDIDDocument(){
+  async constructGeoDIDDocument(){
     const doc = await this.#didResolver.resolve(this._normalizedGeoDidId)
     //console.log(doc)
     return doc
@@ -108,49 +108,4 @@ export class Document extends EventEmitter {
     return this._normalizedGeoDidId
   }
 
-  //async loadDocument(){}
-  /*
-  get doctype(): string {
-      return this._state.doctype
-  }
-
-  get metadata(): DocMetadata {
-      const { metadata } = this._state
-      return metadata
-  }
-
-  get owners(): Array<string> {
-      return this.metadata.owners
-  }*/
-
-  /*
-  get state(): GeoDocState {
-      return this._state
-  }
-
-  set state(state: GeoDocState) {
-      this._state = state
-  }*/
-
-  /*
-  set context(context: Context) {
-      this._context = context
-  }
-
-  get context(): Context {
-      return this._context
-  }*/
-
-  /*
-  async validate(): Promise<void> {
-      const schemaDocId = this.state?.metadata?.schema
-      if (schemaDocId) {
-          const schemaDoc = await this.context.api.loadDocument(schemaDocId)
-          if (!schemaDoc) {
-              throw new Error(`Schema not found for ${schemaDocId}`)
-          }
-          DoctypeUtils.validate(this.content, schemaDoc.content)
-      }
-  }*/
-    
 }

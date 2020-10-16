@@ -27,6 +27,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1",
     "console": "truffle console --network development",
     "ganache": "ganache-cli -h 0.0.0.0 -p 8545 -d -b 3 -i 333",
+    "truffle-build": "truffle compile -all",
     "truffle": "truffle compile --all && truffle migrate --network development --reset && cp -vr ./build/contracts/SpatialAssets.json ../astral-protocol-subgraph/src/abi/",
     "truffle-ropsten": "truffle deploy --network ropsten && cp -vr ./build/contracts/SpatialAssets.json ../astral-protocol-subgraph/src/abi",
     "mythx": "truffle run verify",
@@ -42,5 +43,5 @@
     "@truffle/hdwallet-provider": "^1.1.1",
     "truffle": "^5.1.49"
   },
-  "gitHead": "fe50ac24e33dd85270d49ec62c3386d6de73c383"
+  "gitHead": "373d6be2eda7ebd77d17cef4373a8e61c4cbe274"
 }

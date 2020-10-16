@@ -24,6 +24,8 @@ class AstralClient implements AstralAPI {
     //private _docmap: Record<string, Instance>
     private _docmap: DocMap;
 
+    
+    //private geoDidDoc: Record<string, Object>
     // Manages the Context of the Astral Instance, GeoDocType Instance, and the Powergate Instance
     public readonly context: Context;
 
@@ -39,17 +41,21 @@ class AstralClient implements AstralAPI {
 
         // create the Document with the assets (CIDS) and the stacmetadata (Document instance)
         const document = await Document.build(stacjson, ethereumAddress, powergate);
-
+        console.log(document)
         // map the document
         await document.createGeoDIDDocument();
 
         const geodidid = await document.getGeoDidId();
-
-        const doc = await document.loadcreateGeoDIDDocument();
+        console.log(geodidid)
+        const doc = await document.constructGeoDIDDocument();
+        console.log(doc)
         const stringdoc = JSON.stringify(doc);
+        console.log(stringdoc)
 
         const uint8array = new TextEncoder().encode(stringdoc);
+        console.log(uint8array)
         const cid = await powergate.getAssetCid(uint8array);
+        console.log(cid)
         await powergate.pin(cid);
 
         // pin it to powergate
@@ -67,9 +73,13 @@ class AstralClient implements AstralAPI {
         try {
             if (this._docmap[docId]) {
                 const powergate = await Powergate.build(this._docmap[docId].authToken);
+                console.log(powergate)
                 const bytes: Uint8Array = await powergate.getGeoDIDDocument(this._docmap[docId].cid);
+                console.log(bytes)
                 const strj = new TextDecoder('utf-8').decode(bytes);
+                console.log(strj)
                 geoDidDoc = JSON.parse(strj);
+                console.log(geoDidDoc)
             }
         } catch (err) {
             console.log(err);
