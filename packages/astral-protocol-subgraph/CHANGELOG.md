@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.20](https://github.com/astralDAO/astralprotocol/compare/@astraldao/astral-protocol-subgraph@0.0.19...@astraldao/astral-protocol-subgraph@0.0.20) (2020-10-16)
+
+**Note:** Version bump only for package @astraldao/astral-protocol-subgraph
+
+
+
+
+
 ## [0.0.19](https://github.com/astralDAO/astralprotocol/compare/@astraldao/astral-protocol-subgraph@0.0.18...@astraldao/astral-protocol-subgraph@0.0.19) (2020-10-16)
 
 **Note:** Version bump only for package @astraldao/astral-protocol-subgraph
