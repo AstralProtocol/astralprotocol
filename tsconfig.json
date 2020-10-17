@@ -24,7 +24,5 @@
   "references": [
     { "path": "./packages/astral-protocol-core" },
     { "path": "./packages/astral-protocol-subgraph" },
-    { "path": "./packages/astral-protocol-contracts" },
-    { "path": "./packages/stac-validator-js" }
   ]
 }

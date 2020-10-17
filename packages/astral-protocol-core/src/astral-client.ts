@@ -1,5 +1,4 @@
-//import { fetchJson } from './utils'
-import { GeoDocument, GeoDocState } from './geo-document';
+import { GeoDocument } from './geo-document';
 import { Context } from './context/context';
 import { Powergate } from './pin/powergate';
 
@@ -21,17 +20,20 @@ interface Instance {
 
 class AstralClient implements AstralAPI {
     // GeoDID id -> Instance
-    //private _docmap: Record<string, Instance>
-    private _docmap: DocMap;
+    //private #docmap: Record<string, Instance>
+    #docmap: DocMap;
 
     
     //private geoDidDoc: Record<string, Object>
     // Manages the Context of the Astral Instance, GeoDocType Instance, and the Powergate Instance
     public readonly context: Context;
 
+    #geoDidDoc: Object;
+
     constructor() {
         this.context = { astral: this };
-        this._docmap = {};
+        this.#docmap = {};
+        this.#geoDidDoc = new Object();
     }
 
     // astral.createGeoDID(stacitem)
@@ -59,7 +61,7 @@ class AstralClient implements AstralAPI {
         await powergate.pin(cid);
 
         // pin it to powergate
-        this._docmap[geodidid] = {
+        this.#docmap[geodidid] = {
             authToken: await powergate.getToken(),
             cid: cid,
             document: document,
@@ -69,22 +71,21 @@ class AstralClient implements AstralAPI {
     }
 
     async loadDocument(docId: string): Promise<any> {
-        let geoDidDoc: Object = new Object();
         try {
-            if (this._docmap[docId]) {
-                const powergate = await Powergate.build(this._docmap[docId].authToken);
+            if (this.#docmap[docId]) {
+                const powergate = await Powergate.build(this.#docmap[docId].authToken);
                 console.log(powergate)
-                const bytes: Uint8Array = await powergate.getGeoDIDDocument(this._docmap[docId].cid);
+                const bytes: Uint8Array = await powergate.getGeoDIDDocument(this.#docmap[docId].cid);
                 console.log(bytes)
                 const strj = new TextDecoder('utf-8').decode(bytes);
                 console.log(strj)
-                geoDidDoc = JSON.parse(strj);
-                console.log(geoDidDoc)
+                this.#geoDidDoc = JSON.parse(strj);
+                console.log(this.#geoDidDoc)
             }
         } catch (err) {
             console.log(err);
         }
-        return geoDidDoc;
+        return this.#geoDidDoc;
     }
 }
 
