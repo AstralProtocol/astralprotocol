@@ -15,7 +15,6 @@ interface DocMap {
 interface Instance {
     authToken: string;
     cid: string;
-    document: Document;
 }
 
 class AstralClient implements AstralAPI {
@@ -28,17 +27,13 @@ class AstralClient implements AstralAPI {
     // Manages the Context of the Astral Instance, GeoDocType Instance, and the Powergate Instance
     public readonly context: Context;
 
-    private geoDidDoc: Object;
-
     constructor() {
         this.context = { astral: this };
         this.docmap = {};
-        this.geoDidDoc = new Object();
     }
 
     // astral.createGeoDID(stacitem)
     async createGeoDID(stacjson: Object, ethereumAddress: string): Promise<string> {
-        this.geoDidDoc = stacjson;
         // create powergate instance
         const powergate = await Powergate.build();
 
@@ -64,14 +59,14 @@ class AstralClient implements AstralAPI {
         // pin it to powergate
         this.docmap[geodidid] = {
             authToken: await powergate.getToken(),
-            cid: cid,
-            document: document,
+            cid: cid
         };
 
         return geodidid;
     }
 
     async loadDocument(docId: string): Promise<Object> {
+        let geoDidDoc: Object = {}
         if (this.docmap[docId]) {
             const powergate = await Powergate.build(this.docmap[docId].authToken);
             console.log(powergate)
@@ -79,10 +74,14 @@ class AstralClient implements AstralAPI {
             console.log(bytes)
             const strj = new TextDecoder('utf-8').decode(bytes);
             console.log(strj)
-            this.geoDidDoc = JSON.parse(strj);
-            console.log(this.geoDidDoc)
+            geoDidDoc = JSON.parse(strj);
+            console.log(geoDidDoc)
         }
-        return this.geoDidDoc;
+        else{
+            geoDidDoc = {"errror": "Error in Retreiving GeoDID Document"}
+        }
+        
+        return geoDidDoc;
     }
 }
 
