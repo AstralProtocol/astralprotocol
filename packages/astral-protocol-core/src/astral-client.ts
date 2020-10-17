@@ -60,7 +60,9 @@ class AstralClient implements AstralAPI {
         this.docmap[geodidid] = {
             authToken: await powergate.getToken(),
             cid: cid
-        };
+        }
+        
+        console.log(this.docmap[geodidid])
 
         return geodidid;
     }
