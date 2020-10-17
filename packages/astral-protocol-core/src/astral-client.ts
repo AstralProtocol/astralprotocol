@@ -20,24 +20,25 @@ interface Instance {
 
 class AstralClient implements AstralAPI {
     // GeoDID id -> Instance
-    //private #docmap: Record<string, Instance>
-    #docmap: DocMap;
+    //private docmap: Record<string, Instance>
+    private docmap: DocMap;
 
     
     //private geoDidDoc: Record<string, Object>
     // Manages the Context of the Astral Instance, GeoDocType Instance, and the Powergate Instance
     public readonly context: Context;
 
-    #geoDidDoc: Object;
+    private geoDidDoc: Object;
 
     constructor() {
         this.context = { astral: this };
-        this.#docmap = {};
-        this.#geoDidDoc = new Object();
+        this.docmap = {};
+        this.geoDidDoc = new Object();
     }
 
     // astral.createGeoDID(stacitem)
-    async createGeoDID(stacjson: Object, ethereumAddress: string): Promise<any> {
+    async createGeoDID(stacjson: Object, ethereumAddress: string): Promise<string> {
+        this.geoDidDoc = stacjson;
         // create powergate instance
         const powergate = await Powergate.build();
 
@@ -61,7 +62,7 @@ class AstralClient implements AstralAPI {
         await powergate.pin(cid);
 
         // pin it to powergate
-        this.#docmap[geodidid] = {
+        this.docmap[geodidid] = {
             authToken: await powergate.getToken(),
             cid: cid,
             document: document,
@@ -70,22 +71,18 @@ class AstralClient implements AstralAPI {
         return geodidid;
     }
 
-    async loadDocument(docId: string): Promise<any> {
-        try {
-            if (this.#docmap[docId]) {
-                const powergate = await Powergate.build(this.#docmap[docId].authToken);
-                console.log(powergate)
-                const bytes: Uint8Array = await powergate.getGeoDIDDocument(this.#docmap[docId].cid);
-                console.log(bytes)
-                const strj = new TextDecoder('utf-8').decode(bytes);
-                console.log(strj)
-                this.#geoDidDoc = JSON.parse(strj);
-                console.log(this.#geoDidDoc)
-            }
-        } catch (err) {
-            console.log(err);
+    async loadDocument(docId: string): Promise<Object> {
+        if (this.docmap[docId]) {
+            const powergate = await Powergate.build(this.docmap[docId].authToken);
+            console.log(powergate)
+            const bytes: Uint8Array = await powergate.getGeoDIDDocument(this.docmap[docId].cid);
+            console.log(bytes)
+            const strj = new TextDecoder('utf-8').decode(bytes);
+            console.log(strj)
+            this.geoDidDoc = JSON.parse(strj);
+            console.log(this.geoDidDoc)
         }
-        return this.#geoDidDoc;
+        return this.geoDidDoc;
     }
 }
 
