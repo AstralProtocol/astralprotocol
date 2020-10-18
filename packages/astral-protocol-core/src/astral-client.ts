@@ -20,10 +20,7 @@ interface Instance {
 class AstralClient implements AstralAPI {
     // GeoDID id -> Instance
     //private docmap: Record<string, Instance>
-    //private docmap: DocMap;
-
-    authToken: string
-    cid: string
+    private docmap: DocMap;
     
     //private geoDidDoc: Record<string, Object>
     // Manages the Context of the Astral Instance, GeoDocType Instance, and the Powergate Instance
@@ -31,9 +28,7 @@ class AstralClient implements AstralAPI {
 
     constructor() {
         this.context = { astral: this };
-        //this.docmap = {};
-        this.authToken = "temp"
-        this.cid = "temp"
+        this.docmap = {};
     }
 
     // astral.createGeoDID(stacitem)
@@ -60,38 +55,24 @@ class AstralClient implements AstralAPI {
         console.log(cid)
         await powergate.pin(cid);
 
-        this.authToken = await powergate.getToken()
-        this.cid = cid
-
         // pin it to powergate
-        /*
         this.docmap[geodidid] = {
             authToken: await powergate.getToken(),
             cid: cid
-        }*/
+        }
         
-        //console.log(this.docmap[geodidid])
+        console.log(this.docmap[geodidid])
 
         return geodidid;
     }
 
     async loadDocument(docId: string): Promise<Object> {
         let geoDidDoc: Object = {}
-        /*
+        
         if (this.docmap[docId]) {
             const powergate = await Powergate.build(this.docmap[docId].authToken);
             console.log(powergate)
             const bytes: Uint8Array = await powergate.getGeoDIDDocument(this.docmap[docId].cid);
-            console.log(bytes)
-            const strj = new TextDecoder('utf-8').decode(bytes);
-            console.log(strj)
-            geoDidDoc = JSON.parse(strj);
-            console.log(geoDidDoc)
-        }*/
-        if(docId){
-            const powergate = await Powergate.build(this.authToken);
-            console.log(powergate)
-            const bytes: Uint8Array = await powergate.getGeoDIDDocument(this.cid);
             console.log(bytes)
             const strj = new TextDecoder('utf-8').decode(bytes);
             console.log(strj)
