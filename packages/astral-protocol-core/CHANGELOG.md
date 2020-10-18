@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.26](https://github.com/astralDAO/astralprotocol/compare/@astraldao/astral-protocol-core@0.0.25...@astraldao/astral-protocol-core@0.0.26) (2020-10-18)
+
+**Note:** Version bump only for package @astraldao/astral-protocol-core
+
+
+
+
+
 ## [0.0.25](https://github.com/astralDAO/astralprotocol/compare/@astraldao/astral-protocol-core@0.0.24...@astraldao/astral-protocol-core@0.0.25) (2020-10-17)
 
 **Note:** Version bump only for package @astraldao/astral-protocol-core
