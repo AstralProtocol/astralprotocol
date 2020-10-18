@@ -20,7 +20,7 @@ interface Instance {
 class AstralClient implements AstralAPI {
     // GeoDID id -> Instance
     //private docmap: Record<string, Instance>
-    private docmap: DocMap;
+    //private docmap: DocMap;
 
     authToken: string
     cid: string
@@ -31,7 +31,7 @@ class AstralClient implements AstralAPI {
 
     constructor() {
         this.context = { astral: this };
-        this.docmap = {};
+        //this.docmap = {};
         this.authToken = "temp"
         this.cid = "temp"
     }
@@ -70,7 +70,7 @@ class AstralClient implements AstralAPI {
             cid: cid
         }*/
         
-        console.log(this.docmap[geodidid])
+        //console.log(this.docmap[geodidid])
 
         return geodidid;
     }
