@@ -32,6 +32,8 @@ class AstralClient implements AstralAPI {
     constructor() {
         this.context = { astral: this };
         this.docmap = {};
+        this.authToken = "temp"
+        this.cid = "temp"
     }
 
     // astral.createGeoDID(stacitem)
