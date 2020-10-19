@@ -4,7 +4,6 @@ pragma solidity ^0.6.0;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/GSN/Context.sol";
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155Burnable.sol";
 
 /**
  * @dev {ERC1155} token, including:
@@ -18,8 +17,11 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155Burnable.sol";
  * The account that deploys the contract will be granted the minter as well as the default admin role, which will let it grant
  * minter roles to other accounts
  */
-contract SpatialAssets is Context, AccessControl, ERC1155Burnable {
+contract SpatialAssets is Context, AccessControl, ERC1155 {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+
+    // Mapping from id to active status
+    mapping (uint256 => bool) private _activeIds;
 
     /**
      * @dev Grants `DEFAULT_ADMIN_ROLE`, `MINTER_ROLE` to the account that
@@ -43,18 +45,24 @@ contract SpatialAssets is Context, AccessControl, ERC1155Burnable {
      */
     function mint(address to, uint256 id, uint256 amount, bytes memory data) public virtual {
         require(hasRole(MINTER_ROLE, _msgSender()), "SpatialAssets: must have minter role to mint");
-
+        require(_activeIds[id]==false, "Id exists, aborting");
         _mint(to, id, amount, data);
+
+        _activeIds[id]=true;
     }
 
-    /**
-     * @dev xref:ROOT:erc1155.adoc#batch-operations[Batched] variant of {mint}.
-     */
-    function mintBatch(address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data) public virtual {
-        require(hasRole(MINTER_ROLE, _msgSender()), "SpatialAssets: must have minter role to mint");
+     function burn(address account, uint256 id, uint256 value) public virtual {
+        require(
+            account == _msgSender() || isApprovedForAll(account, _msgSender()),
+            "ERC1155: caller is not owner nor approved"
+        );
+        require(_activeIds[id]==false, "Id does not exist, aborting");
 
-        _mintBatch(to, ids, amounts, data);
+        _burn(account, id, value);
+
+        _activeIds[id]=false;
     }
+  
 
     function _beforeTokenTransfer(
         address operator,

@@ -27,7 +27,7 @@
     "graph-node": "sudo rm -rf graph-node/docker/data/postgres && docker-compose -f graph-node/docker/docker-compose.yml up",
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ astraldao/spatial-assets --access-token ./.graphauth",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ astraldao/astraldao/spatial-assets --access-token e1b8a3b0448d4b25b89ca0b20cae9d44",
     "create-local": "graph create --node http://localhost:8020/ astraldao/spatial-assets",
     "remove-local": "graph remove --node http://localhost:8020/ astraldao/spatial-assets",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 astraldao/spatial-assets",
