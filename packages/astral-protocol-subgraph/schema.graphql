@@ -1,7 +1,5 @@
-type GeoDID @entity {
+type SpatialAsset @entity {
   id: ID!
   owner: String!
-  cid: String!
-  exists: Boolean!
+  active: Boolean!
 }
-

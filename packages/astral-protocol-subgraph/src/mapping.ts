@@ -1,36 +1,21 @@
-import {
-  CreateGeoDID,
-  UpdateGeoDID,
-  DeleteGeoDID
-} from "./generated/SpatialAssetRegistrar/SpatialAssetRegistrar";
-import {
-  GeoDID
-} from "./generated/schema";
+import { TransferSingle } from "../generated/SpatialAssets/SpatialAssets";
+import { SpatialAsset } from "../generated/schema";
 
-//----------------- SpatialAssetRegistrar Event Handlers ------------------
+export function handleTransferSingle(event: TransferSingle): void {
+  let spatialAsset = new SpatialAsset(event.params.id.toString());
+  let from = event.params.from.toHexString();
+  let to = event.params.to.toHexString();
+  const address0 = "0x0000000000000000000000000000000000000000";
 
-export function handleCreateGeoDID(event: CreateGeoDID): void {
-  let geoDID = new GeoDID(event.params.hash.toString());
+  if (from === address0 && to !== address0) {
+    spatialAsset.owner = to;
+    spatialAsset.active = true;
+  } else if (from !== address0 && to === address0) {
+    spatialAsset.owner = to;
+    spatialAsset.active = false;
+  } else {
+    spatialAsset.owner = to;
+  }
 
-  geoDID.owner = event.params.caller.toHexString();
-  geoDID.cid = event.params.cid;
-  geoDID.exists = true;
-
-  geoDID.save(); 
-}
-
-export function handleUpdateGeoDID(event: UpdateGeoDID): void {
-  let geoDid = GeoDID.load(event.params.hash.toString());
-
-  geoDid.cid = event.params.cid;
-
-  geoDid.save();
-}
-
-export function handleDeleteGeoDID(event: DeleteGeoDID): void {
-  let geoDid = GeoDID.load(event.params.hash.toString());
-
-  geoDid.exists = false;
-
-  geoDid.save();
+  spatialAsset.save();
 }

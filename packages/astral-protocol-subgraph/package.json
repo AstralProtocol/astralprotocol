@@ -25,13 +25,13 @@
     "tsc": "tsc",
     "test": "echo \"Error: run tests from root\" && exit 1",
     "graph-node": "sudo rm -rf graph-node/docker/data/postgres && docker-compose -f graph-node/docker/docker-compose.yml up",
-    "create": "graph create astralprotocol/subgraph --node https://api.thegraph.com/deploy/",
-    "create-local": "graph create astralprotocol/subgraph --node http://127.0.0.1:8020",
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy astralprotocol/subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
-    "deploy-local": "graph deploy astralprotocol/subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
-    "remove-subgraph": "graph remove astralprotocol/subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ astraldao/spatial-assets --access-token ./.graphauth",
+    "create-local": "graph create --node http://localhost:8020/ astraldao/spatial-assets",
+    "remove-local": "graph remove --node http://localhost:8020/ astraldao/spatial-assets",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 astraldao/spatial-assets",
+    "remove-subgraph": "graph remove astraldao/spatial-assets --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
     "clean": "rm -rf ./lib ./tsconfig.tsbuildinfo"
   },
   "bugs": {

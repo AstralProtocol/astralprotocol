@@ -1,29 +1,23 @@
 specVersion: 0.0.2
-description: Astral Protocol Subgraph
-repository: https://github.com/astralDAO/astralprotocol
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: SpatialAssetRegistrar
-    network: mainnet
+    name: SpatialAssets
+    network: ropsten
     source:
-      address: "0xCfEB869F69431e42cdB54A4F4f105C19C080A601"
-      abi: SpatialAssetRegistrar
+      address: "0xC0edEFdDBC317c84230861A103Dcf75Ad6755C0e"
+      abi: SpatialAssets
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
-      file: ./src/mapping.ts
       entities:
-        - GeoDID
+        - SpatialAsset
       abis:
-        - name: SpatialAssetRegistrar
-          file:  ./src/abi/SpatialAssetRegistrar.json
+        - name: SpatialAssets
+          file: ./abis/SpatialAssets.json
       eventHandlers:
-        - event: CreateGeoDID(indexed address,bytes32,string)
-          handler: handleCreateGeoDID
-        - event: UpdateGeoDID(indexed address,bytes32,string)
-          handler: handleUpdateGeoDID
-        - event: DeleteGeoDID(bytes32)
-          handler: handleDeleteGeoDID
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
+      file: ./src/mapping.ts
