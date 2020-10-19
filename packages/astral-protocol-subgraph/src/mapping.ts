@@ -7,14 +7,11 @@ export function handleTransferSingle(event: TransferSingle): void {
   let to = event.params.to.toHexString();
   const address0 = "0x0000000000000000000000000000000000000000";
 
-  if (from === address0 && to !== address0) {
-    spatialAsset.owner = to;
-    spatialAsset.active = true;
-  } else if (from !== address0 && to === address0) {
-    spatialAsset.owner = to;
+  spatialAsset.active = true;
+  spatialAsset.owner = to;
+
+  if (from != address0 && to == address0) {
     spatialAsset.active = false;
-  } else {
-    spatialAsset.owner = to;
   }
 
   spatialAsset.save();
