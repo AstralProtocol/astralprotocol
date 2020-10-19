@@ -76,4 +76,8 @@ contract SpatialAssets is Context, AccessControl, ERC1155 {
     {
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
+
+    function idStatus(uint256 id) public view returns (bool) {
+        return _activeIds[id];
+    }
 }
