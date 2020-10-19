@@ -11,9 +11,8 @@ import {
   BigInt,
   BigDecimal
 } from "@graphprotocol/graph-ts";
-import { assert } from "console";
 
-export class GeoDID extends Entity {
+export class SpatialAsset extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -21,17 +20,17 @@ export class GeoDID extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save GeoDID entity without an ID");
+    assert(id !== null, "Cannot save SpatialAsset entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save GeoDID entity with non-string ID. " +
+      "Cannot save SpatialAsset entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("GeoDID", id.toString(), this);
+    store.set("SpatialAsset", id.toString(), this);
   }
 
-  static load(id: string): GeoDID | null {
-    return store.get("GeoDID", id) as GeoDID | null;
+  static load(id: string): SpatialAsset | null {
+    return store.get("SpatialAsset", id) as SpatialAsset | null;
   }
 
   get id(): string {
@@ -52,21 +51,12 @@ export class GeoDID extends Entity {
     this.set("owner", Value.fromString(value));
   }
 
-  get cid(): string {
-    let value = this.get("cid");
-    return value.toString();
-  }
-
-  set cid(value: string) {
-    this.set("cid", Value.fromString(value));
-  }
-
-  get exists(): boolean {
-    let value = this.get("exists");
+  get active(): boolean {
+    let value = this.get("active");
     return value.toBoolean();
   }
 
-  set exists(value: boolean) {
-    this.set("exists", Value.fromBoolean(value));
+  set active(value: boolean) {
+    this.set("active", Value.fromBoolean(value));
   }
 }
