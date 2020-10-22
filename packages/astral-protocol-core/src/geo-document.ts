@@ -61,7 +61,7 @@ export class GeoDocument extends EventEmitter {
   #geoDIDResolver: any
   #didResolver: any
 
-  constructor (private _transformer: Transformer, private _normalizedGeoDidId: string, private _stacmetadata: IStacItemMetadata, private _service: IServiceEndpoint[]) {
+  constructor (private _ethereumAddress: string, private _transformer: Transformer, private _normalizedGeoDidId: string, private _stacmetadata: IStacItemMetadata, private _service: IServiceEndpoint[]) {
     super()
 
     console.log(this._normalizedGeoDidId + '\n')
@@ -71,7 +71,7 @@ export class GeoDocument extends EventEmitter {
 
   static async build (stacjson:Object, ethereumAddress: string, powergate: Powergate): Promise<any> {
 
-    const transformer = new Transformer(stacjson, powergate)
+    const transformer = await Transformer.build(stacjson)
 
     const normalizedGeoDidId = await transformer.getGeoDIDid(ethereumAddress)
       
@@ -81,7 +81,7 @@ export class GeoDocument extends EventEmitter {
 
     const service = await transformer.getServices()
     
-    return new GeoDocument(transformer, normalizedGeoDidId, stacmetadata, service);
+    return new GeoDocument(ethereumAddress, transformer, normalizedGeoDidId, stacmetadata, service);
   }
 
   async createGeoDIDDocument(){
@@ -108,4 +108,7 @@ export class GeoDocument extends EventEmitter {
     return this._normalizedGeoDidId
   }
 
+  async getAddress(): Promise<string> {
+    return this._ethereumAddress
+  }
 }

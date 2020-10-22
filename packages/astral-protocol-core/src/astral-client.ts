@@ -4,7 +4,7 @@ import { Powergate } from './pin/powergate';
 
 // The Astral API Interface
 interface AstralAPI {
-    createGeoDID(stacjson: Object, ethereumAddress: string): Promise<any>;
+    createGeoDID(id:string, stacjson: Object, ethereumAddress: string): Promise<any>;
     loadDocument(docId: string): Promise<any>;
 }
 
@@ -32,7 +32,7 @@ class AstralClient implements AstralAPI {
     }
 
     // astral.createGeoDID(stacitem)
-    async createGeoDID(stacjson: Object, ethereumAddress: string): Promise<string> {
+    async createGeoDID(id: string, stacjson: Object, ethereumAddress: string): Promise<string> {
         // create powergate instance
         const powergate = await Powergate.build();
 

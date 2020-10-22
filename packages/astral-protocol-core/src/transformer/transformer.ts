@@ -8,36 +8,30 @@ import { Context } from '../context/context';
 import cliProgress from 'cli-progress';
 
 export class Transformer {
-    private stacjsonObj: any;
-    private token: string;
 
-    // TODO: We need to get the GeoDIDid into this instance
     private geoDIDid: string;
-    private stacID: string;
 
     stacItemMetadata: IStacItemMetadata;
     geometry: IGeometry;
     properties: IProperties;
     private assets: Assets;
 
-    //powergate: Powergate
-
     services: IServiceEndpoint[] = new Array(5);
     assetList: IAssetList[] = new Array(5);
 
-    constructor(jsonObj: Object, private powergate: Powergate) {
-        //this.powergate = powergate
-
-        this.stacjsonObj = plainToClass(RootObject, jsonObj);
-        this.stacID = this.stacjsonObj.getId();
-
-        this.assets = this.stacjsonObj.getAssets();
+    constructor(private _stacjsonObj: any) {
+        this.assets = this._stacjsonObj.getAssets();
         this.createAssetList();
 
         this.setGeometry();
         this.setProperties();
 
         this.setStacItemMetadata();
+    }
+
+    static async build(jsonObj: Object): Promise<any>{
+        const stacjsonObj = plainToClass(RootObject, jsonObj);
+        return new Transformer(stacjsonObj)
     }
 
     // TODO: Figure out a more effective way to create the AssetList
@@ -53,9 +47,9 @@ export class Transformer {
         return this.assetList;
     }
 
-    async getGeoDIDid(_ethereumAddress: string): Promise<string> {
-        const geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(this.stacID, _ethereumAddress);
-        this.geoDIDid = await GeoDoctypeUtils.normalizeDocId(geoId);
+    async getGeoDIDid(_id: string, _ethereumAddress: string): Promise<string> {
+        const geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(_id);
+        this.geoDIDid = GeoDoctypeUtils.normalizeDocId(geoId);
         return this.geoDIDid;
     }
 
@@ -70,7 +64,7 @@ export class Transformer {
 
     // setter for the Properties
     async setProperties() {
-        this.properties = await this.stacjsonObj.getProperties();
+        this.properties = await this._stacjsonObj.getProperties();
     }
 
     async getProperties(): Promise<IProperties> {
@@ -98,13 +92,13 @@ export class Transformer {
     // setter for the StacItemMetadata
     async setStacItemMetadata() {
         this.stacItemMetadata = {
-            stac_version: await this.stacjsonObj.getStacVersion(),
-            stac_extensions: await this.stacjsonObj.getStacExtensions(),
-            type: await this.stacjsonObj.getType(),
-            id: await this.stacjsonObj.getId(),
-            bbox: await this.stacjsonObj.getBbox(),
+            stac_version: await this._stacjsonObj.getStacVersion(),
+            stac_extensions: await this._stacjsonObj.getStacExtensions(),
+            type: await this._stacjsonObj.getType(),
+            id: await this._stacjsonObj.getId(),
+            bbox: await this._stacjsonObj.getBbox(),
             geometry: await this.getGeometry(),
-            collection: await this.stacjsonObj.getCollection(),
+            collection: await this._stacjsonObj.getCollection(),
             properties: await this.getProperties(),
         };
     }

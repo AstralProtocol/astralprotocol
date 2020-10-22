@@ -9,16 +9,9 @@ const multihashing = require('multihashing-async');
 export class GeoDoctypeUtils {
     static validator: any = new ajv({ allErrors: true });
 
-    static async encodeGeoIdentifier(_stacid: string, _ethereumAddress: string): Promise<any> {
-        const bytes = new TextEncoder().encode(_stacid + _ethereumAddress);
-        const hash = await multihashing(bytes, 'sha2-256');
-
-        return hash;
-    }
-
     // create the GeoDID
-    static async createGeodidIdFromGenesis(_stacid: string, _ethereumAddress: string): Promise<string> {
-        const genesisCid = await this.createCID(_stacid, _ethereumAddress);
+    static async createGeodidIdFromGenesis(_id: string): Promise<string> {
+        const genesisCid = await this.createCID(_id);
 
         const baseDocId = ['geo:/', genesisCid.toString()].join('/');
 
@@ -42,8 +35,10 @@ export class GeoDoctypeUtils {
         return genesis;
     }
 
-    static async createCID(_stacid: string, _ethereumAddress: string): Promise<string> {
-        const hash = await GeoDoctypeUtils.encodeGeoIdentifier(_stacid, _ethereumAddress);
+    static async createCID(_id: string): Promise<string> {
+
+        const bytes = new TextEncoder().encode(_id);
+        const hash = await multihashing(bytes, 'sha2-256');
 
         const cid = new CID(0, 'dag-pb', hash, 'base58btc');
 

@@ -21,6 +21,7 @@ export function wrapDocument(
     stacmetadata: IStacItemMetadata,
     service: IServiceEndpoint[],
     did: string,
+    address: string
 ): GeoDIDDocument {
     const startDoc: GeoDIDDocument = {
         '@context': 'https://w3id.org/did/v1',
@@ -33,11 +34,11 @@ export function wrapDocument(
 
     // replace the public key with the ethereum address
     startDoc.publicKey.push({
-        id: `${did}#MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnzyis1ZjfNB0bBgKFMSv`,
+        id: `${did}#` + `${address}`,
         type: 'Secp256k1VerificationKey2018',
         controller: did,
         // remove multicodec variant and encode to hex
-        publicKeyHex: 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnzyis1ZjfNB0bBgKFMSv',
+        publicKeyHex: `${address}`,
     });
 
     return startDoc;
@@ -50,7 +51,8 @@ export default {
             // resolver
             const stacitemmetadata = await document.getStacItemMetadata();
             const services = await document.getServices();
-            return wrapDocument(stacitemmetadata, services, did);
+            const address = await document.getAddress();
+            return wrapDocument(stacitemmetadata, services, did, address);
         },
     }),
 };
