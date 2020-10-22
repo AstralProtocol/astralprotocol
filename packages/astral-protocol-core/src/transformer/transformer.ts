@@ -1,9 +1,9 @@
 import { Powergate } from '../pin/powergate';
 import { plainToClass } from 'class-transformer';
 import { GeoDoctypeUtils } from '../geo-did-utils/utils';
-import { IStacItemMetadata, IGeometry, IProperties, IServiceEndpoint, IAssetList } from '../geo-did-utils/geo-did-spec';
+import { IStacItemMetadata, IServiceEndpoint, IAssetList } from '../geo-did-utils/geo-did-spec';
 import { fetchAsset } from '../scripts/fetch';
-import { RootObject, AssetType, Assets, Properties } from './stac-item-spec';
+import { RootObject, AssetType, Assets, Properties, Geometry } from './stac-item-spec';
 import { Context } from '../context/context';
 import cliProgress from 'cli-progress';
 
@@ -12,20 +12,14 @@ export class Transformer {
     private geoDIDid: string;
 
     stacItemMetadata: IStacItemMetadata;
-    geometry: IGeometry;
-    properties: IProperties;
     private assets: Assets;
 
     services: IServiceEndpoint[] = new Array(5);
     assetList: IAssetList[] = new Array(5);
 
-    constructor(private _stacjsonObj: any) {
+    constructor(private _stacjsonObj: RootObject) {
         this.assets = this._stacjsonObj.getAssets();
         this.createAssetList();
-
-        this.setGeometry();
-        this.setProperties();
-
         this.setStacItemMetadata();
     }
 
@@ -53,24 +47,6 @@ export class Transformer {
         return this.geoDIDid;
     }
 
-    // setter for the Geometry
-    async setGeometry() {
-        this.geometry = await this.getGeometry();
-    }
-
-    async getGeometry(): Promise<IGeometry> {
-        return this.geometry;
-    }
-
-    // setter for the Properties
-    async setProperties() {
-        this.properties = await this._stacjsonObj.getProperties();
-    }
-
-    async getProperties(): Promise<IProperties> {
-        return this.properties;
-    }
-
     // setter for the Assets
     async setService(index: number) {
         this.services[index] = {
@@ -92,14 +68,14 @@ export class Transformer {
     // setter for the StacItemMetadata
     async setStacItemMetadata() {
         this.stacItemMetadata = {
-            stac_version: await this._stacjsonObj.getStacVersion(),
-            stac_extensions: await this._stacjsonObj.getStacExtensions(),
-            type: await this._stacjsonObj.getType(),
-            id: await this._stacjsonObj.getId(),
-            bbox: await this._stacjsonObj.getBbox(),
-            geometry: await this.getGeometry(),
-            collection: await this._stacjsonObj.getCollection(),
-            properties: await this.getProperties(),
+            stac_version: this._stacjsonObj.getStacVersion(),
+            stac_extensions: this._stacjsonObj.getStacExtensions(),
+            type: this._stacjsonObj.getType(),
+            id: this._stacjsonObj.getId(),
+            bbox: this._stacjsonObj.getBbox(),
+            geometry: this._stacjsonObj.getGeometry(),
+            collection: this._stacjsonObj.getCollection(),
+            properties: this._stacjsonObj.getProperties(),
         };
     }
 
@@ -117,39 +93,4 @@ export class Transformer {
             await this.setService(i);
         }
     }
-
-    /*
-    async pinDocumentAssets(){
-        console.log("Asset Pinning Progress: ")
-        const b1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic,);
-         
-        // initialize the bar - defining payload token "speed" with the default value "N/A"
-        b1.start(1000, 0, {
-            speed: "N/A"
-        });
-
-        for (let i = 0; i < this.assetList.length; i++){
-            try {
-                var blob = await fetchAsset(this.assetList[i].href)
-                b1.increment(100);
-                var buffer = await blob.arrayBuffer();
-                b1.increment(25);
-                let uint8 = new Uint8Array(buffer);
-
-                const cid = await this.powergate.getAssetCid(uint8)
-                b1.increment(25);
-                //console.log(cid)
-
-                await this.powergate.pin(cid)
-                b1.increment(35);
-                await this.setService(i, cid)
-                b1.increment(15);
-
-            }catch(err){
-                console.log(err)
-            }
-        }
-        b1.update(1000);
-        b1.stop();
-    }*/
 }

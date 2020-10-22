@@ -2,7 +2,7 @@ import bs58 from 'bs58';
 import web3 from 'web3';
 import { GeoDocument } from '../geo-document';
 import { ParsedDID, DIDResolver, DIDDocument } from 'did-resolver';
-import { IStacItemMetadata, IGeometry, IProperties, IServiceEndpoint, IAssetList } from '../geo-did-utils/geo-did-spec';
+import { IStacItemMetadata, IServiceEndpoint } from '../geo-did-utils/geo-did-spec';
 
 // contract address
 

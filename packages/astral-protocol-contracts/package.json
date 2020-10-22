@@ -43,5 +43,5 @@
     "@truffle/hdwallet-provider": "^1.1.1",
     "truffle": "^5.1.49"
   },
-  "gitHead": "f73decb2099049efca0ec2f6dd5ed4f498a9d12d"
+  "gitHead": "dbd6f0a45873127830c37b49dbe4e132ac18dfa2"
 }

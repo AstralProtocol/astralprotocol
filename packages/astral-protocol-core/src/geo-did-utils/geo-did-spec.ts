@@ -1,4 +1,5 @@
 import { ServiceEndpoint } from 'did-resolver';
+import { Geometry, Properties } from '../transformer/stac-item-spec';
 
 export interface IStacItemMetadata {
     stac_version: string;
@@ -6,19 +7,9 @@ export interface IStacItemMetadata {
     type: string;
     id: string;
     bbox: number[];
-    geometry: IGeometry;
+    geometry: Geometry;
     collection?: string;
-    properties: IProperties;
-}
-
-export interface IGeometry {
-    type: string;
-    coordinates: number[][][];
-}
-
-export interface IProperties {
-    datetime: string;
-    collection: string;
+    properties: Properties;
 }
 
 export interface IServiceEndpoint extends ServiceEndpoint {
