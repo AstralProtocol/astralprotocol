@@ -37,7 +37,7 @@ class AstralClient implements AstralAPI {
         const powergate = await Powergate.build();
 
         // create the Document with the assets (CIDS) and the stacmetadata (Document instance)
-        const document = await GeoDocument.build(stacjson, ethereumAddress, powergate);
+        const document = await GeoDocument.build(stacjson, id, ethereumAddress, powergate);
         console.log(document)
         // map the document
         await document.createGeoDIDDocument();

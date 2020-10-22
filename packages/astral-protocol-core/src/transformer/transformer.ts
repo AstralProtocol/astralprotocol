@@ -8,7 +8,7 @@ import { Context } from '../context/context';
 import cliProgress from 'cli-progress';
 
 export class Transformer {
-
+    private _stacjsonObj: RootObject
     private geoDIDid: string;
 
     stacItemMetadata: IStacItemMetadata;
@@ -17,15 +17,11 @@ export class Transformer {
     services: IServiceEndpoint[] = new Array(5);
     assetList: IAssetList[] = new Array(5);
 
-    constructor(private _stacjsonObj: RootObject) {
+    constructor(private jsonObj: Object) {
+        this._stacjsonObj = plainToClass(RootObject, jsonObj);
         this.assets = this._stacjsonObj.getAssets();
         this.createAssetList();
         this.setStacItemMetadata();
-    }
-
-    static async build(jsonObj: Object): Promise<any>{
-        const stacjsonObj = plainToClass(RootObject, jsonObj);
-        return new Transformer(stacjsonObj)
     }
 
     // TODO: Figure out a more effective way to create the AssetList
@@ -41,7 +37,7 @@ export class Transformer {
         return this.assetList;
     }
 
-    async getGeoDIDid(_id: string, _ethereumAddress: string): Promise<string> {
+    async getGeoDIDid(_id: string): Promise<string> {
         const geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(_id);
         this.geoDIDid = GeoDoctypeUtils.normalizeDocId(geoId);
         return this.geoDIDid;

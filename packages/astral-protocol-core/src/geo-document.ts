@@ -69,11 +69,11 @@ export class GeoDocument extends EventEmitter {
     console.log(this._service)
   }
 
-  static async build (stacjson:Object, ethereumAddress: string, powergate: Powergate): Promise<any> {
+  static async build (stacjson:Object, _id: any, ethereumAddress: string, powergate: Powergate): Promise<any> {
 
-    const transformer = await Transformer.build(stacjson)
+    const transformer = new Transformer(stacjson)
 
-    const normalizedGeoDidId = await transformer.getGeoDIDid(ethereumAddress)
+    const normalizedGeoDidId = await transformer.getGeoDIDid(_id)
       
     const stacmetadata = await transformer.getStacItemMetadata()
 
