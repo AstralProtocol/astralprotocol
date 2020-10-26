@@ -4,9 +4,9 @@
 [![Twitter](https://img.shields.io/twitter/follow/astraldao?style=social)](https://twitter.com/astraldao)
 
 # astral-protocol
-Monorepo containing the Typescript implementation of the Astral protocol.
+Monorepo containing the Typescript implementation of the Astral Protocol.
 
-## Project Status - `Localnet`
+## Project Status - `Ropsten testnet / Hosted Powergate`
 
 ## Project Structure
 
@@ -15,7 +15,9 @@ This repo is made up of several different packages.
 | Package | Current Version | Description |
 | -- | -- | -- |
 | @astralprotocol/astral-protocol-core | -- | Core Astral Protocol Implementation |
-| @astralprotocol/astral-protocol-contracts | -- | Astral Smart Contracts |
+| @astralprotocol/astral-protocol-contracts | -- | Astral Smart Contracts - GeoNFT Registry |
+| @astralprotocol/astral-protocol-subgraph | -- | Subgraph for astral-protocol-contracts |
+| @astralprotocol/stac-validator-js | -- | node validator for stac item files |
 
 ## Development
 
