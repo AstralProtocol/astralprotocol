@@ -34,6 +34,14 @@ contract SpatialAssets is Context, AccessControl, ERC1155 {
 
     }
 
+        /**
+     * @dev Registers a new user with the ability to mint.
+     */
+    function register() public virtual {
+        require(!hasRole(MINTER_ROLE, _msgSender()), "Must not have a minter role yet");
+        _setupRole(MINTER_ROLE, _msgSender());
+    }
+
     /**
      * @dev Creates `amount` new tokens for `to`, of token type `id`.
      *

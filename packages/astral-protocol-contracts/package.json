@@ -29,7 +29,7 @@
     "ganache": "ganache-cli -h 0.0.0.0 -p 8545 -d -b 3 -i 333",
     "truffle-build": "truffle compile -all",
     "truffle": "truffle compile --all && truffle migrate --network development --reset",
-    "truffle-ropsten": "truffle compile --all && truffle migrate --network ropsten --reset && cp -vr ./build/contracts/SpatialAssets.json ../astral-protocol-subgraph/src/abi",
+    "truffle-ropsten": "truffle compile --all && truffle migrate --network ropsten --reset && cp -vr ./build/contracts/SpatialAssets.json ../astral-protocol-subgraph/abis/SpatialAssets.json",
     "mythx": "truffle run verify",
     "slither": "slither .",
     "truffle-test": "truffle test",
