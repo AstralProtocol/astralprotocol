@@ -1,6 +1,6 @@
 {
   "name": "@astraldao/astral-protocol-core",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "description": "> TODO: description",
   "author": "AstralDAO <contact@astraldao.org>",
   "homepage": "https://github.com/astralDAO/astralprotocol#readme",
@@ -78,5 +78,5 @@
     "jest": "^26.4.2",
     "prettier": "^2.1.1"
   },
-  "gitHead": "53d9174e09d9e492f656b1b7631d4d3194b235f1"
+  "gitHead": "5b1362260e7486ace5ec32259395727ed1ee80a0"
 }

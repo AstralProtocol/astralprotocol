@@ -1,6 +1,6 @@
 {
   "name": "@astraldao/astral-protocol-contracts",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "> TODO: description",
   "author": "AstralDAO <contact@astraldao.org>",
   "homepage": "https://github.com/astralDAO/astralprotocol#readme",
@@ -43,5 +43,5 @@
     "@truffle/hdwallet-provider": "^1.1.1",
     "truffle": "^5.1.49"
   },
-  "gitHead": "53d9174e09d9e492f656b1b7631d4d3194b235f1"
+  "gitHead": "5b1362260e7486ace5ec32259395727ed1ee80a0"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@astraldao/astral-protocol-subgraph",
-  "version": "0.0.37",
+  "version": "0.0.38",
   "description": "> TODO: description",
   "author": "AstralDAO <contact@astraldao.org>",
   "homepage": "https://github.com/astralDAO/astralprotocol#readme",
@@ -27,7 +27,7 @@
     "graph-node": "sudo rm -rf graph-node/docker/data/postgres && docker-compose -f graph-node/docker/docker-compose.yml up",
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ vaultlabs/stac-spec-skydb --access-token 27a692ddd89d40288c26b15a4d750f16",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ vaultlabs/skydb-bounty-geo-browser --access-token 27a692ddd89d40288c26b15a4d750f16",
     "create-local": "graph create --node http://localhost:8020/ astraldao/spatial-assets-nfts",
     "remove-local": "graph remove --node http://localhost:8020/ astraldao/spatial-assets-nfts",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 astraldao/spatial-assets-nfts",
@@ -41,5 +41,5 @@
     "@graphprotocol/graph-cli": "^0.18.0",
     "@graphprotocol/graph-ts": "^0.18.1"
   },
-  "gitHead": "53d9174e09d9e492f656b1b7631d4d3194b235f1"
+  "gitHead": "5b1362260e7486ace5ec32259395727ed1ee80a0"
 }
