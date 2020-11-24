@@ -18,7 +18,7 @@
     "directory": "packages/stac-validator-js"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://registry.npmjs.org"
   },
   "scripts": {
     "tsc": "tsc",
@@ -35,6 +35,5 @@
     "@apidevtools/json-schema-ref-parser": "^9.0.1",
     "ajv": "^6.12.2",
     "compare-versions": "^3.6.0"
-  },
-  "gitHead": "b0d5766c75a032d70ba179d727a07ac6a3a2f466"
+  }
 }

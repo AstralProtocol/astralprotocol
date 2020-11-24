@@ -20,7 +20,7 @@
     "directory": "packages/astral-protocol-contracts"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://registry.npmjs.org"
   },
   "scripts": {
     "tsc": "tsc",
@@ -42,6 +42,5 @@
     "@openzeppelin/contracts": "^3.2.0",
     "@truffle/hdwallet-provider": "^1.1.1",
     "truffle": "^5.1.49"
-  },
-  "gitHead": "5b1362260e7486ace5ec32259395727ed1ee80a0"
+  }
 }

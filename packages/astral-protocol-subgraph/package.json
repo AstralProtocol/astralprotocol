@@ -19,7 +19,7 @@
     "directory": "packages/astral-protocol-subgraph"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://registry.npmjs.org"
   },
   "scripts": {
     "tsc": "tsc",
@@ -40,6 +40,5 @@
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.18.0",
     "@graphprotocol/graph-ts": "^0.18.1"
-  },
-  "gitHead": "0c37ca04dc9535902de9decead58e6706f82d19c"
+  }
 }
