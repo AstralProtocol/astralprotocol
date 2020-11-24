@@ -35,5 +35,6 @@
     "@apidevtools/json-schema-ref-parser": "^9.0.1",
     "ajv": "^6.12.2",
     "compare-versions": "^3.6.0"
-  }
+  },
+  "gitHead": "e4a55ebe43be0222768782363178372ae225a7be"
 }

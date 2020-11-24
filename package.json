@@ -1,6 +1,5 @@
 {
   "name": "astraldao",
-  "private": true,
   "workspaces": {
     "packages": [
       "packages/*"

@@ -42,5 +42,6 @@
     "@openzeppelin/contracts": "^3.2.0",
     "@truffle/hdwallet-provider": "^1.1.1",
     "truffle": "^5.1.49"
-  }
+  },
+  "gitHead": "e4a55ebe43be0222768782363178372ae225a7be"
 }
