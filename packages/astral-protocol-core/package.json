@@ -20,7 +20,8 @@
         "directory": "packages/astral-protocol-core"
     },
     "publishConfig": {
-        "registry": "https://registry.npmjs.org"
+        "registry": "https://registry.npmjs.org",
+        "access": "public"
     },
     "scripts": {
         "tsc": "tsc",
@@ -78,5 +79,5 @@
         "jest": "^26.4.2",
         "prettier": "^2.1.1"
     },
-    "gitHead": "e4a55ebe43be0222768782363178372ae225a7be"
+    "gitHead": "32e8c89f389bf4b46ff97965990dded2645046ef"
 }

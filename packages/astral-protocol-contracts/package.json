@@ -36,12 +36,13 @@
     "coverage": "truffle run coverage"
   },
   "bugs": {
-    "url": "https://github.com/astralDAO/astralprotocol/issues"
+    "url": "https://github.com/astralDAO/astralprotocol/issues",
+    "access": "public"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^3.2.0",
     "@truffle/hdwallet-provider": "^1.1.1",
     "truffle": "^5.1.49"
   },
-  "gitHead": "e4a55ebe43be0222768782363178372ae225a7be"
+  "gitHead": "32e8c89f389bf4b46ff97965990dded2645046ef"
 }
