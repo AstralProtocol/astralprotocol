@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.34](https://github.com/astralDAO/astralprotocol/compare/@astraldao/astral-protocol-contracts@0.0.33...@astraldao/astral-protocol-contracts@0.0.34) (2020-11-24)
+
+**Note:** Version bump only for package @astraldao/astral-protocol-contracts
+
+
+
+
+
 ## [0.0.33](https://github.com/astralDAO/astralprotocol/compare/@astraldao/astral-protocol-contracts@0.0.32...@astraldao/astral-protocol-contracts@0.0.33) (2020-11-24)
 
 **Note:** Version bump only for package @astraldao/astral-protocol-contracts
