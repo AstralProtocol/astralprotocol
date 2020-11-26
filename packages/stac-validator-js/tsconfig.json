@@ -5,6 +5,5 @@
     "rootDir": "./src",
     "composite": true,
     "strictNullChecks": false
-  },
-  "include": ["./src/**/*"]
+  }
 }
