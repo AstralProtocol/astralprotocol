@@ -7,7 +7,7 @@
   "license": "ISC",
   "main": "src/stac-validator.js",
   "directories": {
-    "lib": "src"
+    "lib": "lib"
   },
   "files": [
     "src"
