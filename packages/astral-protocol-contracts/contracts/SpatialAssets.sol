@@ -3,89 +3,127 @@ pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/GSN/Context.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
 /**
- * @dev {ERC1155} token, including:
- *
- *  - ability for holders to burn (destroy) their tokens
- *  - a minter role that allows for token minting (creation)
- *
+ * @dev {SpatialAssets} registry
  * This contract uses {AccessControl} to lock permissioned functions using the
  * different roles - head to its documentation for details.
  *
- * The account that deploys the contract will be granted the minter as well as the default admin role, which will let it grant
- * minter roles to other accounts
+ * The account that deploys the contract will be granted the 'DATA_SUPPLIER' as well as the default admin role, which will let it grant
+ * 'DATA_SUPPLIER' roles to other accounts
  */
-contract SpatialAssets is Context, AccessControl, ERC1155 {
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-
-    // Mapping from id to active status
-    mapping (uint256 => bool) private _activeIds;
+contract SpatialAssets is Context, AccessControl {
+    /**
+     * @dev Emitted when Spatial Assets of id `id` are transferred to `to``.
+     */
+    event SpatialAssetRegistered(address indexed to, uint256 indexed id, bytes32 offChainStorage);
 
     /**
-     * @dev Grants `DEFAULT_ADMIN_ROLE`, `MINTER_ROLE` to the account that
+     * @dev Emitted when Spatial Assets of id `id` are deactivated.
+     */
+    event SpatialAssetDeactivated(uint256 indexed id);
+
+
+    bytes32 public constant DATA_SUPPLIER = keccak256("DATA_SUPPLIER");
+
+    string private _uri;
+
+    // Mapping from token ID to registrant
+    mapping (uint256 => address) private _owners;
+
+    // Mapping from id to spatial asset external storage
+    mapping (uint256 => bytes32) private _externalStorage;
+
+    // Allowed external storages signatures
+    mapping (bytes32 => bool) private _allowedStorages;
+
+
+    /**
+     * @dev Grants `DEFAULT_ADMIN_ROLE`, `DATA_SUPPLIER` to the account that
      * deploys the contract.
      */
-    constructor() public ERC1155("did:geo:{id}") {
+    constructor(string memory uri) public {
+        _setURI(uri);
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        _setupRole(DATA_SUPPLIER, _msgSender());
 
-        _setupRole(MINTER_ROLE, _msgSender());
-
-    }
-
-        /**
-     * @dev Registers a new user with the ability to mint.
-     */
-    function register() public virtual {
-        require(!hasRole(MINTER_ROLE, _msgSender()), "Must not have a minter role yet");
-        _setupRole(MINTER_ROLE, _msgSender());
     }
 
     /**
-     * @dev Creates `amount` new tokens for `to`, of token type `id`.
-     *
-     * See {ERC1155-_mint}.
-     *
-     * Requirements:
-     *
-     * - the caller must have the `MINTER_ROLE`.
+     * @dev Registers a new user with the ability to register a spatial asset.
      */
-    function mint(address to, uint256 id, uint256 amount, bytes memory data) public virtual {
-        require(hasRole(MINTER_ROLE, _msgSender()), "SpatialAssets: must have minter role to mint");
-        require(_activeIds[id]==false, "Id exists, aborting");
-        _mint(to, id, amount, data);
-
-        _activeIds[id]=true;
+    function registerRole() public {
+        require(!hasRole(DATA_SUPPLIER, _msgSender()), "SpatialAssets: must not have a DATA_SUPPLIER role yet");
+        _setupRole(DATA_SUPPLIER, _msgSender());
     }
 
-     function burn(address account, uint256 id, uint256 value) public virtual {
+    /**
+     * @dev Registers a new user with the ability to register a spatial asset.
+     */
+    function enableStorage(bytes32 offChainStorage) public {
+        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "SpatialAssets: must have admin role to edit allowed offchain storages");
+        require(_allowedStorages[offChainStorage]== false, "SpatialAssets: storage must not be active yet");
+        _allowedStorages[offChainStorage] = true;
+    }
+
+    /**
+     * @dev Registers a new user with the ability to register a spatial asset.
+     */
+    function disableStorage(bytes32 offChainStorage) public {
+        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "SpatialAssets: must have admin role to edit allowed offchain storages");
+        _allowedStorages[offChainStorage] = false;
+    }
+
+
+    /**
+     * @dev Registers one spatial asset with external storage 'data' and assigns them to `account`.
+     *
+     * Emits a {SpatialAssetRegistered} event.
+     */
+    function registerSpatialAsset(address account, uint256 id, bytes32 offChainStorage) public {
+        require(hasRole(DATA_SUPPLIER, _msgSender()), "SpatialAssets: must have data supplier role to register");
+        require(account != address(0), "SpatialAssets: cannot register a spatial asset to the zero address");
+        require(allowedStorages(offChainStorage), "SpatialAssets: storage must be allowed");
+        _owners[id] = account;
+        _externalStorage[id] = offChainStorage;
+
+        emit SpatialAssetRegistered(account, id, offChainStorage);
+    }
+
+    /**
+     * @dev De-registers a spatial asset
+     */
+     function deactivateSpatialAsset(address account, uint256 id) public {
         require(
-            account == _msgSender() || isApprovedForAll(account, _msgSender()),
-            "ERC1155: caller is not owner nor approved"
+            account == _msgSender(),"SpatialAssets: caller is not owner nor approved"
         );
-        require(_activeIds[id]==false, "Id does not exist, aborting");
+        require(_owners[id] != address(0), "SpatialAssets: spatial Asset must be activated");
 
-        _burn(account, id, value);
-
-        _activeIds[id]=false;
+        _owners[id] = address(0);
+        _externalStorage[id] = "";
+        emit SpatialAssetDeactivated(id);
     }
   
-
-    function _beforeTokenTransfer(
-        address operator,
-        address from,
-        address to,
-        uint256[] memory ids,
-        uint256[] memory amounts,
-        bytes memory data
-    )
-        internal virtual override(ERC1155)
-    {
-        super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
+    /**
+     * @dev Sets a new URI for all the spatial asset types
+     */
+    function _setURI(string memory newuri) internal {
+        _uri = newuri;
     }
 
-    function idStatus(uint256 id) public view returns (bool) {
-        return _activeIds[id];
+    function idToOwner(uint256 id) public view returns (address) {
+        return _owners[id];
+    }
+
+    function idToExternalStorage(uint256 id) public view returns (bytes32) {
+        return _externalStorage[id];
+    }
+
+    function allowedStorages(bytes32 offChainStorage) public view returns (bool) {
+        return _allowedStorages[offChainStorage];
+    }
+
+    function uri() public view returns (string memory) {
+        return _uri;
     }
 }
