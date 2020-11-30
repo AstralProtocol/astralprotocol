@@ -51,12 +51,12 @@ export class SpatialAsset extends Entity {
     this.set("owner", Value.fromString(value));
   }
 
-  get active(): boolean {
-    let value = this.get("active");
-    return value.toBoolean();
+  get storage(): string {
+    let value = this.get("storage");
+    return value.toString();
   }
 
-  set active(value: boolean) {
-    this.set("active", Value.fromBoolean(value));
+  set storage(value: string) {
+    this.set("storage", Value.fromString(value));
   }
 }

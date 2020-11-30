@@ -6,7 +6,7 @@ dataSources:
     name: SpatialAssets
     network: ropsten
     source:
-      address: "0xA589E35Dad794D194E4828887e085a798ca65020"
+      address: "0xCa49615207f86496ea62D6e02231cE6295335E11"
       abi: SpatialAssets
     mapping:
       kind: ethereum/events
@@ -18,6 +18,8 @@ dataSources:
         - name: SpatialAssets
           file: ./abis/SpatialAssets.json
       eventHandlers:
-        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
-          handler: handleTransferSingle
+        - event: SpatialAssetRegistered(indexed address,indexed uint256,bytes32)
+          handler: handleSpatialAssetRegistered
+        - event: SpatialAssetDeactivated(indexed uint256)
+          handler: handleSpatialAssetRegistered
       file: ./src/mapping.ts

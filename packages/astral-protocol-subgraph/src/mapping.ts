@@ -1,18 +1,28 @@
-import { TransferSingle } from "../generated/SpatialAssets/SpatialAssets";
+import {
+  SpatialAssetRegistered,
+  SpatialAssetDeactivated,
+} from "../generated/SpatialAssets/SpatialAssets";
 import { SpatialAsset } from "../generated/schema";
 
-export function handleTransferSingle(event: TransferSingle): void {
+export function handleSpatialAssetRegistered(
+  event: SpatialAssetRegistered
+): void {
   let spatialAsset = new SpatialAsset(event.params.id.toString());
-  let from = event.params.from.toHexString();
   let to = event.params.to.toHexString();
-  const address0 = "0x0000000000000000000000000000000000000000";
 
-  spatialAsset.active = true;
   spatialAsset.owner = to;
+  spatialAsset.storage = event.params.offChainStorage.toHex();
+  );
 
-  if (from != address0 && to == address0) {
-    spatialAsset.active = false;
-  }
+  spatialAsset.save();
+}
+
+export function handleSpatialAssetDeactivated(
+  event: SpatialAssetDeactivated
+): void {
+  let spatialAsset = SpatialAsset.load(event.params.id.toString());
+  spatialAsset.owner = "";
+  spatialAsset.storage = "";
 
   spatialAsset.save();
 }
