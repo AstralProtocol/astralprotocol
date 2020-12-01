@@ -12,7 +12,6 @@ export function handleSpatialAssetRegistered(
 
   spatialAsset.owner = to;
   spatialAsset.storage = event.params.offChainStorage.toHex();
-  );
 
   spatialAsset.save();
 }

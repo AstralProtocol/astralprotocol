@@ -137,4 +137,4 @@ build
 
 .mnemonic
 .provider
-.graphauth
+.token
