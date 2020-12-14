@@ -80,25 +80,22 @@ contract SpatialAssets is Context, AccessControl {
      *
      * Emits a {SpatialAssetRegistered} event.
      */
-    function registerSpatialAsset(address account, uint256 id, bytes32 offChainStorage) public {
+    function registerSpatialAsset(address owner, uint256 id, bytes32 offChainStorage) public {
         require(hasRole(DATA_SUPPLIER, _msgSender()), "SpatialAssets: must have data supplier role to register");
-        require(account != address(0), "SpatialAssets: cannot register a spatial asset to the zero address");
         require(allowedStorages(offChainStorage), "SpatialAssets: storage must be allowed");
-        _owners[id] = account;
+        _owners[id] = owner;
         _externalStorage[id] = offChainStorage;
 
-        emit SpatialAssetRegistered(account, id, offChainStorage);
+        emit SpatialAssetRegistered(owner, id, offChainStorage);
     }
 
     /**
      * @dev De-registers a spatial asset
      */
-     function deactivateSpatialAsset(address account, uint256 id) public {
+     function deactivateSpatialAsset(uint256 id) public {
         require(
-            account == _msgSender(),"SpatialAssets: caller is not owner nor approved"
+            _owners[id] == _msgSender(),"SpatialAssets: caller is not owner of the Spatial Asset"
         );
-        require(_owners[id] != address(0), "SpatialAssets: spatial Asset must be activated");
-
         _owners[id] = address(0);
         _externalStorage[id] = "";
         emit SpatialAssetDeactivated(id);
