@@ -1,4 +1,5 @@
 # `astral-protocol-contracts`
+[![Build Status](https://travis-ci.com/astralDAO/astralprotocol.svg?branch=master)](https://travis-ci.com/astralDAO/astralprotocol)
 
 ## Usage
 
