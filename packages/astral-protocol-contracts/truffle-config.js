@@ -1,14 +1,9 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-const fs = require("fs");
-const mnemonic = fs
-  .readFileSync(".mnemonic")
-  .toString()
-  .trim();
+require('dotenv').config();
 
-const ropstenURL = fs
-  .readFileSync(".provider")
-  .toString()
-  .trim();
+let mnemonic = process.env.MNEMONIC
+let ropstenURL = process.env.ROPSTEN_API_KEY
+
 
 let provider = new HDWalletProvider({
   mnemonic: {
