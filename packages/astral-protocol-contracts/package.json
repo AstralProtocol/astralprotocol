@@ -33,7 +33,7 @@
     "mythx": "truffle run verify",
     "slither": "slither .",
     "truffle-test": "truffle test",
-    "coverage": "truffle run coverage"
+    "coverage": "truffle run coverage --solcoverjs ./.solcover.js"
   },
   "bugs": {
     "url": "https://github.com/astralDAO/astralprotocol/issues",
@@ -42,6 +42,8 @@
   "dependencies": {
     "@openzeppelin/contracts": "^3.2.0",
     "@truffle/hdwallet-provider": "^1.1.1",
+    "coveralls": "^3.1.0",
+    "solidity-coverage": "^0.7.13",
     "truffle": "^5.1.49"
   },
   "gitHead": "32e8c89f389bf4b46ff97965990dded2645046ef"
