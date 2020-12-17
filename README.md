@@ -4,7 +4,7 @@
 
 # astral-protocol
 
-Monorepo containing the Typescript implementation of the Astral Protocol.
+Monorepo containing the implementation of the Astral Protocol.
 
 ## Project Status - `Ropsten testnet / Hosted Powergate`
 
