@@ -83,6 +83,7 @@ contract SpatialAssets is Context, AccessControl {
     function registerSpatialAsset(address owner, uint256 id, bytes32 offChainStorage) public {
         require(hasRole(DATA_SUPPLIER, _msgSender()), "SpatialAssets: must have data supplier role to register");
         require(allowedStorages(offChainStorage), "SpatialAssets: storage must be allowed");
+        require(_owners[id] == address(0), "SpatialAssets: id must not have an owner yet");
         _owners[id] = owner;
         _externalStorage[id] = offChainStorage;
 

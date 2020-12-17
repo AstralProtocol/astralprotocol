@@ -101,11 +101,22 @@ contract("SpatialAssets", async accounts => {
 
   it("Shouldn't register a spatial asset for a storage not yet allowed", async () => {
     try {
-        await spatialAssets.registerSpatialAsset(accounts[2], 3, web3.utils.asciiToHex('SKYDB'), {from: accounts[1]});
+        await spatialAssets.registerSpatialAsset(accounts[1], 3, web3.utils.asciiToHex('SKYDB'), {from: accounts[1]});
     
         assert(false);
     } catch (err) {
         assert(err.message.includes("SpatialAssets: storage must be allowed"));
+    }
+  });
+
+  
+  it("Shouldn't register a spatial asset with the same id", async () => {
+    try {
+        await spatialAssets.registerSpatialAsset(accounts[1], 1, web3.utils.asciiToHex(testStorage), {from: accounts[1]});
+    
+        assert(false);
+    } catch (err) {
+        assert(err.message.includes("SpatialAssets: id must not have an owner yet"));
     }
   });
 
