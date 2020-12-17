@@ -12,12 +12,12 @@ Monorepo containing the implementation of the Astral Protocol.
 
 This repo is made up of several different packages.
 
-| Package                                   | Current Version | CI  | Description                              |
-| ----------------------------------------- | --------------- | --- | ---------------------------------------- |
-| @astralprotocol/astral-protocol-core      | --              | --  | Core Astral Protocol Implementation      |
-| @astralprotocol/astral-protocol-contracts | --              | --  | Astral Smart Contracts - GeoDID Registry |
-| @astralprotocol/astral-protocol-subgraph  | --              | --  | Subgraph for astral-protocol-contracts   |
-| @astralprotocol/stac-validator-js         | --              | --  | Node validator for stac item files       |
+| Package                                   | Current Version | CI                                                                                                                                                                                                                                                                                                                       | Description                              |
+| ----------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- |
+| @astralprotocol/astral-protocol-core      | --              | --                                                                                                                                                                                                                                                                                                                       | Core Astral Protocol Implementation      |
+| @astralprotocol/astral-protocol-contracts | --              | [![Build Status](https://www.travis-ci.com/astralDAO/astralprotocol.svg?branch=master)](https://www.travis-ci.com/astralDAO/astralprotocol) [![Coverage Status](https://coveralls.io/repos/github/astralDAO/astralprotocol/badge.svg?branch=master)](https://coveralls.io/github/astralDAO/astralprotocol?branch=master) | Astral Smart Contracts - GeoDID Registry |
+| @astralprotocol/astral-protocol-subgraph  | --              | --                                                                                                                                                                                                                                                                                                                       | Subgraph for astral-protocol-contracts   |
+| @astralprotocol/stac-validator-js         | --              | --                                                                                                                                                                                                                                                                                                                       | Node validator for stac item files       |
 
 ## Development
 

@@ -1,6 +1,6 @@
 # `astral-protocol-contracts`
 
-[![Build Status](https://travis-ci.com/astralDAO/astralprotocol.svg?branch=master)](https://travis-ci.com/astralDAO/astralprotocol)
+[![Build Status](https://www.travis-ci.com/astralDAO/astralprotocol.svg?branch=master)](https://www.travis-ci.com/astralDAO/astralprotocol) [![Coverage Status](https://coveralls.io/repos/github/astralDAO/astralprotocol/badge.svg?branch=master)](https://coveralls.io/github/astralDAO/astralprotocol?branch=master)
 
 ## Usage
 
