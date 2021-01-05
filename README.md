@@ -1,4 +1,4 @@
-![Imgur](https://i.imgur.com/M5TRFYZ.png)
+![astralDAO](https://github.com/astralDAO/overview/blob/master/brand-identity/Transparent-Logo-Only-Astral.png?raw=true)
 [![Twitter](https://img.shields.io/twitter/follow/astralprotocol?style=social)](https://twitter.com/astralprotocol)
 
 # astral-protocol
