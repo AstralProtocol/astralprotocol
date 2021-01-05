@@ -1,5 +1,5 @@
 {
-  "name": "astraldao",
+  "name": "astralprotocol",
   "private": true,
   "workspaces": {
     "packages": [
@@ -7,7 +7,7 @@
     ]
   },
   "scripts": {
-    "contracts-coverage": "yarn workspace @astraldao/astral-protocol-contracts coverage && cat coverage/lcov.info | coveralls",
+    "contracts-coverage": "yarn workspace @astralprotocol/contracts coverage && cat coverage/lcov.info | coveralls",
     "test": "lerna run test",
     "build": "lerna run build",
     "publish:force": "lerna publish --force-publish",
@@ -18,7 +18,7 @@
     "publish:latest": "lerna run tsc && lerna publish --allow-branch master --conventional-graduate --create-release github",
     "lint": "lerna run lint",
     "clean": "rm -rf ./lib",
-    "lerna-add": "lerna add @astraldao/astral-protocol-contracts --scope=@astraldao/astral-protocol-subgraph"
+    "lerna-add": "lerna add @astralprotocol/contracts --scope=@astralprotocol/subgraph"
   },
   "dependencies": {
     "lerna": "^3.20.2",

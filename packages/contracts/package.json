@@ -1,9 +1,9 @@
 {
-  "name": "@astraldao/astral-protocol-contracts",
+  "name": "@astralprotocol/contracts",
   "version": "0.0.37",
   "description": "> TODO: description",
-  "author": "AstralDAO <contact@astraldao.org>",
-  "homepage": "https://github.com/astralDAO/astralprotocol#readme",
+  "author": "Astral <contact@astral.global>",
+  "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
   "license": "ISC",
   "main": "truffle-config.js",
   "directories": {
@@ -16,8 +16,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/astralDAO/astralprotocol.git",
-    "directory": "packages/astral-protocol-contracts"
+    "url": "git+https://github.com/AstralProtocol/astralprotocol.git",
+    "directory": "packages/contracts"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -29,14 +29,14 @@
     "ganache": "ganache-cli -h 0.0.0.0 -p 8545 -d -b 3 -i 333",
     "truffle-build": "truffle compile -all",
     "truffle": "truffle compile --all && truffle migrate --network development --reset",
-    "truffle-ropsten": "truffle compile --all && truffle migrate --network ropsten --reset && cp -vr ./build/contracts/SpatialAssets.json ../astral-protocol-subgraph/abis/SpatialAssets.json",
+    "truffle-ropsten": "truffle compile --all && truffle migrate --network ropsten --reset && cp -vr ./build/contracts/SpatialAssets.json ../subgraph/abis/SpatialAssets.json",
     "mythx": "truffle run verify",
     "slither": "slither .",
     "truffle-test": "truffle test",
     "coverage": "truffle run coverage --solcoverjs ./.solcover.js --network development"
   },
   "bugs": {
-    "url": "https://github.com/astralDAO/astralprotocol/issues",
+    "url": "https://github.com/AstralProtocol/astralprotocol/issues",
     "access": "public"
   },
   "dependencies": {

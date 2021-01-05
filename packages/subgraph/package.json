@@ -1,9 +1,9 @@
 {
-  "name": "@astraldao/astral-protocol-subgraph",
+  "name": "@astralprotocol/subgraph",
   "version": "0.0.46",
   "description": "Subg",
-  "author": "AstralDAO <contact@astraldao.org>",
-  "homepage": "https://github.com/astralDAO/astralprotocol#readme",
+  "author": "Astral <contact@astral.global>",
+  "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
   "license": "ISC",
   "main": "lib/mapping.js",
   "directories": {
@@ -15,8 +15,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/astralDAO/astralprotocol.git",
-    "directory": "packages/astral-protocol-subgraph"
+    "url": "git+https://github.com/AstralProtocol/astralprotocol.git",
+    "directory": "packages/subgraph"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
@@ -34,7 +34,7 @@
     "clean": "rm -rf ./lib ./tsconfig.tsbuildinfo"
   },
   "bugs": {
-    "url": "https://github.com/astralDAO/astralprotocol/issues"
+    "url": "https://github.com/AstralProtocol/astralprotocol/issues"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.19.0",

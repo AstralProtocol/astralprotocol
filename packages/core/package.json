@@ -1,9 +1,9 @@
 {
-    "name": "@astraldao/astral-protocol-core",
+    "name": "@astralprotocol/core",
     "version": "0.0.39",
     "description": "> TODO: description",
-    "author": "AstralDAO <contact@astraldao.org>",
-    "homepage": "https://github.com/astralDAO/astralprotocol#readme",
+    "author": "Astral <contact@astral.global>",
+    "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
     "license": "ISC",
     "main": "lib/astral-client.js",
     "typings": "lib/astral-client.d.ts",
@@ -16,8 +16,8 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/astralDAO/astralprotocol.git",
-        "directory": "packages/astral-protocol-core"
+        "url": "git+https://github.com/AstralProtocol/astralprotocol.git",
+        "directory": "packages/core"
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org",
@@ -33,7 +33,7 @@
         "clean": "rm -rf ./lib ./tsconfig.tsbuildinfo"
     },
     "bugs": {
-        "url": "https://github.com/astralDAO/astralprotocol/issues"
+        "url": "https://github.com/AstralProtocol/astralprotocol/issues"
     },
     "dependencies": {
         "@textile/powergate-client": "^2.0.1",
