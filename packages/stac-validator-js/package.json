@@ -1,6 +1,6 @@
 {
   "name": "@astralprotocol/stac-validator-js",
-  "version": "0.0.30",
+  "version": "0.0.0",
   "description": "> TODO: description",
   "author": "Astral <contact@astral.global>",
   "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
@@ -36,6 +36,5 @@
     "@apidevtools/json-schema-ref-parser": "^9.0.1",
     "ajv": "^6.12.2",
     "compare-versions": "^3.6.0"
-  },
-  "gitHead": "17050794f0da01c80660079baea07ccbf7dfbc10"
+  }
 }

@@ -1,6 +1,6 @@
 {
     "name": "@astralprotocol/core",
-    "version": "0.0.39",
+    "version": "0.0.0",
     "description": "> TODO: description",
     "author": "Astral <contact@astral.global>",
     "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
@@ -78,6 +78,5 @@
         "eslint-plugin-prettier": "^3.1.4",
         "jest": "^26.4.2",
         "prettier": "^2.1.1"
-    },
-    "gitHead": "32e8c89f389bf4b46ff97965990dded2645046ef"
+    }
 }

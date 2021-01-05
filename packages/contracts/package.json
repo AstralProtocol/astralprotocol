@@ -1,6 +1,6 @@
 {
   "name": "@astralprotocol/contracts",
-  "version": "0.0.37",
+  "version": "0.0.0",
   "description": "> TODO: description",
   "author": "Astral <contact@astral.global>",
   "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
@@ -46,6 +46,5 @@
     "dotenv": "^8.2.0",
     "solidity-coverage": "^0.7.13",
     "truffle": "^5.1.49"
-  },
-  "gitHead": "32e8c89f389bf4b46ff97965990dded2645046ef"
+  }
 }

@@ -1,6 +1,6 @@
 {
   "name": "astralprotocol",
-  "private": false,
+  "private": true,
   "workspaces": {
     "packages": [
       "packages/*"
@@ -25,6 +25,5 @@
     "ts-node": "^9.0.0",
     "typedoc": "^0.19.2",
     "typescript": "^3.8.3"
-  },
-  "version": "0.0.0"
+  }
 }
