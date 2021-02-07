@@ -1,0 +1,21 @@
+{
+  spatialAssets {
+    id
+    storage
+    parents {
+      id
+      owner
+    }
+  }
+  nodes {
+    id
+    owner
+    spatialAsset {
+      id
+      storage
+      parents {
+        id
+      }
+    }
+  }
+}

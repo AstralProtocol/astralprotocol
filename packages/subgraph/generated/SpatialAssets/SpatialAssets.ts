@@ -10,6 +10,94 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class ChildrenAdded extends ethereum.Event {
+  get params(): ChildrenAdded__Params {
+    return new ChildrenAdded__Params(this);
+  }
+}
+
+export class ChildrenAdded__Params {
+  _event: ChildrenAdded;
+
+  constructor(event: ChildrenAdded) {
+    this._event = event;
+  }
+
+  get cid(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get childrenGeoDIDId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class ChildrenRemoved extends ethereum.Event {
+  get params(): ChildrenRemoved__Params {
+    return new ChildrenRemoved__Params(this);
+  }
+}
+
+export class ChildrenRemoved__Params {
+  _event: ChildrenRemoved;
+
+  constructor(event: ChildrenRemoved) {
+    this._event = event;
+  }
+
+  get cid(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get childrenGeoDIDId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class ParentAdded extends ethereum.Event {
+  get params(): ParentAdded__Params {
+    return new ParentAdded__Params(this);
+  }
+}
+
+export class ParentAdded__Params {
+  _event: ParentAdded;
+
+  constructor(event: ParentAdded) {
+    this._event = event;
+  }
+
+  get cid(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get parentGeoDIDId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class ParentRemoved extends ethereum.Event {
+  get params(): ParentRemoved__Params {
+    return new ParentRemoved__Params(this);
+  }
+}
+
+export class ParentRemoved__Params {
+  _event: ParentRemoved;
+
+  constructor(event: ParentRemoved) {
+    this._event = event;
+  }
+
+  get cid(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get parentGeoDIDId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
 export class RoleAdminChanged extends ethereum.Event {
   get params(): RoleAdminChanged__Params {
     return new RoleAdminChanged__Params(this);
@@ -123,12 +211,16 @@ export class SpatialAssetRegistered__Params {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get id(): BigInt {
+  get geoDIDId(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
 
+  get cid(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
   get offChainStorage(): Bytes {
-    return this._event.parameters[2].value.toBytes();
+    return this._event.parameters[3].value.toBytes();
   }
 }
 
@@ -589,16 +681,28 @@ export class RegisterSpatialAssetCall__Inputs {
     this._call = call;
   }
 
-  get account(): Address {
+  get owner(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get id(): BigInt {
+  get geoDIDId(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
 
+  get parentGeoDIDIds(): Array<BigInt> {
+    return this._call.inputValues[2].value.toBigIntArray();
+  }
+
+  get childrenGeoDIDIds(): Array<BigInt> {
+    return this._call.inputValues[3].value.toBigIntArray();
+  }
+
+  get cid(): BigInt {
+    return this._call.inputValues[4].value.toBigInt();
+  }
+
   get offChainStorage(): Bytes {
-    return this._call.inputValues[2].value.toBytes();
+    return this._call.inputValues[5].value.toBytes();
   }
 }
 
@@ -627,12 +731,8 @@ export class DeactivateSpatialAssetCall__Inputs {
     this._call = call;
   }
 
-  get account(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
   get id(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
+    return this._call.inputValues[0].value.toBigInt();
   }
 }
 

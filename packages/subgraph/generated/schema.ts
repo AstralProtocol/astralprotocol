@@ -42,6 +42,80 @@ export class SpatialAsset extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get storage(): Bytes {
+    let value = this.get("storage");
+    return value.toBytes();
+  }
+
+  set storage(value: Bytes) {
+    this.set("storage", Value.fromBytes(value));
+  }
+
+  get parents(): Array<string> | null {
+    let value = this.get("parents");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set parents(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("parents");
+    } else {
+      this.set("parents", Value.fromStringArray(value as Array<string>));
+    }
+  }
+
+  get children(): Array<string> | null {
+    let value = this.get("children");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set children(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("children");
+    } else {
+      this.set("children", Value.fromStringArray(value as Array<string>));
+    }
+  }
+}
+
+export class Node extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Node entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Node entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Node", id.toString(), this);
+  }
+
+  static load(id: string): Node | null {
+    return store.get("Node", id) as Node | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
   get owner(): string {
     let value = this.get("owner");
     return value.toString();
@@ -51,12 +125,12 @@ export class SpatialAsset extends Entity {
     this.set("owner", Value.fromString(value));
   }
 
-  get storage(): string {
-    let value = this.get("storage");
+  get spatialAsset(): string {
+    let value = this.get("spatialAsset");
     return value.toString();
   }
 
-  set storage(value: string) {
-    this.set("storage", Value.fromString(value));
+  set spatialAsset(value: string) {
+    this.set("spatialAsset", Value.fromString(value));
   }
 }

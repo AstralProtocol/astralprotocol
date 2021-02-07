@@ -16,21 +16,54 @@ contract SpatialAssets is Context, AccessControl {
     /**
      * @dev Emitted when Spatial Assets of id `id` are transferred to `to``.
      */
-    event SpatialAssetRegistered(address indexed to, uint256 indexed id, bytes32 offChainStorage);
+    event SpatialAssetRegistered(address indexed to, uint256 indexed geoDIDId, uint256 indexed cid, bytes32 offChainStorage);
 
     /**
      * @dev Emitted when Spatial Assets of id `id` are deactivated.
      */
     event SpatialAssetDeactivated(uint256 indexed id);
 
+    /**
+     * @dev Emitted when a parent geodid is added to a node
+     */
+    event ParentAdded(uint256 indexed cid, uint256 indexed parentGeoDIDId);
+
+    /**
+     * @dev Emitted when a children geodid is added to a node
+     */
+    event ChildrenAdded(uint256 indexed cid, uint256 indexed childrenGeoDIDId);
+
+    /**
+     * @dev Emitted when a parent geodid is removed from a node
+     */
+    event ParentRemoved(uint256 indexed cid, uint256 indexed parentGeoDIDId);
+
+    /**
+     * @dev Emitted when a children geodid is removed from a node
+     */
+    event ChildrenRemoved(uint256 indexed cid, uint256 indexed childrenGeoDIDId);
+
 
     bytes32 public constant DATA_SUPPLIER = keccak256("DATA_SUPPLIER");
 
     string private _uri;
 
-    // Mapping from token ID to registrant
+    // Mapping from GeodidID to registrant
     mapping (uint256 => address) private _owners;
+    
+    // Mapping from GeodidID to Cid
+    mapping (uint256 => uint256) private _cids;
+/*
+    // Mapping from GeiDID id to Cids (for versioning - implement methods to create/update and fetch?)
+    mapping (uint256 => uint256[]) private _cids;
 
+
+    function updateCids (uint256[] geoDidIdsToChange, uint256[] _cidsToChange) {
+        for (...){
+
+        }
+    }
+*/
     // Mapping from id to spatial asset external storage
     mapping (uint256 => bytes32) private _externalStorage;
 
@@ -80,14 +113,31 @@ contract SpatialAssets is Context, AccessControl {
      *
      * Emits a {SpatialAssetRegistered} event.
      */
-    function registerSpatialAsset(address owner, uint256 id, bytes32 offChainStorage) public {
+    function registerSpatialAsset(address owner, uint256 geoDIDId, uint256[] memory parentGeoDIDIds , uint256[] memory childrenGeoDIDIds, uint256 cid, bytes32 offChainStorage) public {
         require(hasRole(DATA_SUPPLIER, _msgSender()), "SpatialAssets: must have data supplier role to register");
         require(allowedStorages(offChainStorage), "SpatialAssets: storage must be allowed");
-        require(_owners[id] == address(0), "SpatialAssets: id must not have an owner yet");
-        _owners[id] = owner;
-        _externalStorage[id] = offChainStorage;
+        require(_owners[geoDIDId] == address(0), "SpatialAssets: id must not have an owner yet");
+        _cids[geoDIDId] =cid;
+        _owners[geoDIDId] = owner;
+        _externalStorage[geoDIDId] = offChainStorage;
 
-        emit SpatialAssetRegistered(owner, id, offChainStorage);
+        emit SpatialAssetRegistered(owner, geoDIDId, cid, offChainStorage);
+
+        uint256 parentsLen = parentGeoDIDIds.length;
+        uint256 childrensLen = childrenGeoDIDIds.length;
+
+        if (parentsLen > 0){
+            for(uint256 i=0; i < parentsLen; i++) {
+                emit ParentAdded(cid, parentGeoDIDIds[i]);
+            }
+        }
+        if (childrensLen > 0){
+            for(uint256 j=0; j < childrensLen; j++) {
+                emit ChildrenAdded(cid, childrenGeoDIDIds[j]);
+            }
+        }
+
+
     }
 
     /**

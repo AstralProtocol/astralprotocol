@@ -1,5 +1,14 @@
 type SpatialAsset @entity {
   id: ID!
-  owner: String!
+  "CID"
   storage: Bytes!
+  parents: [Node!]
+  children: [Node!]
+}
+
+type Node @entity {
+  id: ID!
+  "GeoDID-id"
+  owner: String!
+  spatialAsset: SpatialAsset!
 }
