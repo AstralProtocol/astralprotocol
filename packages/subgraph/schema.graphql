@@ -1,14 +1,18 @@
-type SpatialAsset @entity {
+type GeoDID @entity {
   id: ID!
-  "CID"
+  owner: String!
+  cid: String!
   storage: Bytes!
-  parents: [Node!]
-  children: [Node!]
+  root: Boolean!
+  parent: String
+  edges: [Edge!] @derivedFrom(field: "self")
+  active: Boolean!
+  type: String
 }
 
-type Node @entity {
+type Edge @entity {
   id: ID!
-  "GeoDID-id"
-  owner: String!
-  spatialAsset: SpatialAsset!
+  self: GeoDID!
+  childGeoDID: GeoDID!
+  active: Boolean!
 }

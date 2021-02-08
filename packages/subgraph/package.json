@@ -23,7 +23,6 @@
     "access": "public"
   },
   "scripts": {
-    "graph-node": "sudo rm -rf graph-node/docker/data/postgres && docker-compose -f graph-node/docker/docker-compose.yml up",
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ astraldao/spatial-registry-v02 --access-token .token",

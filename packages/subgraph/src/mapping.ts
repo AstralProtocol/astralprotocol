@@ -2,49 +2,155 @@ import {
   SpatialAssetRegistered,
   ParentAdded,
   ChildrenAdded,
+  ParentRemoved,
+  ChildrenRemoved,
+  SpatialAssetDeactivated,
 } from "../generated/SpatialAssets/SpatialAssets";
-import { SpatialAsset, Node } from "../generated/schema";
+import { GeoDID, Edge } from "../generated/schema";
 
 export function handleSpatialAssetRegistered(
   event: SpatialAssetRegistered
 ): void {
-  let node = new Node(event.params.geoDIDId.toString());
-  let spatialAsset = new SpatialAsset(event.params.cid.toString());
-  let to = event.params.to.toHexString();
+  let geoDID = new GeoDID(event.params.geoDIDId.toString());
 
-  node.owner = to;
-  node.spatialAsset = event.params.cid.toString();
-  node.save();
+  geoDID.owner = event.params.to.toHexString();
+  geoDID.cid = event.params.cid.toString();
+  geoDID.storage = event.params.offChainStorage;
+  geoDID.root = event.params.root;
+  geoDID.active = true;
+  geoDID.type = event.params.type;
 
-  spatialAsset.storage = event.params.offChainStorage;
-
-  spatialAsset.save();
+  geoDID.save();
 }
 
 export function handleParentAdded(event: ParentAdded): void {
-  let spatialAsset = SpatialAsset.load(event.params.cid.toString());
+  let edge = new Edge(
+    event.params.parentGeoDIDId.toString() +
+      "-" +
+      event.params.geoDIDId.toString()
+  );
 
-  let parents = spatialAsset.parents;
-  parents.push(event.params.parentGeoDIDId.toString());
-  spatialAsset.parents = parents;
-  spatialAsset.save();
+  edge.self = event.params.parentGeoDIDId.toString();
+  edge.childGeoDID = event.params.geoDIDId.toString();
+  edge.active = true;
+
+  edge.save();
+
+  let geoDID = GeoDID.load(event.params.geoDIDId.toString());
+
+  geoDID.parent = event.params.parentGeoDIDId.toString();
+
+  if (geoDID.root) {
+    geoDID.root = false;
+  }
+
+  geoDID.save();
 }
 
 export function handleChildrenAdded(event: ChildrenAdded): void {
-  let spatialAsset = SpatialAsset.load(event.params.cid.toString());
-  let childrenNode = Node.load(event.params.childrenGeoDIDId.toString());
-  spatialAsset.children.push(childrenNode.id);
-  spatialAsset.save();
+  let edge = new Edge(
+    event.params.geoDIDId.toString() +
+      "-" +
+      event.params.childrenGeoDIDId.toString()
+  );
+
+  edge.self = event.params.geoDIDId.toString();
+  edge.childGeoDID = event.params.childrenGeoDIDId.toString();
+  edge.active = true;
+
+  edge.save();
+
+  let geoDID = GeoDID.load(event.params.childrenGeoDIDId.toString());
+
+  geoDID.parent = event.params.geoDIDId.toString();
+
+  if (geoDID.root) {
+    geoDID.root = false;
+  }
+  geoDID.save();
 }
 
-/*
+export function handleParentRemoved(event: ParentRemoved): void {
+  let edge = Edge.load(
+    event.params.parentGeoDIDId.toString() +
+      "-" +
+      event.params.geoDIDId.toString()
+  );
+
+  edge.self = "";
+  edge.childGeoDID = "";
+  edge.active = false;
+
+  edge.save();
+
+  let geoDID = GeoDID.load(event.params.geoDIDId.toString());
+
+  geoDID.parent = "";
+
+  geoDID.root = true;
+
+  geoDID.save();
+}
+
+export function handleChildrenRemoved(event: ChildrenRemoved): void {
+  let edge = Edge.load(
+    event.params.geoDIDId.toString() +
+      "-" +
+      event.params.childrenGeoDIDId.toString()
+  );
+
+  edge.self = "";
+  edge.childGeoDID = "";
+  edge.active = false;
+
+  edge.save();
+
+  let geoDID = GeoDID.load(event.params.childrenGeoDIDId.toString());
+
+  geoDID.parent = "";
+
+  geoDID.root = true;
+
+  geoDID.save();
+}
+
 export function handleSpatialAssetDeactivated(
   event: SpatialAssetDeactivated
 ): void {
-  let spatialAsset = SpatialAsset.load(event.params.id.toString());
-  spatialAsset.owner = "";
-  spatialAsset.storage = 0x0;
+  let geoDID = GeoDID.load(event.params.geoDIDId.toString());
+  let edgeToParent = Edge.load(
+    geoDID.parent + "-" + event.params.geoDIDId.toString()
+  );
 
-  spatialAsset.save();
+  edgeToParent.self = "";
+  edgeToParent.active = false;
+  edgeToParent.save();
+
+  geoDID.owner = "";
+  geoDID.root = false;
+  geoDID.active = false;
+  geoDID.parent = "";
+
+  geoDID.save();
+
+  let childrenToRemove = event.params.childrenToRemove;
+  let childrenToRemoveLen = event.params.childrenToRemove.length;
+
+  for (let i = 0; i < childrenToRemoveLen; i++) {
+    let edgeToChildren = Edge.load(
+      event.params.geoDIDId.toString() + "-" + childrenToRemove[i].toString()
+    );
+
+    edgeToChildren.self = "";
+    edgeToChildren.active = false;
+    edgeToChildren.save();
+
+    let child = GeoDID.load(childrenToRemove[i].toString());
+
+    child.parent = "";
+
+    child.root = true;
+
+    child.save();
+  }
 }
-*/
