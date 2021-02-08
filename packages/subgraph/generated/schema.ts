@@ -121,21 +121,13 @@ export class GeoDID extends Entity {
     this.set("active", Value.fromBoolean(value));
   }
 
-  get type(): string | null {
+  get type(): string {
     let value = this.get("type");
-    if (value === null || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value.toString();
   }
 
-  set type(value: string | null) {
-    if (value === null) {
-      this.unset("type");
-    } else {
-      this.set("type", Value.fromString(value as string));
-    }
+  set type(value: string) {
+    this.set("type", Value.fromString(value));
   }
 }
 

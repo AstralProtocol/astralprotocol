@@ -7,7 +7,7 @@ type GeoDID @entity {
   parent: String
   edges: [Edge!] @derivedFrom(field: "self")
   active: Boolean!
-  type: String
+  type: String!
 }
 
 type Edge @entity {

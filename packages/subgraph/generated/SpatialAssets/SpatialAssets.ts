@@ -230,6 +230,10 @@ export class SpatialAssetRegistered__Params {
   get root(): boolean {
     return this._event.parameters[4].value.toBoolean();
   }
+
+  get geoDIDtype(): string {
+    return this._event.parameters[5].value.toString();
+  }
 }
 
 export class SpatialAssets extends ethereum.SmartContract {
@@ -711,6 +715,10 @@ export class RegisterSpatialAssetCall__Inputs {
 
   get offChainStorage(): Bytes {
     return this._call.inputValues[5].value.toBytes();
+  }
+
+  get geoDIDtype(): string {
+    return this._call.inputValues[6].value.toString();
   }
 }
 

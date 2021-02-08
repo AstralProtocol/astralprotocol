@@ -18,7 +18,7 @@ export function handleSpatialAssetRegistered(
   geoDID.storage = event.params.offChainStorage;
   geoDID.root = event.params.root;
   geoDID.active = true;
-  geoDID.type = event.params.type;
+  geoDID.type = event.params.geoDIDtype;
 
   geoDID.save();
 }

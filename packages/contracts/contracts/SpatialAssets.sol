@@ -16,7 +16,7 @@ contract SpatialAssets is Context, AccessControl {
     /**
      * @dev Emitted when Spatial Assets of id `id` are transferred to `to``.
      */
-    event SpatialAssetRegistered(address indexed to, uint256 indexed geoDIDId, uint256 indexed cid, bytes32 offChainStorage, bool root, string type);
+    event SpatialAssetRegistered(address indexed to, uint256 indexed geoDIDId, uint256 indexed cid, bytes32 offChainStorage, bool root, string geoDIDtype);
 
     /**
      * @dev Emitted when Spatial Assets of id `id` are deactivated.
@@ -115,7 +115,7 @@ contract SpatialAssets is Context, AccessControl {
      *
      * Emits a {SpatialAssetRegistered} event.
      */
-    function registerSpatialAsset(address owner, uint256 geoDIDId, uint256 parentGeoDIDId , uint256[] memory childrenGeoDIDIds, uint256 cid, string type, bytes32 offChainStorage) public {
+    function registerSpatialAsset(address owner, uint256 geoDIDId, uint256 parentGeoDIDId , uint256[] memory childrenGeoDIDIds, uint256 cid, bytes32 offChainStorage, string memory geoDIDtype) public {
         require(hasRole(DATA_SUPPLIER, _msgSender()), "SpatialAssets: must have data supplier role to register");
         require(allowedStorages(offChainStorage), "SpatialAssets: storage must be allowed");
         require(_owners[geoDIDId] == address(0), "SpatialAssets: id must not have an owner yet");
@@ -126,10 +126,10 @@ contract SpatialAssets is Context, AccessControl {
 
         if (parentGeoDIDId == 0) {
             _hasParent[geoDIDId] = false;
-        emit SpatialAssetRegistered(owner, geoDIDId, cid, offChainStorage, true, type);
+        emit SpatialAssetRegistered(owner, geoDIDId, cid, offChainStorage, true, geoDIDtype);
         } else {
             _hasParent[geoDIDId] = true;
-            emit SpatialAssetRegistered(owner, geoDIDId, cid, offChainStorage, false, type);
+            emit SpatialAssetRegistered(owner, geoDIDId, cid, offChainStorage, false, geoDIDtype);
             emit ParentAdded(geoDIDId, parentGeoDIDId);
         }
 
