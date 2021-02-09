@@ -269,6 +269,10 @@ contract SpatialAssets is Context, AccessControl {
         return _owners[id];
     }
 
+    function idToCid(uint256 id) public view returns (uint256) {
+        return _cids[id];
+    }
+
     function idToCanBeParent(uint256 id) public view returns (bool) {
         return _canBeParent[id];
     }

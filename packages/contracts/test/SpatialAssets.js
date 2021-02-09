@@ -140,6 +140,43 @@ it("Should register a spatial asset correctly of type 1 with a parent", async ()
 
 });
 
+
+
+it("Should register a spatial asset correctly of type 0 without parent with a chidren", async () => {
+  
+  await spatialAssets.registerSpatialAsset(accounts[1], 16, 0, [], 26, web3.utils.asciiToHex(testStorage), 1, {from: accounts[1]});
+
+  await spatialAssets.registerSpatialAsset(accounts[1], 17, 0, [16], 27, web3.utils.asciiToHex(testStorage), 0, {from: accounts[1]});
+
+  const owner = await spatialAssets.idToOwner(17);
+  const externalStorage = await spatialAssets.idToExternalStorage(17);
+  const canBeParent = await spatialAssets.idToCanBeParent(17);
+  const hasParent = await spatialAssets.idToHasParent(17);
+
+  assert.equal(owner, accounts[1], "Ownership not correctly assigned");
+  assert.equal(web3.utils.hexToAscii(externalStorage).replace(/\u0000/g, ''), testStorage, "External storage was not correctly assigned");
+  assert(canBeParent, "Is a parent");
+  assert(!hasParent, "Does not have parent");
+
+});
+
+it("Should register a spatial asset correctly of type 0 with a parent and with a children", async () => {
+await spatialAssets.registerSpatialAsset(accounts[1], 18, 0, [], 28, web3.utils.asciiToHex(testStorage), 0, {from: accounts[1]});
+await spatialAssets.registerSpatialAsset(accounts[1], 19, 0, [], 29, web3.utils.asciiToHex(testStorage), 1, {from: accounts[1]});
+await spatialAssets.registerSpatialAsset(accounts[1], 20, 18, [19], 30, web3.utils.asciiToHex(testStorage), 0, {from: accounts[1]});
+
+const owner = await spatialAssets.idToOwner(20);
+const externalStorage = await spatialAssets.idToExternalStorage(20);
+const canBeParent = await spatialAssets.idToCanBeParent(20);
+const hasParent = await spatialAssets.idToHasParent(20);
+
+assert.equal(owner, accounts[1], "Ownership not correctly assigned");
+assert.equal(web3.utils.hexToAscii(externalStorage).replace(/\u0000/g, ''), testStorage, "External storage was not correctly assigned");
+assert(canBeParent, "Is a parent parent");
+assert(hasParent, "Has a parent");
+
+});
+
   it("Shouldn't register a spatial asset for someone without the proper role", async () => {
     try {
         await spatialAssets.registerSpatialAsset(accounts[2], 2, 1, [], 11, web3.utils.asciiToHex(testStorage), 0, {from: accounts[2]});
@@ -372,8 +409,6 @@ it("Should register a spatial asset correctly of type 1 with a parent", async ()
 
 
 
-
-
   it("Shouldn't deactivate a Spatial Asset if not the right owner", async () => {
     try {
       await spatialAssets.deactivateSpatialAsset(1,[], {from: accounts[2]});
@@ -384,14 +419,34 @@ it("Should register a spatial asset correctly of type 1 with a parent", async ()
     }
   });
 
-  it("Should deactivate a spatial asset correctly", async () => {
+  it("Should deactivate a spatial asset with no children correctly", async () => {
     await spatialAssets.deactivateSpatialAsset(1, [], {from: accounts[1]});
 
     const owner = await spatialAssets.idToOwner(1);
     const externalStorage = await spatialAssets.idToExternalStorage(1);
+    const cid = await spatialAssets.idToCid(1);
+    const hasParent = await spatialAssets.idToHasParent(1);
 
     assert.equal(owner, '0x0000000000000000000000000000000000000000', "Id not burned");
     assert.equal(web3.utils.hexToAscii(externalStorage).replace(/\u0000/g, ''), '', "External storage not deleted");
+    assert.equal(cid, 0, "Cid not 0");
+    assert(!hasParent, "Has parent not null");
+
+  });
+
+  it("Should deactivate a spatial asset with children correctly", async () => {
+
+    await spatialAssets.deactivateSpatialAsset(14, [15], {from: accounts[1]});
+
+    const owner = await spatialAssets.idToOwner(14);
+    const externalStorage = await spatialAssets.idToExternalStorage(14);
+    const cid = await spatialAssets.idToCid(14);
+    const hasParent = await spatialAssets.idToHasParent(14);
+
+    assert.equal(owner, '0x0000000000000000000000000000000000000000', "Id not burned");
+    assert.equal(web3.utils.hexToAscii(externalStorage).replace(/\u0000/g, ''), '', "External storage not deleted");
+    assert.equal(cid, 0, "Cid not 0");
+    assert(!hasParent, "Has parent not null");
 
   });
 

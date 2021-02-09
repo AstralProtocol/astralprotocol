@@ -231,8 +231,8 @@ export class SpatialAssetRegistered__Params {
     return this._event.parameters[4].value.toBoolean();
   }
 
-  get geoDIDtype(): string {
-    return this._event.parameters[5].value.toString();
+  get canBeParent(): boolean {
+    return this._event.parameters[5].value.toBoolean();
   }
 }
 
@@ -394,6 +394,69 @@ export class SpatialAssets extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  idToCid(id: BigInt): BigInt {
+    let result = super.call("idToCid", "idToCid(uint256):(uint256)", [
+      ethereum.Value.fromUnsignedBigInt(id)
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_idToCid(id: BigInt): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("idToCid", "idToCid(uint256):(uint256)", [
+      ethereum.Value.fromUnsignedBigInt(id)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  idToCanBeParent(id: BigInt): boolean {
+    let result = super.call(
+      "idToCanBeParent",
+      "idToCanBeParent(uint256):(bool)",
+      [ethereum.Value.fromUnsignedBigInt(id)]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_idToCanBeParent(id: BigInt): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "idToCanBeParent",
+      "idToCanBeParent(uint256):(bool)",
+      [ethereum.Value.fromUnsignedBigInt(id)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  idToHasParent(id: BigInt): boolean {
+    let result = super.call("idToHasParent", "idToHasParent(uint256):(bool)", [
+      ethereum.Value.fromUnsignedBigInt(id)
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_idToHasParent(id: BigInt): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "idToHasParent",
+      "idToHasParent(uint256):(bool)",
+      [ethereum.Value.fromUnsignedBigInt(id)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   idToExternalStorage(id: BigInt): Bytes {
@@ -717,8 +780,8 @@ export class RegisterSpatialAssetCall__Inputs {
     return this._call.inputValues[5].value.toBytes();
   }
 
-  get geoDIDtype(): string {
-    return this._call.inputValues[6].value.toString();
+  get geoDIDtype(): BigInt {
+    return this._call.inputValues[6].value.toBigInt();
   }
 }
 
