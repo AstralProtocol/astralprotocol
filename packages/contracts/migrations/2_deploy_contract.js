@@ -9,4 +9,5 @@ module.exports = async function (deployer) {
     "Spatial Asset Registrar deployed at:",
     SpatialAssetsContract.address
   );
+
 };

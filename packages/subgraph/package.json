@@ -23,13 +23,12 @@
     "access": "public"
   },
   "scripts": {
-    "graph-node": "sudo rm -rf graph-node/docker/data/postgres && docker-compose -f graph-node/docker/docker-compose.yml up",
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ astraldao/spatial-registry-v02 --access-token .token",
-    "create-local": "graph create --node http://localhost:8020/ astraldao/spatial-assets-nfts",
-    "remove-local": "graph remove --node http://localhost:8020/ astraldao/spatial-assets-nfts",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 astraldao/spatial-assets-nfts",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ astralprotocol/spatialassets --access-token add-token-here",
+    "create-local": "graph create --node http://localhost:8020/ astralprotocol/spatialassets",
+    "remove-local": "graph remove --node http://localhost:8020/ astralprotocol/spatialassets",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 astralprotocol/spatialassets",
     "remove-subgraph": "graph remove astraldao/spatial-assets --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
     "clean": "rm -rf ./lib ./tsconfig.tsbuildinfo"
   },

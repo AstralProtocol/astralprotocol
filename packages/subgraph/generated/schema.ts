@@ -12,7 +12,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class SpatialAsset extends Entity {
+export class GeoDID extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -20,17 +20,17 @@ export class SpatialAsset extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save SpatialAsset entity without an ID");
+    assert(id !== null, "Cannot save GeoDID entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save SpatialAsset entity with non-string ID. " +
+      "Cannot save GeoDID entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("SpatialAsset", id.toString(), this);
+    store.set("GeoDID", id.toString(), this);
   }
 
-  static load(id: string): SpatialAsset | null {
-    return store.get("SpatialAsset", id) as SpatialAsset | null;
+  static load(id: string): GeoDID | null {
+    return store.get("GeoDID", id) as GeoDID | null;
   }
 
   get id(): string {
@@ -51,12 +51,140 @@ export class SpatialAsset extends Entity {
     this.set("owner", Value.fromString(value));
   }
 
-  get storage(): string {
-    let value = this.get("storage");
+  get cid(): string {
+    let value = this.get("cid");
     return value.toString();
   }
 
-  set storage(value: string) {
-    this.set("storage", Value.fromString(value));
+  set cid(value: string) {
+    this.set("cid", Value.fromString(value));
+  }
+
+  get storage(): Bytes {
+    let value = this.get("storage");
+    return value.toBytes();
+  }
+
+  set storage(value: Bytes) {
+    this.set("storage", Value.fromBytes(value));
+  }
+
+  get root(): boolean {
+    let value = this.get("root");
+    return value.toBoolean();
+  }
+
+  set root(value: boolean) {
+    this.set("root", Value.fromBoolean(value));
+  }
+
+  get parent(): string | null {
+    let value = this.get("parent");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set parent(value: string | null) {
+    if (value === null) {
+      this.unset("parent");
+    } else {
+      this.set("parent", Value.fromString(value as string));
+    }
+  }
+
+  get edges(): Array<string> | null {
+    let value = this.get("edges");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set edges(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("edges");
+    } else {
+      this.set("edges", Value.fromStringArray(value as Array<string>));
+    }
+  }
+
+  get active(): boolean {
+    let value = this.get("active");
+    return value.toBoolean();
+  }
+
+  set active(value: boolean) {
+    this.set("active", Value.fromBoolean(value));
+  }
+
+  get type(): string {
+    let value = this.get("type");
+    return value.toString();
+  }
+
+  set type(value: string) {
+    this.set("type", Value.fromString(value));
+  }
+}
+
+export class Edge extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Edge entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Edge entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Edge", id.toString(), this);
+  }
+
+  static load(id: string): Edge | null {
+    return store.get("Edge", id) as Edge | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get self(): string {
+    let value = this.get("self");
+    return value.toString();
+  }
+
+  set self(value: string) {
+    this.set("self", Value.fromString(value));
+  }
+
+  get childGeoDID(): string {
+    let value = this.get("childGeoDID");
+    return value.toString();
+  }
+
+  set childGeoDID(value: string) {
+    this.set("childGeoDID", Value.fromString(value));
+  }
+
+  get active(): boolean {
+    let value = this.get("active");
+    return value.toBoolean();
+  }
+
+  set active(value: boolean) {
+    this.set("active", Value.fromBoolean(value));
   }
 }

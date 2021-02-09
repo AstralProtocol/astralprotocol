@@ -10,6 +10,94 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class ChildrenAdded extends ethereum.Event {
+  get params(): ChildrenAdded__Params {
+    return new ChildrenAdded__Params(this);
+  }
+}
+
+export class ChildrenAdded__Params {
+  _event: ChildrenAdded;
+
+  constructor(event: ChildrenAdded) {
+    this._event = event;
+  }
+
+  get geoDIDId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get childrenGeoDIDId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class ChildrenRemoved extends ethereum.Event {
+  get params(): ChildrenRemoved__Params {
+    return new ChildrenRemoved__Params(this);
+  }
+}
+
+export class ChildrenRemoved__Params {
+  _event: ChildrenRemoved;
+
+  constructor(event: ChildrenRemoved) {
+    this._event = event;
+  }
+
+  get geoDIDId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get childrenGeoDIDId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class ParentAdded extends ethereum.Event {
+  get params(): ParentAdded__Params {
+    return new ParentAdded__Params(this);
+  }
+}
+
+export class ParentAdded__Params {
+  _event: ParentAdded;
+
+  constructor(event: ParentAdded) {
+    this._event = event;
+  }
+
+  get geoDIDId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get parentGeoDIDId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class ParentRemoved extends ethereum.Event {
+  get params(): ParentRemoved__Params {
+    return new ParentRemoved__Params(this);
+  }
+}
+
+export class ParentRemoved__Params {
+  _event: ParentRemoved;
+
+  constructor(event: ParentRemoved) {
+    this._event = event;
+  }
+
+  get geoDIDId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get parentGeoDIDId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
 export class RoleAdminChanged extends ethereum.Event {
   get params(): RoleAdminChanged__Params {
     return new RoleAdminChanged__Params(this);
@@ -101,8 +189,12 @@ export class SpatialAssetDeactivated__Params {
     this._event = event;
   }
 
-  get id(): BigInt {
+  get geoDIDId(): BigInt {
     return this._event.parameters[0].value.toBigInt();
+  }
+
+  get childrenToRemove(): Array<BigInt> {
+    return this._event.parameters[1].value.toBigIntArray();
   }
 }
 
@@ -123,12 +215,24 @@ export class SpatialAssetRegistered__Params {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get id(): BigInt {
+  get geoDIDId(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
 
+  get cid(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
   get offChainStorage(): Bytes {
-    return this._event.parameters[2].value.toBytes();
+    return this._event.parameters[3].value.toBytes();
+  }
+
+  get root(): boolean {
+    return this._event.parameters[4].value.toBoolean();
+  }
+
+  get canBeParent(): boolean {
+    return this._event.parameters[5].value.toBoolean();
   }
 }
 
@@ -290,6 +394,69 @@ export class SpatialAssets extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  idToCid(id: BigInt): BigInt {
+    let result = super.call("idToCid", "idToCid(uint256):(uint256)", [
+      ethereum.Value.fromUnsignedBigInt(id)
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_idToCid(id: BigInt): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("idToCid", "idToCid(uint256):(uint256)", [
+      ethereum.Value.fromUnsignedBigInt(id)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  idToCanBeParent(id: BigInt): boolean {
+    let result = super.call(
+      "idToCanBeParent",
+      "idToCanBeParent(uint256):(bool)",
+      [ethereum.Value.fromUnsignedBigInt(id)]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_idToCanBeParent(id: BigInt): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "idToCanBeParent",
+      "idToCanBeParent(uint256):(bool)",
+      [ethereum.Value.fromUnsignedBigInt(id)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  idToHasParent(id: BigInt): boolean {
+    let result = super.call("idToHasParent", "idToHasParent(uint256):(bool)", [
+      ethereum.Value.fromUnsignedBigInt(id)
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_idToHasParent(id: BigInt): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "idToHasParent",
+      "idToHasParent(uint256):(bool)",
+      [ethereum.Value.fromUnsignedBigInt(id)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   idToExternalStorage(id: BigInt): Bytes {
@@ -589,16 +756,32 @@ export class RegisterSpatialAssetCall__Inputs {
     this._call = call;
   }
 
-  get account(): Address {
+  get owner(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get id(): BigInt {
+  get geoDIDId(): BigInt {
     return this._call.inputValues[1].value.toBigInt();
   }
 
+  get parentGeoDIDId(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get childrenGeoDIDIds(): Array<BigInt> {
+    return this._call.inputValues[3].value.toBigIntArray();
+  }
+
+  get cid(): BigInt {
+    return this._call.inputValues[4].value.toBigInt();
+  }
+
   get offChainStorage(): Bytes {
-    return this._call.inputValues[2].value.toBytes();
+    return this._call.inputValues[5].value.toBytes();
+  }
+
+  get geoDIDtype(): BigInt {
+    return this._call.inputValues[6].value.toBigInt();
   }
 }
 
@@ -606,6 +789,142 @@ export class RegisterSpatialAssetCall__Outputs {
   _call: RegisterSpatialAssetCall;
 
   constructor(call: RegisterSpatialAssetCall) {
+    this._call = call;
+  }
+}
+
+export class AddChildrenGeoDIDsCall extends ethereum.Call {
+  get inputs(): AddChildrenGeoDIDsCall__Inputs {
+    return new AddChildrenGeoDIDsCall__Inputs(this);
+  }
+
+  get outputs(): AddChildrenGeoDIDsCall__Outputs {
+    return new AddChildrenGeoDIDsCall__Outputs(this);
+  }
+}
+
+export class AddChildrenGeoDIDsCall__Inputs {
+  _call: AddChildrenGeoDIDsCall;
+
+  constructor(call: AddChildrenGeoDIDsCall) {
+    this._call = call;
+  }
+
+  get geoDIDId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get childrenGeoDIDIds(): Array<BigInt> {
+    return this._call.inputValues[1].value.toBigIntArray();
+  }
+}
+
+export class AddChildrenGeoDIDsCall__Outputs {
+  _call: AddChildrenGeoDIDsCall;
+
+  constructor(call: AddChildrenGeoDIDsCall) {
+    this._call = call;
+  }
+}
+
+export class AddParentGeoDIDCall extends ethereum.Call {
+  get inputs(): AddParentGeoDIDCall__Inputs {
+    return new AddParentGeoDIDCall__Inputs(this);
+  }
+
+  get outputs(): AddParentGeoDIDCall__Outputs {
+    return new AddParentGeoDIDCall__Outputs(this);
+  }
+}
+
+export class AddParentGeoDIDCall__Inputs {
+  _call: AddParentGeoDIDCall;
+
+  constructor(call: AddParentGeoDIDCall) {
+    this._call = call;
+  }
+
+  get geoDIDId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get parentGeoDIDId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+}
+
+export class AddParentGeoDIDCall__Outputs {
+  _call: AddParentGeoDIDCall;
+
+  constructor(call: AddParentGeoDIDCall) {
+    this._call = call;
+  }
+}
+
+export class RemoveChildrenGeoDIDsCall extends ethereum.Call {
+  get inputs(): RemoveChildrenGeoDIDsCall__Inputs {
+    return new RemoveChildrenGeoDIDsCall__Inputs(this);
+  }
+
+  get outputs(): RemoveChildrenGeoDIDsCall__Outputs {
+    return new RemoveChildrenGeoDIDsCall__Outputs(this);
+  }
+}
+
+export class RemoveChildrenGeoDIDsCall__Inputs {
+  _call: RemoveChildrenGeoDIDsCall;
+
+  constructor(call: RemoveChildrenGeoDIDsCall) {
+    this._call = call;
+  }
+
+  get geoDIDId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get childrenGeoDIDIds(): Array<BigInt> {
+    return this._call.inputValues[1].value.toBigIntArray();
+  }
+}
+
+export class RemoveChildrenGeoDIDsCall__Outputs {
+  _call: RemoveChildrenGeoDIDsCall;
+
+  constructor(call: RemoveChildrenGeoDIDsCall) {
+    this._call = call;
+  }
+}
+
+export class RemoveParentGeoDIDCall extends ethereum.Call {
+  get inputs(): RemoveParentGeoDIDCall__Inputs {
+    return new RemoveParentGeoDIDCall__Inputs(this);
+  }
+
+  get outputs(): RemoveParentGeoDIDCall__Outputs {
+    return new RemoveParentGeoDIDCall__Outputs(this);
+  }
+}
+
+export class RemoveParentGeoDIDCall__Inputs {
+  _call: RemoveParentGeoDIDCall;
+
+  constructor(call: RemoveParentGeoDIDCall) {
+    this._call = call;
+  }
+
+  get geoDIDId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get parentGeoDIDId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+}
+
+export class RemoveParentGeoDIDCall__Outputs {
+  _call: RemoveParentGeoDIDCall;
+
+  constructor(call: RemoveParentGeoDIDCall) {
     this._call = call;
   }
 }
@@ -627,12 +946,12 @@ export class DeactivateSpatialAssetCall__Inputs {
     this._call = call;
   }
 
-  get account(): Address {
-    return this._call.inputValues[0].value.toAddress();
+  get geoDIDId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 
-  get id(): BigInt {
-    return this._call.inputValues[1].value.toBigInt();
+  get childrenToRemove(): Array<BigInt> {
+    return this._call.inputValues[1].value.toBigIntArray();
   }
 }
 

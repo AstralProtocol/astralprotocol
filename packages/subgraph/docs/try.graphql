@@ -1,0 +1,18 @@
+{
+  geoDIDs {
+    id
+    owner
+    cid
+    storage
+    root
+    parent
+    edges {
+      id
+      childGeoDID {
+        id
+      }
+    }
+    active
+    type
+  }
+}
