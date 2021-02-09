@@ -1,21 +1,18 @@
 {
-  spatialAssets {
-    id
-    storage
-    parents {
-      id
-      owner
-    }
-  }
-  nodes {
+  geoDIDs {
     id
     owner
-    spatialAsset {
+    cid
+    storage
+    root
+    parent
+    edges {
       id
-      storage
-      parents {
+      childGeoDID {
         id
       }
     }
+    active
+    type
   }
 }
