@@ -34,5 +34,5 @@ async function run(url: string){
     }
 }
 
-//run('http://download.osgeo.org/geotiff/samples/gdal_eg/cea.tif');
+run('http://download.osgeo.org/geotiff/samples/gdal_eg/cea.tif');
 //run('https://storage.googleapis.com/pdd-stac/disasters/hurricane-harvey/0831/SkySat_Freeport_s03_20170831T162740Z.tif');
