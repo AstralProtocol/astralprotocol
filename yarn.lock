@@ -2410,14 +2410,14 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@textile/grpc-powergate-client@0.6.8":
-  version "0.6.8"
-  resolved "https://registry.yarnpkg.com/@textile/grpc-powergate-client/-/grpc-powergate-client-0.6.8.tgz#11f23244d67e2c5d0a696cf4d5b58965625fb70e"
-  integrity sha512-cBWyLMGRilQgFq9VZI9hN6sPO7xc+m+zoxIfab2AEUGFhfDa2Q39qnUKUDYkNc4BcT+BOj66dWpD2kYzq5D2/A==
+"@textile/grpc-powergate-client@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@textile/grpc-powergate-client/-/grpc-powergate-client-2.0.0.tgz#194680056ce8c4648dcd4061a910fb6c17984166"
+  integrity sha512-iVbLzzAZiRzHzT4ieRrvr5MJGXKoieSOCU3zvMxEOCIvFaGdYnsjKHfb5H1bUBHgLuuculPeHWO+LqAS7oL3+A==
   dependencies:
     "@improbable-eng/grpc-web" "^0.13.0"
-    "@types/google-protobuf" "^3.7.3"
-    google-protobuf "^3.13.0"
+    "@types/google-protobuf" "^3.7.4"
+    google-protobuf "^3.14.0"
 
 "@textile/grpc-transport@0.0.3":
   version "0.0.3"
@@ -2430,12 +2430,12 @@
     loglevel "^1.6.6"
     ws "^7.2.1"
 
-"@textile/powergate-client@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@textile/powergate-client/-/powergate-client-2.0.1.tgz#1cb08098ea344bed8ce226cf211c6bb7fa215776"
-  integrity sha512-6U+CfXjJbZ38Mh3GS+mrWRF45tXt3y6TNSOklS/1eZLzD4qiG/6WCHV+zfz8Gl+JyGsXFDN2MQVzWKzSjSrVsQ==
+"@textile/powergate-client@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@textile/powergate-client/-/powergate-client-4.0.0.tgz#73b641cdd721bf50ed5ea252ed81ed7bbe2502b0"
+  integrity sha512-rIAfeAk/Q82E41+ijmICvLQ8TFcYrqrx7s0u8R3mDH5vPHJpLG0iMGGwh+OL2XSyupqzYzFw4D2cFOpTaljnsg==
   dependencies:
-    "@textile/grpc-powergate-client" "0.6.8"
+    "@textile/grpc-powergate-client" "2.0.0"
     "@textile/grpc-transport" "0.0.3"
     ipfs-http-client "^47.0.1"
     it-block "^2.0.0"
@@ -2666,7 +2666,7 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/google-protobuf@^3.7.3":
+"@types/google-protobuf@^3.7.4":
   version "3.7.4"
   resolved "https://registry.yarnpkg.com/@types/google-protobuf/-/google-protobuf-3.7.4.tgz#1621c50ceaf5aefa699851da8e0ea606a2943a39"
   integrity sha512-6PjMFKl13cgB4kRdYtvyjKl8VVa0PXS2IdVxHhQ8GEKbxBkyJtSbaIeK1eZGjDKN7dvUh4vkOvU9FMwYNv4GQQ==
@@ -7027,7 +7027,7 @@ gluegun@^4.3.1:
     which "^2.0.0"
     yargs-parser "^16.1.0"
 
-google-protobuf@^3.13.0:
+google-protobuf@^3.14.0:
   version "3.14.0"
   resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.14.0.tgz#20373d22046e63831a5110e11a84f713cc43651e"
   integrity sha512-bwa8dBuMpOxg7COyqkW6muQuvNnWgVN8TX/epDRGW5m0jcrmq2QJyCyiV8ZE2/6LaIIqJtiv9bYokFhfpy/o6w==
