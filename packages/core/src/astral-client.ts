@@ -201,14 +201,36 @@ class AstralClient implements AstralAPI{
 async function runTest(){
     let astral = new AstralClient('0xa3e1c2602f628112E591A18004bbD59BDC3cb512');
     try{
-        let res = await astral.createGenesisGeoDID('collection')
+        const res = await astral.createGenesisGeoDID('collection')
         console.log(res);
 
-        let results = await astral.pinDocument(res);
+        const results = await astral.pinDocument(res);
         console.log(results);
 
-        let loadResults = await astral.loadDocument(results.geodidid, results.token);
+        const token = results.token;
+
+        const loadResults = await astral.loadDocument(results.geodidid, token);
         console.log(loadResults);
+
+        console.log('\n');
+        console.log('\n');
+
+        const itemres = await astral.createChildGeoDID('item', results.geodidid, 'item1');
+        console.log(itemres)
+
+        console.log('\n');
+
+        const itemresults = await astral.pinDocument(itemres, token);
+        console.log(itemresults);
+
+        console.log('\n');
+
+        const loadItemResults = await astral.loadDocument(itemresults.geodidid, token);
+        console.log(loadItemResults);
+
+        console.log('\n');
+
+        console.log(JSON.stringify(loadItemResults.documentInfo.documentVal));
 
     }catch(e){
         console.log(e);

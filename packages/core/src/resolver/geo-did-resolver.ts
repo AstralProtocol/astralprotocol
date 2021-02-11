@@ -7,10 +7,9 @@ export interface ResolverRegistry {
 }
 
 const resolve = async(astral: AstralClient, powergate: Powergate, parseddid: string, parsedid: string, parsedpath?: string, parsedfragment?: string ): Promise<DIDDocument | any | null> => {
-    const bytes: Uint8Array = await powergate.getGeoDIDDocument(astral.docmap[parseddid].cid);
-    console.log(bytes)
+    const path = parseddid.concat(parsedpath);
+    const bytes: Uint8Array = await powergate.getGeoDIDDocument(astral.docmap[path].cid);
     const strj = new TextDecoder('utf-8').decode(bytes);
-    console.log(strj)
 
     return JSON.parse(strj);
 }
