@@ -1,5 +1,5 @@
 {
-  "name": "ipld-encoded-geotiff",
+  "name": "@astralprotocol/ipld-encoded-geotiff",
   "version": "1.0.0",
   "description": "IPLD Encoded GeoTIFFs to enable CID serving capabilities on IPFS. ",
   "author": "Astral <contact@astral.global>",
