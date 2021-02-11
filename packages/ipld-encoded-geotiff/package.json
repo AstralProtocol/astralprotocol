@@ -1,8 +1,8 @@
 {
   "name": "ipld-encoded-geotiff",
   "version": "1.0.0",
-  "description": "Experiment. IPLD Encoded GeoTIFFs to enable CID serving capabilities on IPFS. ",
-  "author": "Jared Childers <jared.childers97@gmail.com>",
+  "description": "IPLD Encoded GeoTIFFs to enable CID serving capabilities on IPFS. ",
+  "author": "Astral <contact@astral.global>",
   "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
   "license": "MIT",
   "main": "lib/index.ts",
@@ -18,6 +18,10 @@
     "type": "git",
     "url": "git+https://github.com/AstralProtocol/astralprotocol.git",
     "directory": "packages/ipld-encoded-geotiff"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "scripts": {
     "start": "ts-node src/index.ts",
