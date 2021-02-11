@@ -9,6 +9,12 @@ const multihashing = require('multihashing-async');
 export class GeoDoctypeUtils {
     static validator: any = new ajv({ allErrors: true });
 
+    // get the base geodid id 
+    static getBaseGeoDidId(docId: string): string {
+        const baseid = docId.split('/');
+        return baseid[0]; // returns the base id
+    }
+
     // create the GeoDID
     static async createGeodidIdFromGenesis(_id: string): Promise<string> {
         const genesisCid = await this.createCID(_id);

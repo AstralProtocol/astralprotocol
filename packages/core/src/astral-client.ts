@@ -1,91 +1,220 @@
-import { GeoDocument } from './geo-document';
-import { Context } from './context/context';
 import { Powergate } from './pin/powergate';
+import { Document } from './docu/document';
+import { IDocumentInfo } from './geo-did/interfaces/global-geo-did-interfaces';
+import GeoDIDResolver from './resolver/geo-did-resolver';
+import { Resolver, ServiceEndpoint } from 'did-resolver';
+import { GeoDidType } from './geo-did/interfaces/global-geo-did-interfaces';
 
 // The Astral API Interface
 interface AstralAPI {
-    createGeoDID(id:string, stacjson: Object, ethereumAddress: string): Promise<any>;
-    loadDocument(docId: string): Promise<any>;
+    createGenesisGeoDID(_typeOfGeoDID: string): Promise<IDocumentInfo>;
+    createChildGeoDID(_typeOfGeoDID: string, _parentID: string, _path: string): Promise<IDocumentInfo>;
+    addAssetsToItem(docId: string, assets: IAsset[], token?: string): Promise<IDocumentInfo>;
+    loadDocument(docId: string, token: string): Promise<LoadInfo>;
+}
+
+interface LoadInfo {
+    documentInfo: IDocumentInfo;
+    powergateInstance: Powergate 
 }
 
 interface DocMap {
-    [key: string]: Instance;
+    [key: string]: InstanceInfo;
 }
 
-interface Instance {
+interface InstanceInfo {
     authToken: string;
     cid: string;
 }
 
-class AstralClient implements AstralAPI {
-    // GeoDID id -> Instance
-    //private docmap: Record<string, Instance>
-    private docmap: DocMap;
-    
-    //private geoDidDoc: Record<string, Object>
-    // Manages the Context of the Astral Instance, GeoDocType Instance, and the Powergate Instance
-    public readonly context: Context;
+export interface IAsset {
+    name: string;
+    type: string;
+    data: any;
+}
 
-    constructor() {
-        this.context = { astral: this };
+export interface IPinInfo {
+    geodidid: string;
+    cid: string;
+    pinDate: Date;
+    token: string
+}   
+
+class AstralClient implements AstralAPI{
+    
+    docmap: DocMap;
+
+    document: Document;
+
+    powergate: Powergate;
+
+    constructor(public _ethereumAddress: string) {
+        this.document = new Document(_ethereumAddress);
         this.docmap = {};
     }
 
-    // astral.createGeoDID(stacitem)
-    async createGeoDID(id: string, stacjson: Object, ethereumAddress: string): Promise<string> {
-        // create powergate instance
-        const powergate = await Powergate.build();
+    async getPowergateInstance(token?: string): Promise<Powergate>{
+        let powergate: Powergate;
 
-        // create the Document with the assets (CIDS) and the stacmetadata (Document instance)
-        const document = await GeoDocument.build(stacjson, id, ethereumAddress, powergate);
-
-        //print
-        console.log(document)
-        // map the document
-        await document.createGeoDIDDocument();
-
-        const geodidid = await document.getGeoDidId();
-        console.log(geodidid)
-        const doc = await document.constructGeoDIDDocument();
-        console.log(doc)
-        const stringdoc = JSON.stringify(doc);
-        console.log(stringdoc)
-
-        const uint8array = new TextEncoder().encode(stringdoc);
-        console.log(uint8array)
-        const cid = await powergate.getAssetCid(uint8array);
-        console.log(cid)
-        await powergate.pin(cid);
-
-        // pin it to powergate
-        this.docmap[geodidid] = {
-            authToken: await powergate.getToken(),
-            cid: cid
-        }
-        
-        console.log(this.docmap[geodidid])
-
-        return geodidid;
-    }
-
-    async loadDocument(docId: string): Promise<Object> {
-        let geoDidDoc: Object = {}
-        
-        if (this.docmap[docId]) {
-            const powergate = await Powergate.build(this.docmap[docId].authToken);
-            console.log(powergate)
-            const bytes: Uint8Array = await powergate.getGeoDIDDocument(this.docmap[docId].cid);
-            console.log(bytes)
-            const strj = new TextDecoder('utf-8').decode(bytes);
-            console.log(strj)
-            geoDidDoc = JSON.parse(strj);
-            console.log(geoDidDoc)
+        if(token){
+            powergate = await Powergate.build(token);
         }
         else{
-            geoDidDoc = {"errror": "Error in Retreiving GeoDID Document"}
+            powergate = await Powergate.build();
         }
-        return geoDidDoc;
+        
+        return powergate;
+    }
+
+    async createGenesisGeoDID(_typeOfGeoDID: string): Promise<IDocumentInfo> {
+        let response: IDocumentInfo;
+        
+        try {
+            // prints the geodidid of the genesis geodid
+            response = await this.document.addGenesisDocument(_typeOfGeoDID);
+        }catch(e){
+            console.log("Unable to initialize")
+        }
+
+        return response;
+    }
+
+    // Option to create Child GeoDID
+    async createChildGeoDID(_typeOfGeoDID: string, _parentID: string, _path: string): Promise<IDocumentInfo> {
+        let response: IDocumentInfo;
+        
+        try {
+            response = await this.document.addChildDocument(_typeOfGeoDID, _parentID, _path);
+        }catch(e){
+            console.log("Unable to initialize")
+        }
+
+        return response;
+    }
+
+    // must call getPowergateInstance before hand, in order to call pinDocument
+    async pinDocument(documentInfo: IDocumentInfo, token?: string): Promise<IPinInfo>{
+        
+        let cid: string;
+        let pinDate: Date = new Date();
+        let powergate: Powergate;
+        
+        try{
+            if(token){
+                powergate = await Powergate.build(token);
+            }
+            else{
+                powergate = await Powergate.build();
+            }
+            token = await powergate.getToken();
+            const stringdoc = JSON.stringify(documentInfo.documentVal);
+            console.log(stringdoc) // delete 
+            const uint8array = new TextEncoder().encode(stringdoc);
+            console.log(uint8array) // delete
+            cid = await powergate.getAssetCid(uint8array);
+            console.log(cid) // delete 
+            await powergate.pin(cid); 
+
+            if(this.docmap[documentInfo.geodidid] === undefined){
+                this.docmap[documentInfo.geodidid] = {
+                    authToken: token,
+                    cid: cid
+                }
+            }
+            else{
+                this.updateMapping(documentInfo.geodidid, cid);
+            }
+            
+            console.log(this.docmap[documentInfo.geodidid]); // delete
+        }catch(e){
+            console.log(e);
+        }
+
+        return { geodidid: documentInfo.geodidid, cid: cid, pinDate: pinDate, token: token }
+    }
+
+    updateMapping(docId: string, newCID: string): void{
+        this.docmap[docId].cid = newCID;
+    }
+
+    async pinAsset(docId: string, powergate: Powergate, asset: IAsset): Promise<ServiceEndpoint>{
+        let seCID: string;
+        
+        try{
+            const uint8array = new TextEncoder().encode(asset.data);
+            seCID = await powergate.getAssetCid(uint8array); 
+            await powergate.pin(seCID); 
+        }catch(e){
+            console.log(e);
+        }
+        
+        return {
+            id: docId.concat(asset.name),
+            type: asset.type,
+            serviceEndpoint: seCID
+        }
+    }
+
+    // Add Assets to an item. Validation happens
+    async addAssetsToItem(docId: string, assets: IAsset[], token?: string): Promise<IDocumentInfo>{
+        
+        let response: LoadInfo;
+        let serviceArray: any;
+        
+        try{
+            response = await this.loadDocument(docId, token);
+
+            if(response.documentInfo.documentVal.didmetadata.type === GeoDidType.Item){
+                serviceArray = await assets.map(value => this.pinAsset(docId, response.powergateInstance, value));
+                //add the serviceArray to the Document's services
+                await serviceArray.forEach((value: any) => (response.documentInfo.documentVal.service).push(value));
+            }
+            else{
+                throw new Error('Unfortunately the Document ID you provided is not of Item type, so you cannot add any Assets to this Document. Please try again with a valid GeoDID Item');
+            }
+
+        }catch(e){
+            console.log(e);
+        }
+
+        return response.documentInfo;
+    }
+
+    // TODO: Read/Load a GeoDID Document
+    async loadDocument(docId: string, token: string): Promise<LoadInfo> {
+        
+        let doc: any;
+        const powergate: Powergate = await this.getPowergateInstance(token);
+
+        try{
+            const geoDidResolver = GeoDIDResolver.getResolver(this, powergate);
+            const didResolver = new Resolver(geoDidResolver);
+            doc = await didResolver.resolve(docId)
+        }catch(e){
+            console.log(e)
+        }
+
+        return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
     }
 }
+
+async function runTest(){
+    let astral = new AstralClient('0xa3e1c2602f628112E591A18004bbD59BDC3cb512');
+    try{
+        let res = await astral.createGenesisGeoDID('collection')
+        console.log(res);
+
+        let results = await astral.pinDocument(res);
+        console.log(results);
+
+        let loadResults = await astral.loadDocument(results.geodidid, results.token);
+        console.log(loadResults);
+
+    }catch(e){
+        console.log(e);
+    }
+}
+
+runTest();
 
 export default AstralClient;
