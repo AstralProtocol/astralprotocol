@@ -51,6 +51,8 @@
         "events": "^3.2.0",
         "fetch-json": "^2.2.7",
         "fs": "^0.0.1-security",
+        "graphql": "^15.5.0",
+        "graphql-request": "^3.4.0",
         "lodash.clonedeep": "^4.5.0",
         "multihashing-async": "^2.0.1",
         "reflect-metadata": "^0.1.13"

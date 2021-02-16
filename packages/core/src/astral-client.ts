@@ -1,21 +1,15 @@
 import { Powergate } from './pin/powergate';
 import { Document } from './docu/document';
-import { IDocumentInfo } from './geo-did/interfaces/global-geo-did-interfaces';
 import GeoDIDResolver from './resolver/geo-did-resolver';
 import { Resolver, ServiceEndpoint } from 'did-resolver';
-import { GeoDidType } from './geo-did/interfaces/global-geo-did-interfaces';
+import { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
 
 // The Astral API Interface
 interface AstralAPI {
     createGenesisGeoDID(_typeOfGeoDID: string): Promise<IDocumentInfo>;
     createChildGeoDID(_typeOfGeoDID: string, _parentID: string, _path: string): Promise<IDocumentInfo>;
     addAssetsToItem(docId: string, assets: IAsset[], token?: string): Promise<IDocumentInfo>;
-    loadDocument(docId: string, token: string): Promise<LoadInfo>;
-}
-
-interface LoadInfo {
-    documentInfo: IDocumentInfo;
-    powergateInstance: Powergate 
+    loadDocument(docId: string, token: string): Promise<ILoadInfo>;
 }
 
 interface DocMap {
@@ -25,23 +19,11 @@ interface DocMap {
 interface InstanceInfo {
     authToken: string;
     cid: string;
-}
-
-export interface IAsset {
-    name: string;
-    type: string;
-    data: any;
-}
-
-export interface IPinInfo {
-    geodidid: string;
-    cid: string;
-    pinDate: Date;
-    token: string
-}   
+}  
 
 class AstralClient implements AstralAPI{
     
+    // geodidid -> cid 
     docmap: DocMap;
 
     document: Document;
@@ -158,7 +140,7 @@ class AstralClient implements AstralAPI{
     // Add Assets to an item. Validation happens
     async addAssetsToItem(docId: string, assets: IAsset[], token?: string): Promise<IDocumentInfo>{
         
-        let response: LoadInfo;
+        let response: ILoadInfo;
         let serviceArray: any;
         
         try{
@@ -181,7 +163,7 @@ class AstralClient implements AstralAPI{
     }
 
     // TODO: Read/Load a GeoDID Document
-    async loadDocument(docId: string, token: string): Promise<LoadInfo> {
+    async loadDocument(docId: string, token: string): Promise<ILoadInfo> {
         
         let doc: any;
         const powergate: Powergate = await this.getPowergateInstance(token);
@@ -199,6 +181,11 @@ class AstralClient implements AstralAPI{
 }
 
 async function runTest(){
+    
+    // create instance for the astral core package
+    /**
+     * @param ethAddress(string)
+     */
     let astral = new AstralClient('0xa3e1c2602f628112E591A18004bbD59BDC3cb512');
     try{
         const res = await astral.createGenesisGeoDID('collection')

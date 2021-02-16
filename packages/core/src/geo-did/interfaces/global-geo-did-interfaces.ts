@@ -1,7 +1,27 @@
+import { DIDDocument } from 'did-resolver';
+import { Powergate } from '../../pin/powergate';
+
 export const enum GeoDidType{ Default = 'default', Item = 'item', Collection = 'collection' }
 export const enum Relationship{ Root = 'root', Self = 'self', Parent = 'parent', Child = 'child' }
 export const enum ServiceType{ Metadata = 'metadata', GeoJSON = 'geojson', JSON = 'json', GeoTIFF = 'geotiff', Misc = 'misc'}
-import { DIDDocument } from 'did-resolver';
+
+export interface ILoadInfo {
+    documentInfo: IDocumentInfo;
+    powergateInstance: Powergate 
+}
+
+export interface IAsset {
+    name: string;
+    type: string;
+    data: any;
+}
+
+export interface IPinInfo {
+    geodidid: string;
+    cid: string;
+    pinDate: Date;
+    token: string
+} 
 
 export interface IDocumentInfo {
     geodidid: string;
