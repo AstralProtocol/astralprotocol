@@ -16,7 +16,7 @@ contract SpatialAssets is Context, AccessControl {
     /**
      * @dev Emitted when Spatial Assets of id `id` are transferred to `to``.
      */
-    event SpatialAssetRegistered(address indexed to, uint256 indexed geoDIDId, uint256 indexed cid, bytes32 offChainStorage, bool root, bool canBeParent);
+    event SpatialAssetRegistered(address indexed to, uint256 indexed geoDIDId, uint256 indexed cid, bytes32 offChainStorage, uint256 root, bool canBeParent);
 
     /**
      * @dev Emitted when Spatial Assets of id `id` are deactivated.
@@ -58,6 +58,9 @@ contract SpatialAssets is Context, AccessControl {
 
     // Mapping from GeodidID to parenthood type
     mapping (uint256 => bool) private _canBeParent;
+    
+    // Mapping from GeodidID to root GeoDID
+    mapping (uint256 => uint256) private _root;
 /*
     // Mapping from GeiDID id to Cids (for versioning - implement methods to create/update and fetch?)
     mapping (uint256 => uint256[]) private _cids;
@@ -136,10 +139,11 @@ contract SpatialAssets is Context, AccessControl {
 
         if (parentGeoDIDId == 0) {
             _hasParent[geoDIDId] = false;
-        emit SpatialAssetRegistered(owner, geoDIDId, cid, offChainStorage, true, _canBeParent[geoDIDId]);
+            _root[geoDIDId] = geoDIDId;
+        emit SpatialAssetRegistered(owner, geoDIDId, cid, offChainStorage, geoDIDId, _canBeParent[geoDIDId]);
         } else {
             _hasParent[geoDIDId] = true;
-            emit SpatialAssetRegistered(owner, geoDIDId, cid, offChainStorage, false, _canBeParent[geoDIDId]);
+            emit SpatialAssetRegistered(owner, geoDIDId, cid, offChainStorage, _root[parentGeoDIDId], _canBeParent[geoDIDId]);
             emit ParentAdded(geoDIDId, parentGeoDIDId);
         }
 
@@ -170,6 +174,7 @@ contract SpatialAssets is Context, AccessControl {
                 uint256 childrenGeoDID = childrenGeoDIDIds[j];
                 if (_owners[childrenGeoDID] != address(0) && !_hasParent[childrenGeoDID]) {
                     _hasParent[childrenGeoDID] = true;
+                    _root[childrenGeoDID] = _root[geoDIDId];
                     emit ChildrenAdded(geoDIDId, childrenGeoDID);
                 }
             }
@@ -189,6 +194,7 @@ contract SpatialAssets is Context, AccessControl {
         require(_canBeParent[parentGeoDIDId], "SpatialAssets: parentGeoDIDId must be able to be parent (a Collection)");
 
         _hasParent[geoDIDId] = true;
+        _root[geoDIDId] = _root[parentGeoDIDId];
         emit ParentAdded(geoDIDId, parentGeoDIDId);
     }
 
@@ -209,6 +215,7 @@ contract SpatialAssets is Context, AccessControl {
                 uint256 childrenGeoDID = childrenGeoDIDIds[j];
                 if (_owners[childrenGeoDID] != address(0) && _hasParent[childrenGeoDID]) {
                     _hasParent[childrenGeoDID] = false;
+                    _root[childrenGeoDID] = childrenGeoDID;
                     emit ChildrenRemoved(geoDIDId, childrenGeoDID);
                 }
             }
@@ -228,7 +235,8 @@ contract SpatialAssets is Context, AccessControl {
         require(_hasParent[geoDIDId], "SpatialAssets: GeoDID does not have a parent to remove");
 
         _hasParent[geoDIDId] = false;
-
+        _root[geoDIDId] = geoDIDId;
+        
         emit ParentRemoved(geoDIDId, parentGeoDIDId);
     }
 
@@ -243,13 +251,15 @@ contract SpatialAssets is Context, AccessControl {
         _externalStorage[geoDIDId] = "";
         _cids[geoDIDId] = 0;
         _hasParent[geoDIDId] = false;
-        
+        _root[geoDIDId] = 0;
+
         uint256 childrensLen = childrenToRemove.length;
 
         if (childrensLen > 0){
             for(uint256 j=0; j < childrensLen; j++) {
                 uint256 childrenGeoDID = childrenToRemove[j];
                 if (_owners[childrenGeoDID] != address(0) && _hasParent[childrenGeoDID]) {
+                    _root[childrenGeoDID] = childrenGeoDID;
                     _hasParent[childrenGeoDID] = false;
                 }
             }

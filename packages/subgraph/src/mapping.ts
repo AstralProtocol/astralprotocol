@@ -16,7 +16,7 @@ export function handleSpatialAssetRegistered(
   geoDID.owner = event.params.to.toHexString();
   geoDID.cid = event.params.cid.toString();
   geoDID.storage = event.params.offChainStorage;
-  geoDID.root = event.params.root;
+  geoDID.root = event.params.root.toString();
   geoDID.active = true;
 
   if (event.params.canBeParent) {
@@ -42,12 +42,10 @@ export function handleParentAdded(event: ParentAdded): void {
   edge.save();
 
   let geoDID = GeoDID.load(event.params.geoDIDId.toString());
+  let parentGeoDID = GeoDID.load(event.params.parentGeoDIDId.toString());
 
   geoDID.parent = event.params.parentGeoDIDId.toString();
-
-  if (geoDID.root) {
-    geoDID.root = false;
-  }
+  geoDID.root = parentGeoDID.root;
 
   geoDID.save();
 }
@@ -66,12 +64,11 @@ export function handleChildrenAdded(event: ChildrenAdded): void {
   edge.save();
 
   let geoDID = GeoDID.load(event.params.childrenGeoDIDId.toString());
+  let parentGeoDID = GeoDID.load(event.params.geoDIDId.toString());
 
   geoDID.parent = event.params.geoDIDId.toString();
+  geoDID.root = parentGeoDID.root;
 
-  if (geoDID.root) {
-    geoDID.root = false;
-  }
   geoDID.save();
 }
 
@@ -92,7 +89,7 @@ export function handleParentRemoved(event: ParentRemoved): void {
 
   geoDID.parent = "";
 
-  geoDID.root = true;
+  geoDID.root = "";
 
   geoDID.save();
 }
@@ -114,7 +111,7 @@ export function handleChildrenRemoved(event: ChildrenRemoved): void {
 
   geoDID.parent = "";
 
-  geoDID.root = true;
+  geoDID.root = geoDID.id.toString();
 
   geoDID.save();
 }
@@ -132,7 +129,7 @@ export function handleSpatialAssetDeactivated(
   edgeToParent.save();
 
   geoDID.owner = "";
-  geoDID.root = false;
+  geoDID.root = "";
   geoDID.active = false;
   geoDID.parent = "";
 
@@ -154,7 +151,7 @@ export function handleSpatialAssetDeactivated(
 
     child.parent = "";
 
-    child.root = true;
+    child.root = child.id.toString();
 
     child.save();
   }

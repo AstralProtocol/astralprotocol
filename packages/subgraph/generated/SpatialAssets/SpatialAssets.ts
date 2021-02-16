@@ -227,8 +227,8 @@ export class SpatialAssetRegistered__Params {
     return this._event.parameters[3].value.toBytes();
   }
 
-  get root(): boolean {
-    return this._event.parameters[4].value.toBoolean();
+  get root(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
   }
 
   get canBeParent(): boolean {

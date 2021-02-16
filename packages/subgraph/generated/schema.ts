@@ -69,13 +69,13 @@ export class GeoDID extends Entity {
     this.set("storage", Value.fromBytes(value));
   }
 
-  get root(): boolean {
+  get root(): string {
     let value = this.get("root");
-    return value.toBoolean();
+    return value.toString();
   }
 
-  set root(value: boolean) {
-    this.set("root", Value.fromBoolean(value));
+  set root(value: string) {
+    this.set("root", Value.fromString(value));
   }
 
   get parent(): string | null {

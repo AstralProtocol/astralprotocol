@@ -6,7 +6,7 @@ dataSources:
     name: SpatialAssets
     network: mainnet
     source:
-      address: "0xCfEB869F69431e42cdB54A4F4f105C19C080A601"
+      address: "0x67B5656d60a809915323Bf2C40A8bEF15A152e3e"
       abi: SpatialAssets
     mapping:
       kind: ethereum/events
@@ -19,7 +19,7 @@ dataSources:
         - name: SpatialAssets
           file: ./abis/SpatialAssets.json
       eventHandlers:
-        - event: SpatialAssetRegistered(indexed address,indexed uint256,indexed uint256,bytes32,bool,bool)
+        - event: SpatialAssetRegistered(indexed address,indexed uint256,indexed uint256,bytes32,uint256,bool)
           handler: handleSpatialAssetRegistered
         - event: SpatialAssetDeactivated(indexed uint256,uint256[])
           handler: handleSpatialAssetDeactivated
