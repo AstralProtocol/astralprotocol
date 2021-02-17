@@ -61,17 +61,7 @@ contract SpatialAssets is Context, AccessControl {
     
     // Mapping from GeodidID to root GeoDID
     mapping (uint256 => uint256) private _root;
-/*
-    // Mapping from GeiDID id to Cids (for versioning - implement methods to create/update and fetch?)
-    mapping (uint256 => uint256[]) private _cids;
 
-
-    function updateCids (uint256[] geoDidIdsToChange, uint256[] _cidsToChange) {
-        for (...){
-
-        }
-    }
-*/
     // Mapping from id to spatial asset external storage
     mapping (uint256 => bytes32) private _externalStorage;
 
@@ -99,7 +89,7 @@ contract SpatialAssets is Context, AccessControl {
     }
 
     /**
-     * @dev Registers a new user with the ability to register a spatial asset.
+     * @dev Registers a new storage that can accept GeoDID document creation
      */
     function enableStorage(bytes32 offChainStorage) public {
         require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "SpatialAssets: must have admin role to edit allowed offchain storages");
@@ -108,7 +98,7 @@ contract SpatialAssets is Context, AccessControl {
     }
 
     /**
-     * @dev Registers a new user with the ability to register a spatial asset.
+     * @dev Disables an existing storage
      */
     function disableStorage(bytes32 offChainStorage) public {
         require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "SpatialAssets: must have admin role to edit allowed offchain storages");
