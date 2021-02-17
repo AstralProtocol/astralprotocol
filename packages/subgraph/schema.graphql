@@ -3,7 +3,7 @@ type GeoDID @entity {
   owner: String!
   cid: String!
   storage: Bytes!
-  root: Boolean!
+  root: String!
   parent: String
   edges: [Edge!] @derivedFrom(field: "self")
   active: Boolean!
