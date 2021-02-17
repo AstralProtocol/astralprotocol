@@ -3,6 +3,7 @@ import { Document } from './docu/document';
 import GeoDIDResolver from './resolver/geo-did-resolver';
 import { Resolver, ServiceEndpoint } from 'did-resolver';
 import { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
+import { request, GraphQLClient, gql } from 'graphql-request';
 
 // The Astral API Interface
 interface AstralAPI {
@@ -30,8 +31,11 @@ class AstralClient implements AstralAPI{
 
     powergate: Powergate;
 
+    graphQLClient: GraphQLClient;
+
     constructor(public _ethereumAddress: string) {
         this.document = new Document(_ethereumAddress);
+        this.graphQLClient = new GraphQLClient('https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv02');
         this.docmap = {};
     }
 
@@ -178,6 +182,30 @@ class AstralClient implements AstralAPI{
 
         return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
     }
+    async testQL(){
+        const query = gql`
+        {
+            geoDIDs {
+                id
+                owner
+                cid
+                storage
+                root
+                parent
+                edges {
+                    id
+                    childGeoDID {
+                    id
+                    }
+                }
+                active
+                type
+            }
+        }`
+
+        const data = await this.graphQLClient.request(query)
+        console.log(JSON.stringify(data))
+    }
 }
 
 async function runTest(){
@@ -186,7 +214,7 @@ async function runTest(){
     /**
      * @param ethAddress(string)
      */
-    let astral = new AstralClient('0xa3e1c2602f628112E591A18004bbD59BDC3cb512');
+    const astral = new AstralClient('0xa3e1c2602f628112E591A18004bbD59BDC3cb512');
     try{
         const res = await astral.createGenesisGeoDID('collection')
         console.log(res);
@@ -224,6 +252,12 @@ async function runTest(){
     }
 }
 
-runTest();
+async function run(){
+    const astral = new AstralClient('0xa3e1c2602f628112E591A18004bbD59BDC3cb512');
+    astral.testQL();
+}
+
+//runTest();
+run();
 
 export default AstralClient;
