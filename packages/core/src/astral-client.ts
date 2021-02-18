@@ -5,14 +5,6 @@ import { Resolver, ServiceEndpoint } from 'did-resolver';
 import { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
 import { request, GraphQLClient, gql } from 'graphql-request';
 
-// The Astral API Interface
-interface AstralAPI {
-    createGenesisGeoDID(_typeOfGeoDID: string): Promise<IDocumentInfo>;
-    createChildGeoDID(_typeOfGeoDID: string, _parentID: string, _path: string): Promise<IDocumentInfo>;
-    addAssetsToItem(docId: string, assets: IAsset[], token?: string): Promise<IDocumentInfo>;
-    loadDocument(docId: string, token: string): Promise<ILoadInfo>;
-}
-
 interface DocMap {
     [key: string]: InstanceInfo;
 }
@@ -22,7 +14,7 @@ interface InstanceInfo {
     cid: string;
 }  
 
-class AstralClient implements AstralAPI {
+class AstralClient {
     
     // geodidid -> cid 
     docmap: DocMap;
