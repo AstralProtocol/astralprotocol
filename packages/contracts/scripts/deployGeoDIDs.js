@@ -1,98 +1,55 @@
+const AstralClient = require('@astralprotocol/core');
 const SpatialAssets = artifacts.require("./SpatialAssets.sol");
 
 module.exports = async function (callback) {
 
   try {
 
-  const accounts = await web3.eth.getAccounts()
-
-  const SpatialAssetsContract = await SpatialAssets.deployed();
+    const accounts = await web3.eth.getAccounts()
+    const userAccount = accounts[0]
+    const SpatialAssetsContract = await SpatialAssets.deployed();
   
-  let tx = await SpatialAssetsContract.enableStorage(web3.utils.asciiToHex('FILECOIN'));
-
-  console.log(
-    "Storage enabled. Tx: ",
-    tx.tx
-  );
-
-  // geodid id 1, cid 10
-  tx = await SpatialAssetsContract.registerSpatialAsset(accounts[0],1,0,[], 10,web3.utils.asciiToHex('FILECOIN'),0);
+    const astral = new AstralClient(userAccount);
   
+    // Enable a storage first
+    let tx = await SpatialAssetsContract.enableStorage(web3.utils.asciiToHex('FILECOIN'));
   
-  console.log(
-    "geodid id 1, cid 10 ",
-    tx.tx
-  );
-
-  // geodid id 2, cid 11, parent is 1
-  tx = await SpatialAssetsContract.registerSpatialAsset(accounts[0],2,1,[],11,web3.utils.asciiToHex("FILECOIN"),0)
-
-  
-  console.log(
-    "geodid id 2, cid 11, parent is 1 ",
-    tx.tx
-  );
-
-  // geodid id 3, cid 12, parent is 1 
-
-  tx = await SpatialAssetsContract.registerSpatialAsset(accounts[0],3,1,[],12,web3.utils.asciiToHex("FILECOIN"),0)
- 
-  console.log(
-    "geodid id 3, cid 12, parent is 1 ",
-    tx.tx
-  );
-  // geodid id 4, cid 13, parent is 3
-
-  tx = await SpatialAssetsContract.registerSpatialAsset(accounts[0],4,3,[],13,web3.utils.asciiToHex("FILECOIN"),1)
-
-  console.log(
-    "geodid id 4, cid 13, parent is 3 ",
-    tx.tx
-  );
-    // geodid id 5, cid 14
-
-  tx = await SpatialAssetsContract.registerSpatialAsset(accounts[0],5,0,[],14,web3.utils.asciiToHex("FILECOIN"),1)
-
-  console.log(
-    "geodid id 5, cid 14  ",
-    tx.tx
-  );
-    // geodid id 6
-
-  tx = await SpatialAssetsContract.registerSpatialAsset(accounts[0],6,0,[],15,web3.utils.asciiToHex("FILECOIN"),0)
-
-  console.log(
-    "geodid id 6 ",
-    tx.tx
-  );
-    // geodid id 6, adding childrens 1 and 5
-  tx = await SpatialAssetsContract.addChildrenGeoDIDs(6,[1,5])
-
-  console.log(
-    "geodid id 6, adding childrens 1 and 5 ",
-    tx.tx
-  );
-    // geodid id 7
-
-    tx = await SpatialAssetsContract.registerSpatialAsset(accounts[0],7,0,[],16,web3.utils.asciiToHex("FILECOIN"),1)
-
     console.log(
-      "geodid id 7 ",
+      "Storage enabled. Tx: ",
       tx.tx
-      );
-
-    // geodid id 7 adding parent 2
-    tx = await SpatialAssetsContract.addParentGeoDID(7,2)
-
-    console.log(
-      " geodid id 7 adding parent 2 ",
-      tx.tx
-      );
-
-    }
-    catch(error) {
-      console.log(error)
-    }
+    );
+    
+    // Creates a Genesis GeoDID 
+    
+    const genDocRes = await astral.createGenesisGeoDID('collection')
+    console.log(genDocRes);
   
+    // With the returned IDocumentInfo from the last function, we can pin it.
+    // Since no token was specified the client will assign a new auth Token to the user.
+    
+    const results = await astral.pinDocument(genDocRes);
+    console.log(results);
+    
+    const token = results.token;
+          
+    // register the geodid id and cid obtained. Type 0 because it is a collection
+    tx = await SpatialAssetsContract.registerSpatialAsset(userAccount,results.geodidid,0,[], results.cid,web3.utils.asciiToHex('FILECOIN'),0);
+    
+    
+    console.log(
+      "GeoDID succesfuly created. Tx: ",
+      tx.tx
+    );
+    
+   
+    // With the Auth Token and the GeoDID ID we can load the document with the loadDocument function
+    const loadResults = await astral.loadDocument(results.geodidid, token);
+    console.log(loadResults);
+
+  }
+  catch(error) {
+    console.log(error)
+  }
+
     callback()
 };

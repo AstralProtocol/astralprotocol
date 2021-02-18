@@ -18,7 +18,7 @@
     "publish:latest": "lerna run tsc && lerna publish --allow-branch master --conventional-graduate --create-release github",
     "lint": "lerna run lint",
     "clean": "rm -rf ./lib",
-    "lerna-add": "lerna add @astralprotocol/contracts --scope=@astralprotocol/subgraph"
+    "lerna-add": "lerna add @astralprotocol/core --scope=@astralprotocol/contracts"
   },
   "dependencies": {
     "lerna": "^3.20.2",

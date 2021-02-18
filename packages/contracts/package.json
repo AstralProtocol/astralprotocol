@@ -27,8 +27,9 @@
     "test": "echo \"Error: run tests from root\" && exit 1",
     "console": "truffle console --network development",
     "ganache": "ganache-cli -h 0.0.0.0 -p 8545 -d -i 333",
-    "new-instance": "truffle exec scripts/deployGeoDIDs.js --network development",
-    "remove-links": "truffle exec scripts/removeSomeLinks.js --network development",
+    "deployGeoDIDs": "truffle exec scripts/deployGeoDIDs.js --network ropsten",
+    "new-instance": "truffle exec scripts/newInstance.js --network development",
+    "remove-links": "truffle exec scripts/newInstance-remove.js --network development",
     "truffle-build": "truffle compile -all",
     "truffle": "truffle compile --all && truffle migrate --network development --reset && cp -vr ./build/contracts/SpatialAssets.json ../subgraph/abis/SpatialAssets.json",
     "truffle-ropsten": "truffle compile --all && truffle migrate --network ropsten --reset && cp -vr ./build/contracts/SpatialAssets.json ../subgraph/abis/SpatialAssets.json",
@@ -42,6 +43,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@astralprotocol/core": "^0.0.1",
     "@openzeppelin/contracts": "^3.2.0",
     "@truffle/hdwallet-provider": "^1.1.1",
     "coveralls": "^3.1.0",
