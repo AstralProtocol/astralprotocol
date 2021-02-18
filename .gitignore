@@ -138,3 +138,7 @@ build
 .mnemonic
 .provider
 .token
+
+yarn.lock
+
+.DS_Store
