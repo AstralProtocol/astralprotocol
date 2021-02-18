@@ -1,5 +1,5 @@
 const { AstralClient } = require('@astralprotocol/core');
-const SpatialAssets = artifacts.require("./SpatialAssets.sol");
+const SpatialAssets = require("./build/contracts/SpatialAssets.json")
 
 module.exports = async function (callback) {
 
@@ -7,18 +7,35 @@ module.exports = async function (callback) {
 
     const accounts = await web3.eth.getAccounts()
     const userAccount = accounts[0]
-    const SpatialAssetsContract = await SpatialAssets.deployed();
+
+    // find contract in network 3 (Ropsten)
+    const SpatialAssetsContract = new web3.eth.Contract(SpatialAssets.abi, SpatialAssets.networks['3'].address, {
+      from: userAccount,
+      data: SpatialAssets.deployedBytecode,
+    });
   
     const astral = new AstralClient(userAccount);
   
+    const storage = web3.utils.asciiToHex('FILECOIN');
     // Enable a storage first
-    let tx = await SpatialAssetsContract.enableStorage(web3.utils.asciiToHex('FILECOIN'));
+
+    try {
+      await SpatialAssetsContract.methods.enableStorage(storage).send()
+      .on('receipt', function(receipt){
+        // receipt example
+        console.log(receipt);
   
-    console.log(
-      "Storage enabled. Tx: ",
-      tx.tx
-    );
-    
+      })
+      .on('error', function(error) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+        console.log(error);
+      });
+    } 
+    catch (err) {
+      // Will throw an error if storage is already active
+      console.log(err)
+    }
+
+  
     // Creates a Genesis GeoDID 
     
     const genDocRes = await astral.createGenesisGeoDID('collection')
@@ -33,16 +50,29 @@ module.exports = async function (callback) {
     const token = results.token;
           
     // register the geodid id and cid obtained. Type 0 because it is a collection
-    tx = await SpatialAssetsContract.registerSpatialAsset(userAccount,results.geodidid,0,[], results.cid,web3.utils.asciiToHex('FILECOIN'),0);
+
+    console.log(results.geodidid)
+    console.log(results.cid)
+
+    try {
+      await SpatialAssetsContract.methods.registerSpatialAsset(userAccount, results.geodidid,0,[], results.cid, storage,0).send()    
+      .on('receipt', function(receipt){
+      // receipt example
+      console.log(receipt);
+
+      })
+      .on('error', function(error) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+        console.log(error);
+      });
+    } 
+    catch (err) {
+      // Will throw an error if tx reverts
+      console.log(err)
+    }
+
     
-    
-    console.log(
-      "GeoDID succesfuly created. Tx: ",
-      tx.tx
-    );
-    
-   
     // With the Auth Token and the GeoDID ID we can load the document with the loadDocument function
+
     const loadResults = await astral.loadDocument(results.geodidid, token);
     console.log(loadResults);
 

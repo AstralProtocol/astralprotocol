@@ -3,9 +3,8 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": ".",
-    "resolveJsonModule": true,
-    "typeRoots": ["./declarations.d.ts"]
+    "resolveJsonModule": true
   },
-  "include": ["./build/**/*", "./contracts/*"],
+  "include": ["./build/**/*"],
   "files": ["./build/contracts/SpatialAssets.json"]
 }
