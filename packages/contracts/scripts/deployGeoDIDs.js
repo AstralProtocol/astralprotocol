@@ -1,5 +1,5 @@
 const { AstralClient } = require('@astralprotocol/core');
-const SpatialAssets = require("./build/contracts/SpatialAssets.json")
+const SpatialAssets = require("../build/contracts/SpatialAssets.json")
 
 module.exports = async function (callback) {
 
