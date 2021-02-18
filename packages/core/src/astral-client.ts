@@ -1,21 +1,16 @@
 import { Powergate } from './pin/powergate';
 import { Document } from './docu/document';
-import { IDocumentInfo } from './geo-did/interfaces/global-geo-did-interfaces';
 import GeoDIDResolver from './resolver/geo-did-resolver';
 import { Resolver, ServiceEndpoint } from 'did-resolver';
-import { GeoDidType } from './geo-did/interfaces/global-geo-did-interfaces';
+import { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
+import { request, GraphQLClient, gql } from 'graphql-request';
 
 // The Astral API Interface
 interface AstralAPI {
     createGenesisGeoDID(_typeOfGeoDID: string): Promise<IDocumentInfo>;
     createChildGeoDID(_typeOfGeoDID: string, _parentID: string, _path: string): Promise<IDocumentInfo>;
     addAssetsToItem(docId: string, assets: IAsset[], token?: string): Promise<IDocumentInfo>;
-    loadDocument(docId: string, token: string): Promise<LoadInfo>;
-}
-
-interface LoadInfo {
-    documentInfo: IDocumentInfo;
-    powergateInstance: Powergate 
+    loadDocument(docId: string, token: string): Promise<ILoadInfo>;
 }
 
 interface DocMap {
@@ -25,31 +20,22 @@ interface DocMap {
 interface InstanceInfo {
     authToken: string;
     cid: string;
-}
-
-export interface IAsset {
-    name: string;
-    type: string;
-    data: any;
-}
-
-export interface IPinInfo {
-    geodidid: string;
-    cid: string;
-    pinDate: Date;
-    token: string
-}   
+}  
 
 class AstralClient implements AstralAPI{
     
+    // geodidid -> cid 
     docmap: DocMap;
 
     document: Document;
 
     powergate: Powergate;
 
+    graphQLClient: GraphQLClient;
+
     constructor(public _ethereumAddress: string) {
         this.document = new Document(_ethereumAddress);
+        this.graphQLClient = new GraphQLClient('https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv02');
         this.docmap = {};
     }
 
@@ -158,7 +144,7 @@ class AstralClient implements AstralAPI{
     // Add Assets to an item. Validation happens
     async addAssetsToItem(docId: string, assets: IAsset[], token?: string): Promise<IDocumentInfo>{
         
-        let response: LoadInfo;
+        let response: ILoadInfo;
         let serviceArray: any;
         
         try{
@@ -181,7 +167,7 @@ class AstralClient implements AstralAPI{
     }
 
     // TODO: Read/Load a GeoDID Document
-    async loadDocument(docId: string, token: string): Promise<LoadInfo> {
+    async loadDocument(docId: string, token: string): Promise<ILoadInfo> {
         
         let doc: any;
         const powergate: Powergate = await this.getPowergateInstance(token);
@@ -196,25 +182,82 @@ class AstralClient implements AstralAPI{
 
         return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
     }
+    async testQL(){
+        const query = gql`
+        {
+            geoDIDs {
+                id
+                owner
+                cid
+                storage
+                root
+                parent
+                edges {
+                    id
+                    childGeoDID {
+                    id
+                    }
+                }
+                active
+                type
+            }
+        }`
+
+        const data = await this.graphQLClient.request(query)
+        console.log(JSON.stringify(data))
+    }
 }
 
 async function runTest(){
-    let astral = new AstralClient('0xa3e1c2602f628112E591A18004bbD59BDC3cb512');
+    
+    // create instance for the astral core package
+    /**
+     * @param ethAddress(string)
+     */
+    const astral = new AstralClient('0xa3e1c2602f628112E591A18004bbD59BDC3cb512');
     try{
-        let res = await astral.createGenesisGeoDID('collection')
+        const res = await astral.createGenesisGeoDID('collection')
         console.log(res);
 
-        let results = await astral.pinDocument(res);
+        const results = await astral.pinDocument(res);
         console.log(results);
 
-        let loadResults = await astral.loadDocument(results.geodidid, results.token);
+        const token = results.token;
+
+        const loadResults = await astral.loadDocument(results.geodidid, token);
         console.log(loadResults);
+
+        console.log('\n');
+        console.log('\n');
+
+        const itemres = await astral.createChildGeoDID('item', results.geodidid, 'item1');
+        console.log(itemres)
+
+        console.log('\n');
+
+        const itemresults = await astral.pinDocument(itemres, token);
+        console.log(itemresults);
+
+        console.log('\n');
+
+        const loadItemResults = await astral.loadDocument(itemresults.geodidid, token);
+        console.log(loadItemResults);
+
+        console.log('\n');
+
+        console.log(JSON.stringify(loadItemResults.documentInfo.documentVal));
 
     }catch(e){
         console.log(e);
     }
 }
 
-runTest();
+async function run(){
+    const astral = new AstralClient('0xa3e1c2602f628112E591A18004bbD59BDC3cb512');
+    astral.testQL();
+}
+
+//runTest();
+run();
 
 export default AstralClient;
