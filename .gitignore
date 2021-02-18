@@ -20,7 +20,6 @@ pids
 *.seed
 *.pid.lock
 
-packages/*/lib
 .idea
 .npmrc
 
