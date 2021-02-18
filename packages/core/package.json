@@ -81,5 +81,6 @@
         "eslint-plugin-prettier": "^3.1.4",
         "jest": "^26.4.2",
         "prettier": "^2.1.1"
-    }
+    },
+    "gitHead": "d1177c83e76b00ec51e6b0532b6588e3bc29fa77"
 }

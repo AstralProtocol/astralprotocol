@@ -1,4 +1,4 @@
-const AstralClient = require('@astralprotocol/core');
+const { AstralClient } = require('@astralprotocol/core');
 const SpatialAssets = artifacts.require("./SpatialAssets.sol");
 
 module.exports = async function (callback) {

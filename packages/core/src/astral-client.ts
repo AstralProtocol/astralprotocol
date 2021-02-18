@@ -5,6 +5,8 @@ import { Resolver, ServiceEndpoint } from 'did-resolver';
 import { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
 import { request, GraphQLClient, gql } from 'graphql-request';
 
+export { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
+
 interface DocMap {
     [key: string]: InstanceInfo;
 }

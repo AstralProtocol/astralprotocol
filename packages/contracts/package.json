@@ -50,5 +50,6 @@
     "dotenv": "^8.2.0",
     "solidity-coverage": "^0.7.13",
     "truffle": "^5.1.49"
-  }
+  },
+  "gitHead": "d1177c83e76b00ec51e6b0532b6588e3bc29fa77"
 }

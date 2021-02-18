@@ -1,4 +1,4 @@
-import AstralClient from '../astral-client';
+import { AstralClient } from '../astral-client';
 import { DIDResolver, DIDDocument, ParsedDID } from 'did-resolver';
 import { Powergate } from '../pin/powergate';
 
