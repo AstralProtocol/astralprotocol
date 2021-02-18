@@ -14,7 +14,7 @@ interface InstanceInfo {
     cid: string;
 }  
 
-class AstralClient {
+export class AstralClient {
     
     // geodidid -> cid 
     docmap: DocMap;
@@ -200,4 +200,3 @@ class AstralClient {
     }
 }
 
-export default AstralClient;
