@@ -27,8 +27,8 @@ export class Powergate implements Pinning {
     }
 
     static async build(tokenval?: string): Promise<Powergate> {
-        const host: string = "http://0.0.0.0:6002"
-        //const host = 'http://40.114.81.87:6002';
+        //const host: string = "http://0.0.0.0:6002"
+        const host = 'http://13.82.150.65:6002';
         const pow: Pow = createPow({ host });
         if (tokenval) {
             pow.setAdminToken(tokenval);
