@@ -6,6 +6,8 @@ contract("SpatialAssets", async accounts => {
   const testRole = "DATA_SUPPLIER";
   const testStorage = "FILECOIN";
 
+  const stringToBytes = (string) => web3.utils.asciiToHex(string)
+
   before(async () => {
     spatialAssets = await SpatialAssets.deployed();
   }); 
@@ -21,14 +23,14 @@ contract("SpatialAssets", async accounts => {
   });
 
   it("Should enable a storage correctly", async () => {
-    await spatialAssets.enableStorage(web3.utils.asciiToHex(testStorage), {from: accounts[0]});
-    const storageAllowed = await spatialAssets.allowedStorages(web3.utils.asciiToHex(testStorage));
+    await spatialAssets.enableStorage(stringToBytes(testStorage), {from: accounts[0]});
+    const storageAllowed = await spatialAssets.allowedStorages(stringToBytes(testStorage));
     assert(storageAllowed, "The storage was created");
   });
   
   it("Shouldn't let a non admin user register a storage", async () => {
     try {
-      await spatialAssets.enableStorage(web3.utils.asciiToHex('SKYDB'), {from: accounts[1]});
+      await spatialAssets.enableStorage(stringToBytes('SKYDB'), {from: accounts[1]});
       assert(false);
     } catch (err) {
         assert(err.message.includes("SpatialAssets: must have admin role to edit allowed offchain storages"));
@@ -37,7 +39,7 @@ contract("SpatialAssets", async accounts => {
 
   it("Shouldn't let the same storage be registerd twice", async () => {
     try {
-      await spatialAssets.enableStorage(web3.utils.asciiToHex(testStorage), {from: accounts[0]});
+      await spatialAssets.enableStorage(stringToBytes(testStorage), {from: accounts[0]});
       assert(false);
     } catch (err) {
         assert(err.message.includes("SpatialAssets: storage must not be active yet"));
@@ -45,16 +47,16 @@ contract("SpatialAssets", async accounts => {
   });
 
   it("Should disable a storage correctly", async () => {
-    await spatialAssets.enableStorage(web3.utils.asciiToHex('SKYDB'), {from: accounts[0]});
-    await spatialAssets.disableStorage(web3.utils.asciiToHex('SKYDB'), {from: accounts[0]});
-    const storageAllowed = await spatialAssets.allowedStorages(web3.utils.asciiToHex('SKYDB'));
+    await spatialAssets.enableStorage(stringToBytes('SKYDB'), {from: accounts[0]});
+    await spatialAssets.disableStorage(stringToBytes('SKYDB'), {from: accounts[0]});
+    const storageAllowed = await spatialAssets.allowedStorages(stringToBytes('SKYDB'));
     assert(!storageAllowed, "The storage was disabled");
   });
 
     
   it("Shouldn't let a non admin user disable a storage", async () => {
     try {
-      await spatialAssets.disableStorage(web3.utils.asciiToHex(testStorage), {from: accounts[1]});
+      await spatialAssets.disableStorage(stringToBytes(testStorage), {from: accounts[1]});
       assert(false);
     } catch (err) {
         assert(err.message.includes("SpatialAssets: must have admin role to edit allowed offchain storages"));
@@ -64,7 +66,7 @@ contract("SpatialAssets", async accounts => {
   it("Should register a role correctly", async () => {
     await spatialAssets.registerRole({from: accounts[1]});
 
-    assert(spatialAssets.hasRole(web3.utils.asciiToHex(testRole), accounts[1]), "The role was created");
+    assert(spatialAssets.hasRole(stringToBytes(testRole), accounts[1]), "The role was created");
   });
 
 
@@ -78,7 +80,7 @@ contract("SpatialAssets", async accounts => {
   });
 
   it("Should register a spatial asset correctly without a parent", async () => {
-      await spatialAssets.registerSpatialAsset(accounts[1], 1, 0, [], 10, web3.utils.asciiToHex(testStorage), 0, {from: accounts[1]});
+      await spatialAssets.registerSpatialAsset(accounts[1], stringToBytes('1'), 0, [], 10, web3.utils.asciiToHex(testStorage), 0, {from: accounts[1]});
 
       const owner = await spatialAssets.idToOwner(1);
       const externalStorage = await spatialAssets.idToExternalStorage(1);
