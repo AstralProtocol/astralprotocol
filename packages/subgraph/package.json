@@ -1,6 +1,6 @@
 {
   "name": "@astralprotocol/subgraph",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "The @astralprotocol/subgraph serves as the indexing engine of the protocol, capturing the registration and modification events of GeoDIDs in the @astralprotocol/contracts. It acts like a decentralized querying database where it is substantially easier to make complex queries to the Spatial Assets registry. It is used to create the tree of GeoDID nodes that represents their relationships and groupings.",
   "author": "Astral <contact@astral.global>",
   "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
