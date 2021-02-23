@@ -141,7 +141,9 @@ contract SpatialAssets is Context, AccessControl {
 
         if (childrensLen > 0 && _canBeParent[geoDIDId]){
             for(uint256 j=0; j < childrensLen; j++) {
-                emit ChildrenAdded(geoDIDId, childrenGeoDIDIds[j]);
+                bytes32 childrenGeoDID = childrenGeoDIDIds[j];
+                _hasParent[childrenGeoDID] = true;
+                emit ChildrenAdded(geoDIDId, childrenGeoDID);
             }
         }
     }
@@ -239,9 +241,9 @@ contract SpatialAssets is Context, AccessControl {
         );
         _owners[geoDIDId] = address(0);
         _externalStorage[geoDIDId] = "";
-        _cids[geoDIDId] = 0;
+        _cids[geoDIDId] = "";
         _hasParent[geoDIDId] = false;
-        _root[geoDIDId] = 0;
+        _root[geoDIDId] = "";
 
         uint256 childrensLen = childrenToRemove.length;
 

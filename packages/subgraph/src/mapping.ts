@@ -7,16 +7,30 @@ import {
   SpatialAssetDeactivated,
 } from "../generated/SpatialAssets/SpatialAssets";
 import { GeoDID, Edge } from "../generated/schema";
+import { Bytes } from "@graphprotocol/graph-ts";
 
+import { addQm } from "./helpers";
 export function handleSpatialAssetRegistered(
   event: SpatialAssetRegistered
 ): void {
-  let geoDID = new GeoDID(event.params.geoDIDId.toString());
+  let hexHashId = addQm(event.params.geoDIDId) as Bytes;
+  let base58HashId = "did:geo:" + hexHashId.toBase58(); // imported crypto function
+
+  let geoDID = new GeoDID(base58HashId);
 
   geoDID.owner = event.params.to.toHexString();
-  geoDID.cid = event.params.cid.toString();
+
+  let hexHashCid = addQm(event.params.cid) as Bytes;
+  let base58HashCid = hexHashCid.toBase58(); // imported crypto function
+
+  geoDID.cid = base58HashCid;
   geoDID.storage = event.params.offChainStorage;
-  geoDID.root = event.params.root.toString();
+
+  let hexHashRoot = addQm(event.params.root) as Bytes;
+  let base58HashRoot = "did:geo:" + hexHashRoot.toBase58(); // imported crypto function
+
+  geoDID.root = base58HashRoot;
+
   geoDID.active = true;
 
   if (event.params.canBeParent) {
@@ -29,55 +43,58 @@ export function handleSpatialAssetRegistered(
 }
 
 export function handleParentAdded(event: ParentAdded): void {
-  let edge = new Edge(
-    event.params.parentGeoDIDId.toString() +
-      "-" +
-      event.params.geoDIDId.toString()
-  );
+  let hexHashIdParent = addQm(event.params.parentGeoDIDId) as Bytes;
+  let base58HashParent = "did:geo:" + hexHashIdParent.toBase58(); // imported crypto function
+  let hexHashChild = addQm(event.params.geoDIDId) as Bytes;
+  let base58HashChild = "did:geo:" + hexHashChild.toBase58(); // imported crypto function
 
-  edge.self = event.params.parentGeoDIDId.toString();
-  edge.childGeoDID = event.params.geoDIDId.toString();
+  let edge = new Edge(base58HashParent + "-" + base58HashChild);
+
+  edge.self = base58HashParent;
+  edge.childGeoDID = base58HashChild;
   edge.active = true;
 
   edge.save();
 
-  let geoDID = GeoDID.load(event.params.geoDIDId.toString());
-  let parentGeoDID = GeoDID.load(event.params.parentGeoDIDId.toString());
+  let geoDID = GeoDID.load(base58HashChild);
+  let parentGeoDID = GeoDID.load(base58HashParent);
 
-  geoDID.parent = event.params.parentGeoDIDId.toString();
+  geoDID.parent = base58HashParent;
   geoDID.root = parentGeoDID.root;
 
   geoDID.save();
 }
 
 export function handleChildrenAdded(event: ChildrenAdded): void {
-  let edge = new Edge(
-    event.params.geoDIDId.toString() +
-      "-" +
-      event.params.childrenGeoDIDId.toString()
-  );
+  let hexHashIdParent = addQm(event.params.geoDIDId) as Bytes;
+  let base58HashParent = "did:geo:" + hexHashIdParent.toBase58(); // imported crypto function
+  let hexHashChild = addQm(event.params.childrenGeoDIDId) as Bytes;
+  let base58HashChild = "did:geo:" + hexHashChild.toBase58(); // imported crypto function
 
-  edge.self = event.params.geoDIDId.toString();
-  edge.childGeoDID = event.params.childrenGeoDIDId.toString();
+  let edge = new Edge(base58HashParent + "-" + base58HashChild);
+
+  edge.self = base58HashParent;
+  edge.childGeoDID = base58HashChild;
   edge.active = true;
 
   edge.save();
 
-  let geoDID = GeoDID.load(event.params.childrenGeoDIDId.toString());
-  let parentGeoDID = GeoDID.load(event.params.geoDIDId.toString());
+  let geoDID = GeoDID.load(base58HashChild);
+  let parentGeoDID = GeoDID.load(base58HashParent);
 
-  geoDID.parent = event.params.geoDIDId.toString();
+  geoDID.parent = base58HashParent;
   geoDID.root = parentGeoDID.root;
 
   geoDID.save();
 }
 
 export function handleParentRemoved(event: ParentRemoved): void {
-  let edge = Edge.load(
-    event.params.parentGeoDIDId.toString() +
-      "-" +
-      event.params.geoDIDId.toString()
-  );
+  let hexHashIdParent = addQm(event.params.parentGeoDIDId) as Bytes;
+  let base58HashParent = "did:geo:" + hexHashIdParent.toBase58(); // imported crypto function
+  let hexHashChild = addQm(event.params.geoDIDId) as Bytes;
+  let base58HashChild = "did:geo:" + hexHashChild.toBase58(); // imported crypto function
+
+  let edge = Edge.load(base58HashParent + "-" + base58HashChild);
 
   edge.self = "";
   edge.childGeoDID = "";
@@ -85,7 +102,7 @@ export function handleParentRemoved(event: ParentRemoved): void {
 
   edge.save();
 
-  let geoDID = GeoDID.load(event.params.geoDIDId.toString());
+  let geoDID = GeoDID.load(base58HashChild);
 
   geoDID.parent = "";
 
@@ -95,11 +112,12 @@ export function handleParentRemoved(event: ParentRemoved): void {
 }
 
 export function handleChildrenRemoved(event: ChildrenRemoved): void {
-  let edge = Edge.load(
-    event.params.geoDIDId.toString() +
-      "-" +
-      event.params.childrenGeoDIDId.toString()
-  );
+  let hexHashIdParent = addQm(event.params.geoDIDId) as Bytes;
+  let base58HashParent = "did:geo:" + hexHashIdParent.toBase58(); // imported crypto function
+  let hexHashChild = addQm(event.params.childrenGeoDIDId) as Bytes;
+  let base58HashChild = "did:geo:" + hexHashChild.toBase58(); // imported crypto function
+
+  let edge = Edge.load(base58HashParent + "-" + base58HashChild);
 
   edge.self = "";
   edge.childGeoDID = "";
@@ -107,11 +125,11 @@ export function handleChildrenRemoved(event: ChildrenRemoved): void {
 
   edge.save();
 
-  let geoDID = GeoDID.load(event.params.childrenGeoDIDId.toString());
+  let geoDID = GeoDID.load(base58HashChild);
 
   geoDID.parent = "";
 
-  geoDID.root = geoDID.id.toString();
+  geoDID.root = geoDID.id;
 
   geoDID.save();
 }
@@ -119,10 +137,11 @@ export function handleChildrenRemoved(event: ChildrenRemoved): void {
 export function handleSpatialAssetDeactivated(
   event: SpatialAssetDeactivated
 ): void {
-  let geoDID = GeoDID.load(event.params.geoDIDId.toString());
-  let edgeToParent = Edge.load(
-    geoDID.parent + "-" + event.params.geoDIDId.toString()
-  );
+  let hexHashId = addQm(event.params.geoDIDId) as Bytes;
+  let base58Hash = "did:geo:" + hexHashId.toBase58(); // imported crypto function
+
+  let geoDID = GeoDID.load(base58Hash);
+  let edgeToParent = Edge.load(geoDID.parent + "-" + base58Hash);
 
   edgeToParent.self = "";
   edgeToParent.active = false;
@@ -139,19 +158,20 @@ export function handleSpatialAssetDeactivated(
   let childrenToRemoveLen = event.params.childrenToRemove.length;
 
   for (let i = 0; i < childrenToRemoveLen; i++) {
-    let edgeToChildren = Edge.load(
-      event.params.geoDIDId.toString() + "-" + childrenToRemove[i].toString()
-    );
+    let hexHashIdChildren = addQm(childrenToRemove[i]) as Bytes;
+    let base58HashChildren = "did:geo:" + hexHashIdChildren.toBase58(); // imported crypto function
+
+    let edgeToChildren = Edge.load(base58Hash + "-" + base58HashChildren);
 
     edgeToChildren.self = "";
     edgeToChildren.active = false;
     edgeToChildren.save();
 
-    let child = GeoDID.load(childrenToRemove[i].toString());
+    let child = GeoDID.load(base58HashChildren);
 
     child.parent = "";
 
-    child.root = child.id.toString();
+    child.root = child.id;
 
     child.save();
   }

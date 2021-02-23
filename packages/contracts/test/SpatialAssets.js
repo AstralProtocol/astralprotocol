@@ -112,7 +112,7 @@ contract("SpatialAssets", async accounts => {
       const cid = 'QmNSUYVKDSvPUnRLKmuxk9diJ6yS96r1TrAXzjTiBcCLAL';
       const bytes32Cid = getBytes32FromIpfsHash(cid);
 
-      await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDID, '0x0', [], bytes32Cid, stringToBytes(testStorage), 0, {from: accounts[1]});
+      await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDID, stringToBytes(''), [], bytes32Cid, stringToBytes(testStorage), 0, {from: accounts[1]});
 
       const owner = await spatialAssets.idToOwner(bytes32GeoDID);
       const externalStorage = await spatialAssets.idToExternalStorage(bytes32GeoDID);
@@ -139,7 +139,7 @@ contract("SpatialAssets", async accounts => {
     const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
     const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
-    await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDParent, '0x0', [], bytes32CidParent, stringToBytes(testStorage), 0, {from: accounts[1]});
+    await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDParent, stringToBytes(''), [], bytes32CidParent, stringToBytes(testStorage), 0, {from: accounts[1]});
     await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDChild, bytes32GeoDIDParent, [], bytes32CidChild, stringToBytes(testStorage), 0, {from: accounts[1]});
 
     const owner = await spatialAssets.idToOwner(bytes32GeoDIDChild);
@@ -160,7 +160,7 @@ contract("SpatialAssets", async accounts => {
     const cid = 'QmYA2fn8cMbVWo4v95RwcwJVyQsNtnEwHerfWR8UNtEwoE';
     const bytes32Cid = getBytes32FromIpfsHash(cid);
 
-    await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDID, '0x0', [], bytes32Cid, stringToBytes(testStorage), 1, {from: accounts[1]});
+    await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDID, stringToBytes(''), [], bytes32Cid, stringToBytes(testStorage), 1, {from: accounts[1]});
 
     const owner = await spatialAssets.idToOwner(bytes32GeoDID);
     const externalStorage = await spatialAssets.idToExternalStorage(bytes32GeoDID);
@@ -187,7 +187,7 @@ it("Should register a spatial asset correctly of type 1 with a parent", async ()
   const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
   const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
-  await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDParent, '0x0', [], bytes32CidParent, stringToBytes(testStorage), 0, {from: accounts[1]});
+  await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDParent, stringToBytes(''), [], bytes32CidParent, stringToBytes(testStorage), 0, {from: accounts[1]});
 
   await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDChild, bytes32GeoDIDParent, [], bytes32CidChild, stringToBytes(testStorage), 1, {from: accounts[1]});
 
@@ -219,9 +219,9 @@ it("Should register a spatial asset correctly of type 0 without parent with a ch
   const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
   const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
-  await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDChild, '0x0', [], bytes32CidChild, stringToBytes(testStorage), 1, {from: accounts[1]});
+  await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDChild, stringToBytes(''), [], bytes32CidChild, stringToBytes(testStorage), 1, {from: accounts[1]});
 
-  await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDParent, '0x0', [bytes32GeoDIDChild], bytes32CidParent, stringToBytes(testStorage), 0, {from: accounts[1]});
+  await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDParent, stringToBytes(''), [bytes32GeoDIDChild], bytes32CidParent, stringToBytes(testStorage), 0, {from: accounts[1]});
 
   const owner = await spatialAssets.idToOwner(bytes32GeoDIDParent);
   const externalStorage = await spatialAssets.idToExternalStorage(bytes32GeoDIDParent);
@@ -235,40 +235,47 @@ it("Should register a spatial asset correctly of type 0 without parent with a ch
 
 });
 
-it("Should register a spatial asset correctly of type 0 with a parent and with a children", async () => {
-const geodididParent = 'did:geo:QmR29wrbNv3WrMuodwuLiDwvskuZKKeTtcYDw7SwNffzCH';
-const cidParent = 'QmR29wrbNv3WrMuodwuLiDwvskuZKKeTtcYDw7SwNffzCH';
+  it("Should register a spatial asset correctly of type 0 with a parent and with a children", async () => {
+  
+    const geodididParent = 'did:geo:QmR29wrbNv3WrMuodwuLiDwvskuZKKeTtcYDw7SwNffzCH';
+    const cidParent = 'QmR29wrbNv3WrMuodwuLiDwvskuZKKeTtcYDw7SwNffzCH';
 
-const geodidid = 'did:geo:Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
-const cid = 'Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
+    const geodidid = 'did:geo:Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
+    const cid = 'Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
 
-const geodididChild = 'did:geo:QmYMg6WAuvF5i5yFmjT8KkqewZ5Ngh4U9Mp1bGfdjraFVk';
-const cidChild = 'QmYMg6WAuvF5i5yFmjT8KkqewZ5Ngh4U9Mp1bGfdjraFVk ';
+    const geodididChild = 'did:geo:QmdsCAZ3KEVPNTkUtru1wtFRUoYnGsfjQnAMPyiEdFZdM9';
+    const cidChild = 'QmdsCAZ3KEVPNTkUtru1wtFRUoYnGsfjQnAMPyiEdFZdM9';
 
-const bytes32GeoDIDParent = getBytes32FromIpfsHash(geodididParent.substring(8));
-const bytes32CidParent = getBytes32FromIpfsHash(cidParent);
+    const bytes32GeoDIDParent = getBytes32FromIpfsHash(geodididParent.substring(8));
+    const bytes32CidParent = getBytes32FromIpfsHash(cidParent);
 
-const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
-const bytes32Cid = getBytes32FromIpfsHash(cid);
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+    const bytes32Cid = getBytes32FromIpfsHash(cid);
 
-const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
-const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
-await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDParent, '0x0', [], bytes32CidParent, stringToBytes(testStorage), 0, {from: accounts[1]});
-await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDChild, '0x0', [], bytes32CidChild, stringToBytes(testStorage), 1, {from: accounts[1]});
-await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDID, bytes32GeoDIDParent, [bytes32GeoDIDChild], bytes32Cid, stringToBytes(testStorage), 0, {from: accounts[1]});
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+    const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
-const owner = await spatialAssets.idToOwner(bytes32GeoDID);
-const externalStorage = await spatialAssets.idToExternalStorage(bytes32GeoDID);
-const canBeParent = await spatialAssets.idToCanBeParent(bytes32GeoDID);
-const hasParent = await spatialAssets.idToHasParent(bytes32GeoDID);
 
-assert.equal(owner, accounts[1], "Ownership not correctly assigned");
-assert.equal(web3.utils.hexToAscii(externalStorage).replace(/\u0000/g, ''), testStorage, "External storage was not correctly assigned");
-assert(canBeParent, "Is a parent parent");
-assert(hasParent, "Has a parent");
+    await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDParent, stringToBytes(''), [], bytes32CidParent, stringToBytes(testStorage), 0, {from: accounts[1]});
 
-});
+    await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDChild, stringToBytes(''), [], bytes32CidChild, stringToBytes(testStorage), 1, {from: accounts[1]});
+
+    await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDID, bytes32GeoDIDParent, [bytes32GeoDIDChild], bytes32Cid, stringToBytes(testStorage), 0, {from: accounts[1]});
+
+
+    const owner = await spatialAssets.idToOwner(bytes32GeoDID);
+    const externalStorage = await spatialAssets.idToExternalStorage(bytes32GeoDID);
+    const canBeParent = await spatialAssets.idToCanBeParent(bytes32GeoDID);
+    const hasParent = await spatialAssets.idToHasParent(bytes32GeoDID);
+
+    assert.equal(owner, accounts[1], "Ownership not correctly assigned");
+    assert.equal(web3.utils.hexToAscii(externalStorage).replace(/\u0000/g, ''), testStorage, "External storage was not correctly assigned");
+    assert(canBeParent, "Is a parent");
+    assert(hasParent, "Has a parent");
+
+  });
+
 
   it("Shouldn't register a spatial asset for someone without the proper role", async () => {
     const geodididParent = 'did:geo:QmR29wrbNv3WrMuodwuLiDwvskuZKKeTtcYDw7SwNffzCH';
@@ -331,13 +338,13 @@ assert(hasParent, "Has a parent");
   it("Shouldn't register a spatial asset without the proper geodid type", async () => {
     const geodidid = 'did:geo:Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
 
-const geodididChild = 'did:geo:QmYMg6WAuvF5i5yFmjT8KkqewZ5Ngh4U9Mp1bGfdjraFVk';
-const cidChild = 'QmYMg6WAuvF5i5yFmjT8KkqewZ5Ngh4U9Mp1bGfdjraFVk ';
+    const geodididChild = 'did:geo:QmYMg6WAuvF5i5yFmjT8KkqewZ5Ngh4U9Mp1bGfdjraFVk';
+    const cidChild = 'QmYMg6WAuvF5i5yFmjT8KkqewZ5Ngh4U9Mp1bGfdjraFVk';
 
-const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
 
-const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
-const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+    const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
     try {
         await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDChild, bytes32GeoDID, [], bytes32CidChild, stringToBytes(testStorage), 2,{from: accounts[1]});
@@ -349,23 +356,40 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
   });
 
   
-  it("Should add children to an already create geodid correctly", async () => {
-    await spatialAssets.registerSpatialAsset(accounts[1], 2, 0, [], 11, web3.utils.asciiToHex(testStorage), 1, {from: accounts[1]});
+  it("Should add children to an already created geodid correctly", async () => {
+    // already created above
+    const geodidid = 'did:geo:Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
 
-    await spatialAssets.registerSpatialAsset(accounts[1], 4, 0, [], 13, web3.utils.asciiToHex(testStorage), 0, {from: accounts[1]});
-    await spatialAssets.registerSpatialAsset(accounts[1], 3, 0, [], 12, web3.utils.asciiToHex(testStorage), 1, {from: accounts[1]});
+    const geodididChild = 'did:geo:QmdPtC3T7Kcu9iJg6hYzLBWR5XCDcYMY7HV685E3kH3EcS';
+    const cidChild = 'QmdPtC3T7Kcu9iJg6hYzLBWR5XCDcYMY7HV685E3kH3EcS';
 
-    await spatialAssets.addChildrenGeoDIDs(1, [2], {from: accounts[1]});
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
 
-    const hasParent = await spatialAssets.idToHasParent(2);
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+    const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
+
+
+    await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDChild, stringToBytes(''), [], bytes32CidChild, stringToBytes(testStorage), 1, {from: accounts[1]});
+
+    await spatialAssets.addChildrenGeoDIDs(bytes32GeoDID, [bytes32GeoDIDChild], {from: accounts[1]});
+
+    const hasParent = await spatialAssets.idToHasParent(bytes32GeoDIDChild);
 
     assert(hasParent, "Geodid children successfuly added");
 
   });
 
   it("Shouldn't register a children by someone without the proper role", async () => {
+    const geodidid = 'did:geo:Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
+
+    const geodididChild = 'did:geo:QmdPtC3T7Kcu9iJg6hYzLBWR5XCDcYMY7HV685E3kH3EcS';
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+    
     try {
-      await spatialAssets.addChildrenGeoDIDs(1, [3], {from: accounts[2]});
+      await spatialAssets.addChildrenGeoDIDs(bytes32GeoDID, [bytes32GeoDIDChild], {from: accounts[2]});
     
         assert(false);
     } catch (err) {
@@ -374,8 +398,16 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
   });
 
   it("Shouldn't register a children to a geodid that does not exist", async () => {
+    const geodidid = 'did:geo:QmcniBv7UQ4gGPQQW2BwbD4ZZHzN3o3tPuNLZCbBchd1zh';
+
+    const geodididChild = 'did:geo:QmdPtC3T7Kcu9iJg6hYzLBWR5XCDcYMY7HV685E3kH3EcS';
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+
     try {
-      await spatialAssets.addChildrenGeoDIDs(5, [3], {from: accounts[1]});
+      await spatialAssets.addChildrenGeoDIDs(bytes32GeoDID, [bytes32GeoDIDChild], {from: accounts[1]});
     
         assert(false);
     } catch (err) {
@@ -384,8 +416,16 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
   });
 
   it("Shouldn't register a children to a geodid that cannot be parent", async () => {
+    const geodidid = 'did:geo:QmdsCAZ3KEVPNTkUtru1wtFRUoYnGsfjQnAMPyiEdFZdM9';
+
+    const geodididChild = 'did:geo:QmdPtC3T7Kcu9iJg6hYzLBWR5XCDcYMY7HV685E3kH3EcS';
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+    
     try {
-      await spatialAssets.addChildrenGeoDIDs(3, [4], {from: accounts[1]});
+      await spatialAssets.addChildrenGeoDIDs(bytes32GeoDID, [bytes32GeoDIDChild], {from: accounts[1]});
     
         assert(false);
     } catch (err) {
@@ -394,8 +434,16 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
   });
 
   it("Shouldn't register a parent by someone without the proper role", async () => {
+    const geodidid = 'did:geo:Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
+
+    const geodididChild = 'did:geo:QmdPtC3T7Kcu9iJg6hYzLBWR5XCDcYMY7HV685E3kH3EcS';
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+
     try {
-      await spatialAssets.addParentGeoDID(3, 4, {from: accounts[2]});
+      await spatialAssets.addParentGeoDID(bytes32GeoDIDChild, bytes32GeoDID, {from: accounts[2]});
     
         assert(false);
     } catch (err) {
@@ -404,8 +452,16 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
   });
 
   it("Shouldn't register a parent if the child geodid wasn't created by the sender", async () => {
+    const geodidid = 'did:geo:Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
+
+    const geodididChild = 'did:geo:QmdPtC3T7Kcu9iJg6hYzLBWR5XCDcYMY7HV685E3kH3EcS';
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+
     try {
-      await spatialAssets.addParentGeoDID(3, 4, {from: accounts[0]});
+      await spatialAssets.addParentGeoDID(bytes32GeoDIDChild, bytes32GeoDID, {from: accounts[0]});
     
         assert(false);
     } catch (err) {
@@ -414,8 +470,16 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
   });
 
   it("Shouldn't register a parent if it does not exist", async () => {
+    const geodidid = 'did:geo:QmcniBv7UQ4gGPQQW2BwbD4ZZHzN3o3tPuNLZCbBchd1zh';
+    
+    const geodididChild = 'did:geo:QmdPtC3T7Kcu9iJg6hYzLBWR5XCDcYMY7HV685E3kH3EcS';
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+
     try {
-      await spatialAssets.addParentGeoDID(3, 5, {from: accounts[1]});
+      await spatialAssets.addParentGeoDID(bytes32GeoDIDChild, bytes32GeoDID, {from: accounts[1]});
     
         assert(false);
     } catch (err) {
@@ -424,8 +488,21 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
   });
 
   it("Shouldn't register a parent to a geodid that already has a parent", async () => {
+    const geodidid = 'did:geo:QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr';
+    const cid = 'QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr';
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+    const bytes32Cid = getBytes32FromIpfsHash(cid);
+
+    
+    const geodididChild = 'did:geo:QmdsCAZ3KEVPNTkUtru1wtFRUoYnGsfjQnAMPyiEdFZdM9';
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+
+    await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDID, stringToBytes(''), [], bytes32Cid, stringToBytes(testStorage), 0, {from: accounts[1]});
+
     try {
-      await spatialAssets.addParentGeoDID(2, 4, {from: accounts[1]});
+      await spatialAssets.addParentGeoDID(bytes32GeoDIDChild, bytes32GeoDID, {from: accounts[1]});
     
         assert(false);
     } catch (err) {
@@ -435,8 +512,16 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
   
   it("Shouldn't register as parent a geodid that cannot be parent", async () => {
+    const geodidid = 'did:geo:QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr';
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const geodididChild = 'did:geo:QmdsCAZ3KEVPNTkUtru1wtFRUoYnGsfjQnAMPyiEdFZdM9';
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+
     try {
-      await spatialAssets.addParentGeoDID(3, 2, {from: accounts[1]});
+      await spatialAssets.addParentGeoDID(bytes32GeoDID, bytes32GeoDIDChild, {from: accounts[1]});
     
         assert(false);
     } catch (err) {
@@ -446,10 +531,24 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
 
     
-  it("Should add children to an already create geodid correctly", async () => {
-    await spatialAssets.addParentGeoDID(3, 4, {from: accounts[1]});
+  it("Should add a parent to an already created geodid correctly", async () => {
+    const geodidid = 'did:geo:QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr';
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
 
-    const hasParent = await spatialAssets.idToHasParent(3);
+
+    const geodididChild = 'did:geo:QmeKZSrzAZ5bhaxH2rvm8HEsiqfKceG1FuLHwwbD3mbnEo';
+    const cidChild = 'QmeKZSrzAZ5bhaxH2rvm8HEsiqfKceG1FuLHwwbD3mbnEo';
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+    const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
+
+
+    await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDChild, stringToBytes(''), [], bytes32CidChild, stringToBytes(testStorage), 1, {from: accounts[1]});
+
+
+    await spatialAssets.addParentGeoDID(bytes32GeoDIDChild, bytes32GeoDID, {from: accounts[1]});
+
+    const hasParent = await spatialAssets.idToHasParent(bytes32GeoDIDChild);
 
     assert(hasParent, "Geodid children successfuly added");
 
@@ -457,8 +556,15 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
 
   it("Shouldn't remove children by an account without proper roles", async () => {
+    const geodidid = 'did:geo:QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr';
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const geodididChild = 'did:geo:QmeKZSrzAZ5bhaxH2rvm8HEsiqfKceG1FuLHwwbD3mbnEo';
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+
     try {
-      await spatialAssets.removeChildrenGeoDIDs(4, [3], {from: accounts[3]});
+      await spatialAssets.removeChildrenGeoDIDs(bytes32GeoDID, [bytes32GeoDIDChild], {from: accounts[3]});
     
         assert(false);
     } catch (err) {
@@ -468,8 +574,15 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
   
   it("Shouldn't remove children to a non existent geodid", async () => {
+    const geodidid = 'did:geo:QmccqhJg5wm5kNjAP4k4HrYxoqaXUGNuotDUqfvYBx8jrR';
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const geodididChild = 'did:geo:QmeKZSrzAZ5bhaxH2rvm8HEsiqfKceG1FuLHwwbD3mbnEo';
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+
     try {
-      await spatialAssets.removeChildrenGeoDIDs(6, [3], {from: accounts[1]});
+      await spatialAssets.removeChildrenGeoDIDs(bytes32GeoDID, [bytes32GeoDIDChild], {from: accounts[1]});
     
         assert(false);
     } catch (err) {
@@ -478,17 +591,34 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
   });
 
   it("Should remove children correctly", async () => {
-      await spatialAssets.removeChildrenGeoDIDs(4, [3], {from: accounts[1]});
+    const geodidid = 'did:geo:QmavE42xtK1VovJFVTVkCR5Jdf761QWtxmvak9Zx718TVr';
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const geodididChild = 'did:geo:QmeKZSrzAZ5bhaxH2rvm8HEsiqfKceG1FuLHwwbD3mbnEo';
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+
+      await spatialAssets.removeChildrenGeoDIDs(bytes32GeoDID, [bytes32GeoDIDChild], {from: accounts[1]});
     
-      const hasParent = await spatialAssets.idToHasParent(3);
+      const hasParent = await spatialAssets.idToHasParent(bytes32GeoDIDChild);
 
       assert(!hasParent, "Parent successfuly removed");
   });
 
 
   it("Shouldn't remove a parent by a sender without proper roles", async () => {
+
+    const geodidid = 'did:geo:Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
+
+    const geodididChild = 'did:geo:QmdsCAZ3KEVPNTkUtru1wtFRUoYnGsfjQnAMPyiEdFZdM9';
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+
+
     try {
-      await spatialAssets.removeParentGeoDID(2, 1, {from: accounts[2]});
+      await spatialAssets.removeParentGeoDID(bytes32GeoDIDChild, bytes32GeoDID, {from: accounts[2]});
     
         assert(false);
     } catch (err) {
@@ -498,9 +628,17 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
 
 
-  it("Shouldn't remove a parent to a geodid that does not exist or does not belong to sender", async () => {
+  it("Shouldn't remove a parent to a geodid that does not exist", async () => {
+    const geodidid = 'did:geo:Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
+
+    const geodididChild = 'did:geo:QmNwEiWPc8EPc9kGEqdi9UeM5RY8jRJSPVdrtKELFZRH85';
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+
     try {
-      await spatialAssets.removeParentGeoDID(7, 1, {from: accounts[1]});
+      await spatialAssets.removeParentGeoDID(bytes32GeoDIDChild, bytes32GeoDID, {from: accounts[1]});
     
         assert(false);
     } catch (err) {
@@ -509,8 +647,16 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
   });
 
   it("Shouldn't remove a parent  that does not exist", async () => {
+    const geodidid = 'did:geo:QmNwEiWPc8EPc9kGEqdi9UeM5RY8jRJSPVdrtKELFZRH85';
+    
+    const geodididChild = 'did:geo:Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+
     try {
-      await spatialAssets.removeParentGeoDID(2, 7, {from: accounts[1]});
+      await spatialAssets.removeParentGeoDID(bytes32GeoDIDChild, bytes32GeoDID, {from: accounts[1]});
     
         assert(false);
     } catch (err) {
@@ -520,8 +666,16 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
   
   it("Shouldn't remove a parent to a geodid that does not have a parent", async () => {
+    const geodididParent = 'did:geo:QmdiA1atSBgU178s5rsWont8cYns3fmwHxELTpiP9uFfLW';
+  
+    const bytes32GeoDIDParent = getBytes32FromIpfsHash(geodididParent.substring(8));
+
+    const geodididChild = 'did:geo:Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
+
+    const bytes32GeoDIDChild = getBytes32FromIpfsHash(geodididChild.substring(8));
+    
     try {
-      await spatialAssets.removeParentGeoDID(3, 1, {from: accounts[1]});
+      await spatialAssets.removeParentGeoDID(bytes32GeoDIDParent, bytes32GeoDIDChild, {from: accounts[1]});
     
         assert(false);
     } catch (err) {
@@ -530,9 +684,19 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
   });
 
   it("Should remove a parent correctly", async () => {
-    await spatialAssets.removeParentGeoDID(2, 1, {from: accounts[1]});
+      
+    const geodididParent = 'did:geo:QmR29wrbNv3WrMuodwuLiDwvskuZKKeTtcYDw7SwNffzCH';
+
+    const geodidid = 'did:geo:Qmc2ot2NQadXmbvPbsidyjYDvPfPwKZmovzNpfRPKxXUrL';
+
+    const bytes32GeoDIDParent = getBytes32FromIpfsHash(geodididParent.substring(8));
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+
+
+    await spatialAssets.removeParentGeoDID(bytes32GeoDID, bytes32GeoDIDParent, {from: accounts[1]});
   
-    const hasParent = await spatialAssets.idToHasParent(2);
+    const hasParent = await spatialAssets.idToHasParent(bytes32GeoDID);
 
     assert(!hasParent, "Parent successfuly removed");
 });
@@ -540,8 +704,12 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
 
 
   it("Shouldn't deactivate a Spatial Asset if not the right owner", async () => {
+    const geodididParent = 'did:geo:QmR29wrbNv3WrMuodwuLiDwvskuZKKeTtcYDw7SwNffzCH';
+
+    const bytes32GeoDIDParent = getBytes32FromIpfsHash(geodididParent.substring(8));
+
     try {
-      await spatialAssets.deactivateSpatialAsset(1,[], {from: accounts[2]});
+      await spatialAssets.deactivateSpatialAsset(bytes32GeoDIDParent,[], {from: accounts[2]});
     
         assert(false);
     } catch (err) {
@@ -550,32 +718,54 @@ const bytes32CidChild = getBytes32FromIpfsHash(cidChild);
   });
 
   it("Should deactivate a spatial asset with no children correctly", async () => {
-    await spatialAssets.deactivateSpatialAsset(1, [], {from: accounts[1]});
+    const geodididParent = 'did:geo:QmR29wrbNv3WrMuodwuLiDwvskuZKKeTtcYDw7SwNffzCH';
 
-    const owner = await spatialAssets.idToOwner(1);
-    const externalStorage = await spatialAssets.idToExternalStorage(1);
-    const cid = await spatialAssets.idToCid(1);
-    const hasParent = await spatialAssets.idToHasParent(1);
+    const bytes32GeoDIDParent = getBytes32FromIpfsHash(geodididParent.substring(8));
+
+    await spatialAssets.deactivateSpatialAsset(bytes32GeoDIDParent, [], {from: accounts[1]});
+
+    const owner = await spatialAssets.idToOwner(bytes32GeoDIDParent);
+    const externalStorage = await spatialAssets.idToExternalStorage(bytes32GeoDIDParent);
+    const cid = await spatialAssets.idToCid(bytes32GeoDIDParent);
+    const hasParent = await spatialAssets.idToHasParent(bytes32GeoDIDParent);
 
     assert.equal(owner, '0x0000000000000000000000000000000000000000', "Id not burned");
     assert.equal(web3.utils.hexToAscii(externalStorage).replace(/\u0000/g, ''), '', "External storage not deleted");
-    assert.equal(cid, 0, "Cid not 0");
+    assert.equal(web3.utils.hexToAscii(cid).replace(/\u0000/g, ''), '', "Cid not deleted");
     assert(!hasParent, "Has parent not null");
 
   });
 
   it("Should deactivate a spatial asset with children correctly", async () => {
+      
+    const geodididParent = 'did:geo:QmQ747r7eLfsVtBFBSRwfXsPK6tADJpQzJxz4uFdoZb9XJ';
+    const cidParent = 'QmQ747r7eLfsVtBFBSRwfXsPK6tADJpQzJxz4uFdoZb9XJ';
 
-    await spatialAssets.deactivateSpatialAsset(14, [15], {from: accounts[1]});
+    const geodidid = 'did:geo:QmcvyefkqQX3PpjpY5L8B2yMd47XrVwAipr6cxUt2zvYU8';
+    const cid = 'QmcvyefkqQX3PpjpY5L8B2yMd47XrVwAipr6cxUt2zvYU8';
 
-    const owner = await spatialAssets.idToOwner(14);
-    const externalStorage = await spatialAssets.idToExternalStorage(14);
-    const cid = await spatialAssets.idToCid(14);
-    const hasParent = await spatialAssets.idToHasParent(14);
+    const bytes32GeoDIDParent = getBytes32FromIpfsHash(geodididParent.substring(8));
+    const bytes32CidParent = getBytes32FromIpfsHash(cidParent);
+
+    const bytes32GeoDID = getBytes32FromIpfsHash(geodidid.substring(8));
+    const bytes32Cid = getBytes32FromIpfsHash(cid);
+
+
+    await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDIDParent, stringToBytes(''), [], bytes32CidParent, stringToBytes(testStorage), 0, {from: accounts[1]});
+
+    await spatialAssets.registerSpatialAsset(accounts[1], bytes32GeoDID, bytes32GeoDIDParent, [], bytes32Cid, stringToBytes(testStorage), 1, {from: accounts[1]});
+
+
+    await spatialAssets.deactivateSpatialAsset(bytes32GeoDIDParent, [bytes32GeoDID], {from: accounts[1]});
+
+    const owner = await spatialAssets.idToOwner(bytes32GeoDIDParent);
+    const externalStorage = await spatialAssets.idToExternalStorage(bytes32GeoDIDParent);
+    const cidTest = await spatialAssets.idToCid(bytes32GeoDIDParent);
+    const hasParent = await spatialAssets.idToHasParent(bytes32GeoDIDParent);
 
     assert.equal(owner, '0x0000000000000000000000000000000000000000', "Id not burned");
     assert.equal(web3.utils.hexToAscii(externalStorage).replace(/\u0000/g, ''), '', "External storage not deleted");
-    assert.equal(cid, 0, "Cid not 0");
+    assert.equal(web3.utils.hexToAscii(cidTest).replace(/\u0000/g, ''), '', "Cid not deleted");
     assert(!hasParent, "Has parent not null");
 
   });
