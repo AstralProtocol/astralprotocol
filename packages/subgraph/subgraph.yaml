@@ -6,7 +6,7 @@ dataSources:
     name: SpatialAssets
     network: ropsten
     source:
-      address: "0xF2982a28f67a13126ba7533A1c90d275121E60BD"
+      address: "0x1554364286617A544D3bcd07826eCDDA0EFFD03D"
       abi: SpatialAssets
     mapping:
       kind: ethereum/events
@@ -19,16 +19,16 @@ dataSources:
         - name: SpatialAssets
           file: ./abis/SpatialAssets.json
       eventHandlers:
-        - event: SpatialAssetRegistered(indexed address,indexed uint256,indexed uint256,bytes32,uint256,bool)
+        - event: SpatialAssetRegistered(indexed address,indexed bytes32,indexed bytes32,bytes32,bytes32,bool)
           handler: handleSpatialAssetRegistered
-        - event: SpatialAssetDeactivated(indexed uint256,uint256[])
+        - event: SpatialAssetDeactivated(indexed bytes32,bytes32[])
           handler: handleSpatialAssetDeactivated
-        - event: ParentAdded(indexed uint256,indexed uint256)
+        - event: ParentAdded(indexed bytes32,indexed bytes32)
           handler: handleParentAdded
-        - event: ChildrenAdded(indexed uint256,indexed uint256)
+        - event: ChildrenAdded(indexed bytes32,indexed bytes32)
           handler: handleChildrenAdded
-        - event: ParentRemoved(indexed uint256,indexed uint256)
+        - event: ParentRemoved(indexed bytes32,indexed bytes32)
           handler: handleParentRemoved
-        - event: ChildrenRemoved(indexed uint256,indexed uint256)
+        - event: ChildrenRemoved(indexed bytes32,indexed bytes32)
           handler: handleChildrenRemoved
       file: ./src/mapping.ts

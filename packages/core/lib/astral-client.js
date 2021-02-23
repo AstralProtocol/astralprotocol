@@ -22,7 +22,7 @@ class AstralClient {
     constructor(_ethereumAddress) {
         this._ethereumAddress = _ethereumAddress;
         this.document = new document_1.Document(_ethereumAddress);
-        this.graphQLClient = new graphql_request_1.GraphQLClient('https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv02');
+        this.graphQLClient = new graphql_request_1.GraphQLClient('https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv03');
         this.docmap = {};
     }
     getPowergateInstance(token) {

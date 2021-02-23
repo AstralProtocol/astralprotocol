@@ -14,11 +14,10 @@ interface DocMap {
 interface InstanceInfo {
     authToken: string;
     cid: string;
-}  
+}
 
 export class AstralClient {
-    
-    // geodidid -> cid 
+    // geodidid -> cid
     docmap: DocMap;
 
     document: Document;
@@ -29,31 +28,32 @@ export class AstralClient {
 
     constructor(public _ethereumAddress: string) {
         this.document = new Document(_ethereumAddress);
-        this.graphQLClient = new GraphQLClient('https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv02');
+        this.graphQLClient = new GraphQLClient(
+            'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv03',
+        );
         this.docmap = {};
     }
 
-    async getPowergateInstance(token?: string): Promise<Powergate>{
+    async getPowergateInstance(token?: string): Promise<Powergate> {
         let powergate: Powergate;
 
-        if(token){
+        if (token) {
             powergate = await Powergate.build(token);
-        }
-        else{
+        } else {
             powergate = await Powergate.build();
         }
-        
+
         return powergate;
     }
 
     async createGenesisGeoDID(_typeOfGeoDID: string): Promise<IDocumentInfo> {
         let response: IDocumentInfo;
-        
+
         try {
             // prints the geodidid of the genesis geodid
             response = await this.document.addGenesisDocument(_typeOfGeoDID);
-        }catch(e){
-            console.log("Unable to initialize")
+        } catch (e) {
+            console.log('Unable to initialize');
         }
 
         return response;
@@ -62,98 +62,94 @@ export class AstralClient {
     // Option to create Child GeoDID
     async createChildGeoDID(_typeOfGeoDID: string, _parentID: string, _path: string): Promise<IDocumentInfo> {
         let response: IDocumentInfo;
-        
+
         try {
             response = await this.document.addChildDocument(_typeOfGeoDID, _parentID, _path);
-        }catch(e){
-            console.log("Unable to initialize")
+        } catch (e) {
+            console.log('Unable to initialize');
         }
 
         return response;
     }
 
     // must call getPowergateInstance before hand, in order to call pinDocument
-    async pinDocument(documentInfo: IDocumentInfo, token?: string): Promise<IPinInfo>{
-        
+    async pinDocument(documentInfo: IDocumentInfo, token?: string): Promise<IPinInfo> {
         let cid: string;
         let pinDate: Date = new Date();
         let powergate: Powergate;
-        
-        try{
-            if(token){
+
+        try {
+            if (token) {
                 powergate = await Powergate.build(token);
-            }
-            else{
+            } else {
                 powergate = await Powergate.build();
             }
             token = await powergate.getToken();
             const stringdoc = JSON.stringify(documentInfo.documentVal);
-            console.log(stringdoc) // delete 
+            console.log(stringdoc); // delete
             const uint8array = new TextEncoder().encode(stringdoc);
-            console.log(uint8array) // delete
+            console.log(uint8array); // delete
             cid = await powergate.getAssetCid(uint8array);
-            console.log(cid) // delete 
-            await powergate.pin(cid); 
+            console.log(cid); // delete
+            await powergate.pin(cid);
 
-            if(this.docmap[documentInfo.geodidid] === undefined){
+            if (this.docmap[documentInfo.geodidid] === undefined) {
                 this.docmap[documentInfo.geodidid] = {
                     authToken: token,
-                    cid: cid
-                }
-            }
-            else{
+                    cid: cid,
+                };
+            } else {
                 this.updateMapping(documentInfo.geodidid, cid);
             }
-            
+
             console.log(this.docmap[documentInfo.geodidid]); // delete
-        }catch(e){
+        } catch (e) {
             console.log(e);
         }
 
-        return { geodidid: documentInfo.geodidid, cid: cid, pinDate: pinDate, token: token }
+        return { geodidid: documentInfo.geodidid, cid: cid, pinDate: pinDate, token: token };
     }
 
-    updateMapping(docId: string, newCID: string): void{
+    updateMapping(docId: string, newCID: string): void {
         this.docmap[docId].cid = newCID;
     }
 
-    async pinAsset(docId: string, powergate: Powergate, asset: IAsset): Promise<ServiceEndpoint>{
+    async pinAsset(docId: string, powergate: Powergate, asset: IAsset): Promise<ServiceEndpoint> {
         let seCID: string;
-        
-        try{
+
+        try {
             const uint8array = new TextEncoder().encode(asset.data);
-            seCID = await powergate.getAssetCid(uint8array); 
-            await powergate.pin(seCID); 
-        }catch(e){
+            seCID = await powergate.getAssetCid(uint8array);
+            await powergate.pin(seCID);
+        } catch (e) {
             console.log(e);
         }
-        
+
         return {
             id: docId.concat(asset.name),
             type: asset.type,
-            serviceEndpoint: seCID
-        }
+            serviceEndpoint: seCID,
+        };
     }
 
     // Add Assets to an item. Validation happens
-    async addAssetsToItem(docId: string, assets: IAsset[], token?: string): Promise<IDocumentInfo>{
-        
+    async addAssetsToItem(docId: string, assets: IAsset[], token?: string): Promise<IDocumentInfo> {
         let response: ILoadInfo;
         let serviceArray: any;
-        
-        try{
+
+        try {
             response = await this.loadDocument(docId, token);
 
-            if(response.documentInfo.documentVal.didmetadata.type === GeoDidType.Item){
-                serviceArray = await assets.map(value => this.pinAsset(docId, response.powergateInstance, value));
+            if (response.documentInfo.documentVal.didmetadata.type === GeoDidType.Item) {
+                serviceArray = await assets.map((value) => this.pinAsset(docId, response.powergateInstance, value));
                 //add the serviceArray to the Document's services
-                await serviceArray.forEach((value: any) => (response.documentInfo.documentVal.service).push(value));
+                await serviceArray.forEach((value: any) => response.documentInfo.documentVal.service.push(value));
+            } else {
+                throw new Error(
+                    'Unfortunately the Document ID you provided is not of Item type, so you cannot add any Assets to this Document. Please try again with a valid GeoDID Item',
+                );
             }
-            else{
-                throw new Error('Unfortunately the Document ID you provided is not of Item type, so you cannot add any Assets to this Document. Please try again with a valid GeoDID Item');
-            }
-
-        }catch(e){
+        } catch (e) {
             console.log(e);
         }
 
@@ -162,43 +158,42 @@ export class AstralClient {
 
     // TODO: Read/Load a GeoDID Document
     async loadDocument(docId: string, token: string): Promise<ILoadInfo> {
-        
         let doc: any;
         const powergate: Powergate = await this.getPowergateInstance(token);
 
-        try{
+        try {
             const geoDidResolver = GeoDIDResolver.getResolver(this, powergate);
             const didResolver = new Resolver(geoDidResolver);
-            doc = await didResolver.resolve(docId)
-        }catch(e){
-            console.log(e)
+            doc = await didResolver.resolve(docId);
+        } catch (e) {
+            console.log(e);
         }
 
         return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
     }
-    async testQL(){
+    async testQL() {
         const query = gql`
-        {
-            geoDIDs {
-                id
-                owner
-                cid
-                storage
-                root
-                parent
-                edges {
+            {
+                geoDIDs {
                     id
-                    childGeoDID {
-                    id
+                    owner
+                    cid
+                    storage
+                    root
+                    parent
+                    edges {
+                        id
+                        childGeoDID {
+                            id
+                        }
                     }
+                    active
+                    type
                 }
-                active
-                type
             }
-        }`
+        `;
 
-        const data = await this.graphQLClient.request(query)
-        console.log(JSON.stringify(data))
+        const data = await this.graphQLClient.request(query);
+        console.log(JSON.stringify(data));
     }
 }
-

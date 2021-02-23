@@ -16,54 +16,54 @@ contract SpatialAssets is Context, AccessControl {
     /**
      * @dev Emitted when Spatial Assets of id `id` are transferred to `to``.
      */
-    event SpatialAssetRegistered(address indexed to, uint256 indexed geoDIDId, uint256 indexed cid, bytes32 offChainStorage, uint256 root, bool canBeParent);
+    event SpatialAssetRegistered(address indexed to, bytes32 indexed geoDIDId, bytes32 indexed cid, bytes32 offChainStorage, bytes32 root, bool canBeParent);
 
     /**
      * @dev Emitted when Spatial Assets of id `id` are deactivated.
      */
-    event SpatialAssetDeactivated(uint256 indexed geoDIDId, uint256[] childrenToRemove);
+    event SpatialAssetDeactivated(bytes32 indexed geoDIDId, bytes32[] childrenToRemove);
 
     /**
      * @dev Emitted when a parent geodid is added to a node
      */
-    event ParentAdded(uint256 indexed geoDIDId, uint256 indexed parentGeoDIDId);
+    event ParentAdded(bytes32 indexed geoDIDId, bytes32 indexed parentGeoDIDId);
 
     /**
      * @dev Emitted when a children geodid is added to a node
      */
-    event ChildrenAdded(uint256 indexed geoDIDId, uint256 indexed childrenGeoDIDId);
+    event ChildrenAdded(bytes32 indexed geoDIDId, bytes32 indexed childrenGeoDIDId);
 
     /**
      * @dev Emitted when a parent geodid is removed from a node
      */
-    event ParentRemoved(uint256 indexed geoDIDId, uint256 indexed parentGeoDIDId);
+    event ParentRemoved(bytes32 indexed geoDIDId, bytes32 indexed parentGeoDIDId);
 
     /**
      * @dev Emitted when a children geodid is removed from a node
      */
-    event ChildrenRemoved(uint256 indexed geoDIDId, uint256 indexed childrenGeoDIDId);
+    event ChildrenRemoved(bytes32 indexed geoDIDId, bytes32 indexed childrenGeoDIDId);
 
     bytes32 public constant DATA_SUPPLIER = keccak256("DATA_SUPPLIER");
 
     string private _uri;
 
     // Mapping from GeodidID to registrant
-    mapping (uint256 => address) private _owners;
+    mapping (bytes32 => address) private _owners;
     
     // Mapping from GeodidID to Cid
-    mapping (uint256 => uint256) private _cids;
+    mapping (bytes32 => bytes32) private _cids;
 
     // Mapping from GeodidID to parenthood status
-    mapping (uint256 => bool) private _hasParent;
+    mapping (bytes32 => bool) private _hasParent;
 
     // Mapping from GeodidID to parenthood type
-    mapping (uint256 => bool) private _canBeParent;
+    mapping (bytes32 => bool) private _canBeParent;
     
     // Mapping from GeodidID to root GeoDID
-    mapping (uint256 => uint256) private _root;
+    mapping (bytes32 => bytes32) private _root;
 
     // Mapping from id to spatial asset external storage
-    mapping (uint256 => bytes32) private _externalStorage;
+    mapping (bytes32 => bytes32) private _externalStorage;
 
     // Allowed external storages signatures
     mapping (bytes32 => bool) private _allowedStorages;
@@ -111,7 +111,7 @@ contract SpatialAssets is Context, AccessControl {
      *
      * Emits a {SpatialAssetRegistered} event.
      */
-    function registerSpatialAsset(address owner, uint256 geoDIDId, uint256 parentGeoDIDId , uint256[] memory childrenGeoDIDIds, uint256 cid, bytes32 offChainStorage, uint256 geoDIDtype) public {
+    function registerSpatialAsset(address owner, bytes32 geoDIDId, bytes32 parentGeoDIDId , bytes32[] memory childrenGeoDIDIds, bytes32 cid, bytes32 offChainStorage, uint256 geoDIDtype) public {
         require(hasRole(DATA_SUPPLIER, _msgSender()), "SpatialAssets: must have data supplier role to register");
         require(allowedStorages(offChainStorage), "SpatialAssets: storage must be allowed");
         require(_owners[geoDIDId] == address(0), "SpatialAssets: id must not have an owner yet");
@@ -127,7 +127,7 @@ contract SpatialAssets is Context, AccessControl {
             _canBeParent[geoDIDId] = false;
         }
 
-        if (parentGeoDIDId == 0) {
+        if (parentGeoDIDId == bytes32(0)) {
             _hasParent[geoDIDId] = false;
             _root[geoDIDId] = geoDIDId;
         emit SpatialAssetRegistered(owner, geoDIDId, cid, offChainStorage, geoDIDId, _canBeParent[geoDIDId]);
@@ -141,7 +141,9 @@ contract SpatialAssets is Context, AccessControl {
 
         if (childrensLen > 0 && _canBeParent[geoDIDId]){
             for(uint256 j=0; j < childrensLen; j++) {
-                emit ChildrenAdded(geoDIDId, childrenGeoDIDIds[j]);
+                bytes32 childrenGeoDID = childrenGeoDIDIds[j];
+                _hasParent[childrenGeoDID] = true;
+                emit ChildrenAdded(geoDIDId, childrenGeoDID);
             }
         }
     }
@@ -152,7 +154,7 @@ contract SpatialAssets is Context, AccessControl {
      *
      * Emits a {ChildrenAdded} event.
      */
-    function addChildrenGeoDIDs(uint256 geoDIDId, uint256[] memory childrenGeoDIDIds) public {
+    function addChildrenGeoDIDs(bytes32 geoDIDId, bytes32[] memory childrenGeoDIDIds) public {
         require(hasRole(DATA_SUPPLIER, _msgSender()), "SpatialAssets: must have data supplier role to register");
         require(_owners[geoDIDId] == _msgSender(), "SpatialAssets: geoDIDId must be owned by its creator");
         require(_canBeParent[geoDIDId], "SpatialAssets: geoDIDId must be able to be parent (a Collection)");
@@ -161,7 +163,7 @@ contract SpatialAssets is Context, AccessControl {
 
         if (childrensLen > 0){
             for(uint256 j=0; j < childrensLen; j++) {
-                uint256 childrenGeoDID = childrenGeoDIDIds[j];
+                bytes32 childrenGeoDID = childrenGeoDIDIds[j];
                 if (_owners[childrenGeoDID] != address(0) && !_hasParent[childrenGeoDID]) {
                     _hasParent[childrenGeoDID] = true;
                     _root[childrenGeoDID] = _root[geoDIDId];
@@ -176,7 +178,7 @@ contract SpatialAssets is Context, AccessControl {
      *
      * Emits a {ParentAdded} event.
      */
-    function addParentGeoDID(uint256 geoDIDId, uint256 parentGeoDIDId) public {
+    function addParentGeoDID(bytes32 geoDIDId, bytes32 parentGeoDIDId) public {
         require(hasRole(DATA_SUPPLIER, _msgSender()), "SpatialAssets: must have data supplier role to register");
         require(_owners[geoDIDId] == _msgSender(), "SpatialAssets: geoDIDId must be owned by its creator");
         require(_owners[parentGeoDIDId] != address(0), "SpatialAssets: parentGeoDIDId does not exist");
@@ -194,7 +196,7 @@ contract SpatialAssets is Context, AccessControl {
      *
      * Emits a {ChildrenRemoved} event.
      */
-    function removeChildrenGeoDIDs(uint256 geoDIDId, uint256[] memory childrenGeoDIDIds) public {
+    function removeChildrenGeoDIDs(bytes32 geoDIDId, bytes32[] memory childrenGeoDIDIds) public {
         require(hasRole(DATA_SUPPLIER, _msgSender()), "SpatialAssets: must have data supplier role to register");
         require(_owners[geoDIDId] == _msgSender(), "SpatialAssets: id must not have an owner yet");
 
@@ -202,7 +204,7 @@ contract SpatialAssets is Context, AccessControl {
 
         if (childrensLen > 0){
             for(uint256 j=0; j < childrensLen; j++) {
-                uint256 childrenGeoDID = childrenGeoDIDIds[j];
+                bytes32 childrenGeoDID = childrenGeoDIDIds[j];
                 if (_owners[childrenGeoDID] != address(0) && _hasParent[childrenGeoDID]) {
                     _hasParent[childrenGeoDID] = false;
                     _root[childrenGeoDID] = childrenGeoDID;
@@ -218,7 +220,7 @@ contract SpatialAssets is Context, AccessControl {
      *
      * Emits a {ParentAdded} event.
      */
-    function removeParentGeoDID(uint256 geoDIDId, uint256 parentGeoDIDId) public {
+    function removeParentGeoDID(bytes32 geoDIDId, bytes32 parentGeoDIDId) public {
         require(hasRole(DATA_SUPPLIER, _msgSender()), "SpatialAssets: must have data supplier role to register");
         require(_owners[geoDIDId] == _msgSender(), "SpatialAssets: id must not have an owner yet");
         require(_owners[parentGeoDIDId] != address(0), "SpatialAssets: GeoDID to be removed as parent does not exist");
@@ -233,21 +235,21 @@ contract SpatialAssets is Context, AccessControl {
     /**
      * @dev De-registers a spatial asset
      */
-     function deactivateSpatialAsset(uint256 geoDIDId, uint256[] memory childrenToRemove) public {
+     function deactivateSpatialAsset(bytes32 geoDIDId, bytes32[] memory childrenToRemove) public {
         require(
             _owners[geoDIDId] == _msgSender(),"SpatialAssets: caller is not owner of the Spatial Asset"
         );
         _owners[geoDIDId] = address(0);
         _externalStorage[geoDIDId] = "";
-        _cids[geoDIDId] = 0;
+        _cids[geoDIDId] = "";
         _hasParent[geoDIDId] = false;
-        _root[geoDIDId] = 0;
+        _root[geoDIDId] = "";
 
         uint256 childrensLen = childrenToRemove.length;
 
         if (childrensLen > 0){
             for(uint256 j=0; j < childrensLen; j++) {
-                uint256 childrenGeoDID = childrenToRemove[j];
+                bytes32 childrenGeoDID = childrenToRemove[j];
                 if (_owners[childrenGeoDID] != address(0) && _hasParent[childrenGeoDID]) {
                     _root[childrenGeoDID] = childrenGeoDID;
                     _hasParent[childrenGeoDID] = false;
@@ -265,23 +267,23 @@ contract SpatialAssets is Context, AccessControl {
         _uri = newuri;
     }
 
-    function idToOwner(uint256 id) public view returns (address) {
+    function idToOwner(bytes32 id) public view returns (address) {
         return _owners[id];
     }
 
-    function idToCid(uint256 id) public view returns (uint256) {
+    function idToCid(bytes32 id) public view returns (bytes32) {
         return _cids[id];
     }
 
-    function idToCanBeParent(uint256 id) public view returns (bool) {
+    function idToCanBeParent(bytes32 id) public view returns (bool) {
         return _canBeParent[id];
     }
 
-    function idToHasParent(uint256 id) public view returns (bool) {
+    function idToHasParent(bytes32 id) public view returns (bool) {
         return _hasParent[id];
     }
 
-    function idToExternalStorage(uint256 id) public view returns (bytes32) {
+    function idToExternalStorage(bytes32 id) public view returns (bytes32) {
         return _externalStorage[id];
     }
 
