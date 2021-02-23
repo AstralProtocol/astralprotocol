@@ -11,7 +11,7 @@
     "test": "lerna run test",
     "build": "lerna run build",
     "publish:force": "lerna publish --force-publish",
-    "publish:simple": "lerna publish ",
+    "publish:simple": "lerna publish",
     "publish": "lerna run tsc && lerna publish",
     "publish:from": "lerna publish from-package --conventional-commits",
     "publish:next": "lerna run tsc && lerna publish --no-push --conventional-prerelease --dist-tag next",

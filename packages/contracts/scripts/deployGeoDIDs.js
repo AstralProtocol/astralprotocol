@@ -1,7 +1,19 @@
 const { AstralClient } = require('@astralprotocol/core');
 const SpatialAssets = require("../build/contracts/SpatialAssets.json")
+const bs58 = require('bs58')
 
 module.exports = async function (callback) {
+  const stringToBytes = (string) => web3.utils.asciiToHex(string)
+
+    // based on https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes32
+  // Return bytes32 hex string from base58 encoded ipfs hash,
+  // stripping leading 2 bytes from 34 byte IPFS hash
+  // Assume IPFS defaults: function:0x12=sha2, size:0x20=256 bits
+  // E.g. "QmNSUYVKDSvPUnRLKmuxk9diJ6yS96r1TrAXzjTiBcCLAL" -->
+  // "0x017dfd85d4f6cb4dcd715a88101f7b1f06cd1e009b2327a0809d01eb9c91f231"
+  function getBytes32FromIpfsHash(ipfsListing) {
+    return "0x"+bs58.decode(ipfsListing).slice(2).toString('hex')
+  }
 
   try {
 
@@ -16,7 +28,7 @@ module.exports = async function (callback) {
   
     const astral = new AstralClient(userAccount);
   
-    const storage = web3.utils.asciiToHex('FILECOIN');
+    const storage = stringToBytes('FILECOIN');
     // Enable a storage first
 
     try {
@@ -26,8 +38,8 @@ module.exports = async function (callback) {
         console.log(receipt);
   
       })
-      .on('error', function(error) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
-        console.log(error);
+      .on('error', function() { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+        console.log('Already enabled storage: ' + storage);
       });
     } 
     catch (err) {
@@ -54,8 +66,11 @@ module.exports = async function (callback) {
     console.log(results.geodidid)
     console.log(results.cid)
 
+    const bytes32GeoDID= getBytes32FromIpfsHash(results.geodidid.substring(8));
+    const bytes32Cid = getBytes32FromIpfsHash(results.cid);
+  
     try {
-      await SpatialAssetsContract.methods.registerSpatialAsset(userAccount, results.geodidid,0,[], results.cid, storage,0).send()    
+      await SpatialAssetsContract.methods.registerSpatialAsset(userAccount, bytes32GeoDID, stringToBytes(''),[], bytes32Cid, storage,0).send()    
       .on('receipt', function(receipt){
       // receipt example
       console.log(receipt);
