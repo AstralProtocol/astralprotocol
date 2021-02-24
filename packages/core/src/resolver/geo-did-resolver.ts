@@ -9,7 +9,7 @@ export interface ResolverRegistry {
 }
 
 interface Variables {
-    [key: string]: any;
+    [key: string]: string;
 }
 
 interface Response {
@@ -48,14 +48,14 @@ const resolve = async (
         
 
         const query = `
-        query getCid($path: ID!) {
+        query getCid($path: String!) {
             geoDID(id: $path) {
                 cid
             }
         }`;
 
-        const variables = {
-            path: pathActual,
+        const variables: Variables = {
+            path: `${pathActual}`,
         };
 
         const apolloFetch = createApolloFetch({ uri });
