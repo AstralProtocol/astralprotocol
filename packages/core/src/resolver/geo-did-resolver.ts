@@ -32,8 +32,6 @@ const resolve = async (
             path = parseddid;
         }
 
-        console.log(path);
-
         const query = gql`
             query getCid($path: ID!) {
                 geoDID(id: $path) {
@@ -42,7 +40,9 @@ const resolve = async (
             }
         `;
 
-        const variables = { path };
+        const variables = {
+            path: 'did:geo:QmfPW29e68759T75YbBAMicb4Gsr3duXRwtKtwCuKN3ENn',
+        };
 
         const data = await graphQLClient.request(endpoint, query, variables);
         const returnData = JSON.stringify(data, undefined, 2);
