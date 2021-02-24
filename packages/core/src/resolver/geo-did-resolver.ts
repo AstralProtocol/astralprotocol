@@ -37,7 +37,7 @@ const resolve = async (
         }
 
         const query = gql`
-            query getCid($path: ID!) {
+            query getCid($path: String!) {
                 geoDID(id: $path) {
                     cid
                 }
@@ -51,11 +51,14 @@ const resolve = async (
         };
 
         const data = await graphQLClient.request(query, variables);
+        console.log(data);
 
+        /*
         if (data) {
-            const bytes: Uint8Array = await powergate.getGeoDIDDocument(data.geoDID.cid);
+            const bytes: Uint8Array = await powergate.getGeoDIDDocument();
             strj = new TextDecoder('utf-8').decode(bytes);
-        }
+        }*/
+        
     } catch (e) {
         console.log(e);
     }
