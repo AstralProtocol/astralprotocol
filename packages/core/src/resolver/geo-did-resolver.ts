@@ -7,53 +7,57 @@ export interface ResolverRegistry {
     [index: string]: DIDResolver;
 }
 
-const resolve = async(astral: AstralClient, powergate: Powergate, parseddid: string, parsedid: string, parsedpath?: string, parsedfragment?: string ): Promise<DIDDocument | any | null> => {
-    
+const resolve = async (
+    astral: AstralClient,
+    powergate: Powergate,
+    parseddid: string,
+    parsedid: string,
+    parsedpath?: string,
+    parsedfragment?: string,
+): Promise<DIDDocument | any | null> => {
     let strj: any;
-    
-    try{
 
+    try {
         const endpoint = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv05';
 
         let path: string = '';
 
-        if(parsedpath){
+        if (parsedpath) {
             path = parseddid.concat(parsedpath);
-        }
-        else{
+        } else {
             path = parseddid;
         }
 
         const query = gql`
-            query($path: String!) {
+            query($path: ID!) {
                 geoDID(id: $path) {
-                id
-                cid
+                    id
+                    cid
                 }
             }
         `;
 
-        const variables = { path } ;
+        const variables = { path };
 
-        const data = await request(endpoint, query, variables)
+        const data = await request(endpoint, query, variables);
         console.log(JSON.stringify(data));
-        
+
         const bytes: Uint8Array = await powergate.getGeoDIDDocument(astral.docmap[path].cid);
         strj = new TextDecoder('utf-8').decode(bytes);
-    }catch(e){
+    } catch (e) {
         console.log(e);
     }
-    
+
     return JSON.parse(strj);
-}
+};
 
 // needs a powergate instance to call getResolver
-export default{
+export default {
     getResolver: (astral: AstralClient, powergate: Powergate): ResolverRegistry => {
-        return{
-            'geo': async (did: string, parsed: ParsedDID): Promise<DIDDocument | any | null> => {
-                return resolve(astral, powergate, parsed.did, parsed.id, parsed.path, parsed.fragment)
-            }
-        }
-    }
-}
+        return {
+            geo: async (did: string, parsed: ParsedDID): Promise<DIDDocument | any | null> => {
+                return resolve(astral, powergate, parsed.did, parsed.id, parsed.path, parsed.fragment);
+            },
+        };
+    },
+};
