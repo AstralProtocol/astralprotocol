@@ -8,8 +8,15 @@ These contracts serve as the Registry for the Astral Protocol GeoDIDs. It allows
 
 By registering a spatial asset Smart Contract events are triggered, which are picked up by the subgraph indexer to build the tree of relationships for easy querying.
 
-## Usage
+## To add Astral Protocol Contracts to your application
 
+```
+yarn add @astralprotocol/contracts
+```
+
+## To develop or try the Astral Protocol Contracts locally
+
+- Clone the astralprotocol repository and go to packages/contracts
 - Run ganache `yarn ganache`
 - Deploy contracts with `yarn truffle`
 - Run tests with `yarn truffle-test` or do coverage check up `yarn coverage`
