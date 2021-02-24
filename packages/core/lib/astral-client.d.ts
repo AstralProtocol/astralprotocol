@@ -26,5 +26,4 @@ export declare class AstralClient {
     pinAsset(docId: string, powergate: Powergate, asset: IAsset): Promise<ServiceEndpoint>;
     addAssetsToItem(docId: string, assets: IAsset[], token?: string): Promise<IDocumentInfo>;
     loadDocument(docId: string, token: string): Promise<ILoadInfo>;
-    testQL(): Promise<void>;
 }

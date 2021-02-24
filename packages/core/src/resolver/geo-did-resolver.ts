@@ -28,6 +28,8 @@ const resolve = async (
             path = parseddid;
         }
 
+        console.log(path);
+
         const query = gql`
             query($path: ID!) {
                 geoDID(id: $path) {

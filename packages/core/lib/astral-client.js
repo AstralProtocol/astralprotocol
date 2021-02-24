@@ -17,12 +17,10 @@ const powergate_1 = require("./pin/powergate");
 const document_1 = require("./docu/document");
 const geo_did_resolver_1 = __importDefault(require("./resolver/geo-did-resolver"));
 const did_resolver_1 = require("did-resolver");
-const graphql_request_1 = require("graphql-request");
 class AstralClient {
     constructor(_ethereumAddress) {
         this._ethereumAddress = _ethereumAddress;
         this.document = new document_1.Document(_ethereumAddress);
-        this.graphQLClient = new graphql_request_1.GraphQLClient('https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv04');
         this.docmap = {};
     }
     getPowergateInstance(token) {
@@ -75,11 +73,8 @@ class AstralClient {
                 }
                 token = yield powergate.getToken();
                 const stringdoc = JSON.stringify(documentInfo.documentVal);
-                console.log(stringdoc);
                 const uint8array = new TextEncoder().encode(stringdoc);
-                console.log(uint8array);
                 cid = yield powergate.getAssetCid(uint8array);
-                console.log(cid);
                 yield powergate.pin(cid);
                 if (this.docmap[documentInfo.geodidid] === undefined) {
                     this.docmap[documentInfo.geodidid] = {
@@ -152,32 +147,6 @@ class AstralClient {
                 console.log(e);
             }
             return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
-        });
-    }
-    testQL() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = graphql_request_1.gql `
-            {
-                geoDIDs {
-                    id
-                    owner
-                    cid
-                    storage
-                    root
-                    parent
-                    edges {
-                        id
-                        childGeoDID {
-                            id
-                        }
-                    }
-                    active
-                    type
-                }
-            }
-        `;
-            const data = yield this.graphQLClient.request(query);
-            console.log(JSON.stringify(data));
         });
     }
 }
