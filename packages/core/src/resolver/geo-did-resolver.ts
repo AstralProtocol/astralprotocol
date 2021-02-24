@@ -50,6 +50,8 @@ const resolve = async (
 
         const data = await graphQLClient.request(query, variables);
         const returnData = console.log(JSON.stringify(data, undefined, 2));
+        console.log(data.geoDID.cid);
+        console.log(typeof data);
         console.log(data);
         console.log(returnData);
         if (data) {
