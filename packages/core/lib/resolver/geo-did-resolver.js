@@ -17,12 +17,12 @@ const resolve = (astral, powergate, parseddid, parsedid, parsedpath, parsedfragm
         const graphQLClient = new graphql_request_1.GraphQLClient(endpoint, {
             headers: {},
         });
-        let path = '';
+        let pathActual = '';
         if (parsedpath) {
-            path = parseddid.concat(parsedpath);
+            pathActual = parseddid.concat(parsedpath);
         }
         else {
-            path = parseddid;
+            pathActual = parseddid;
         }
         const query = graphql_request_1.gql `
             query getCid($path: ID!) {
@@ -32,13 +32,9 @@ const resolve = (astral, powergate, parseddid, parsedid, parsedpath, parsedfragm
             }
         `;
         const variables = {
-            path,
+            path: pathActual,
         };
         const data = yield graphQLClient.request(query, variables);
-        const returnData = console.log(JSON.stringify(data, undefined, 2));
-        console.log(typeof data);
-        console.log(data);
-        console.log(returnData);
         if (data) {
             const bytes = yield powergate.getGeoDIDDocument(data.geoDID.cid);
             strj = new TextDecoder('utf-8').decode(bytes);

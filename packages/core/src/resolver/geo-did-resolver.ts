@@ -44,8 +44,10 @@ const resolve = async (
             }
         `;
 
+        console.log(pathActual);
+
         const variables = {
-            path: pathActual,
+            path: 'did:geo:QmZjqfZbdR2f6pUXYjkFgfQA3y2rEJ2jXddtTGwz2zjMP2',
         };
 
         const data = await graphQLClient.request(query, variables);
