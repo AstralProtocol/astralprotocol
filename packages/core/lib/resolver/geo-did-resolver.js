@@ -24,7 +24,6 @@ const resolve = (astral, powergate, parseddid, parsedid, parsedpath, parsedfragm
         else {
             path = parseddid;
         }
-        console.log(path);
         const query = graphql_request_1.gql `
             query getCid($path: ID!) {
                 geoDID(id: $path) {
@@ -32,7 +31,9 @@ const resolve = (astral, powergate, parseddid, parsedid, parsedpath, parsedfragm
                 }
             }
         `;
-        const variables = { path };
+        const variables = {
+            path: 'did:geo:QmfPW29e68759T75YbBAMicb4Gsr3duXRwtKtwCuKN3ENn',
+        };
         const data = yield graphQLClient.request(endpoint, query, variables);
         const returnData = JSON.stringify(data, undefined, 2);
         console.log(returnData);
