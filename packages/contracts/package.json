@@ -34,7 +34,6 @@
     "truffle": "truffle compile --all && truffle migrate --network development --reset && cp -vr ./build/contracts/SpatialAssets.json ../subgraph/abis/SpatialAssets.json",
     "truffle-ropsten": "truffle compile --all && truffle migrate --network ropsten --reset && cp -vr ./build/contracts/SpatialAssets.json ../subgraph/abis/SpatialAssets.json",
     "mythx": "truffle run verify",
-    "slither": "slither .",
     "truffle-test": "truffle test",
     "coverage": "truffle run coverage --solcoverjs ./.solcover.js --network development"
   },
