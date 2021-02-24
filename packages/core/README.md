@@ -4,17 +4,30 @@
 
 The @astralprotocol/core package is a Typescript NPM package that is responsible for any CRUD operations performed on the DID Documents. This includes the creation of DID Documents, loading the DID Documents, as well as updating them. The package also has utilities that enable the creation of the collision resistant GeoDID IDs, a custom did-resolver that enables DID Resolution, as well as pinning features for storing the Documents on IPFS or FFS. This package is meant to be used in conjunction with the @astralprotocol/contracts and @astralprotocol/subgraph packages. However, the package can also be used independently if the user does not want to rely on the Ethereum network.
 
+## Setting up Powergate Locally with Localnet Mode
+
+In order to store the GeoDIDs created by the core package, you will need to start up a local Powergate client or connect to an existing hosted client. Below will be a brief overview on how to setup a local Powergate client on your system. Further information is available at: https://github.com/textileio/powergate.
+
+In order to setup the Powergate Client locally on your system you must have [Docker](https://docs.docker.com/engine/install/), [Docker-Compose](https://docs.docker.com/compose/install/), and [Go 1.16](https://golang.org/dl/) installed. 
+
+In your terminal, create a new directory and clone the Powergate repo into it:
+```git clone https://github.com/textileio/powergate.git```
+
+After you clone the repo, enter the following commands:
+```cd powergate/docker```
+```make localnet```
+
+More information regarding Powergate's Localnet mode, please refer to their documentation: https://github.com/textileio/powergate#localnet-mode
+
 ## To add Astral Protocol Core to your application
 
-```
-yarn add -D @astralprotocol/core
+```yarn add -D @astralprotocol/core ```
 OR
-npm install -D @astralprotocol/core
+```npm install -D @astralprotocol/core```
 
-import AstralClient from '@astralprotocol/core';
+```import AstralClient from '@astralprotocol/core';```
 OR
-const AstralClient = require('@astralprotocol/core');
-```
+```const AstralClient = require('@astralprotocol/core');```
 
 ## To develop or try the Astral Protocol Core locally
 

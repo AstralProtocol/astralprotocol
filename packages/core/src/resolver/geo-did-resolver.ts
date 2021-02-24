@@ -1,6 +1,7 @@
 import { AstralClient } from '../astral-client';
 import { DIDResolver, DIDDocument, ParsedDID } from 'did-resolver';
 import { Powergate } from '../pin/powergate';
+import { request, GraphQLClient, gql } from 'graphql-request';
 
 export interface ResolverRegistry {
     [index: string]: DIDResolver;
@@ -8,10 +9,41 @@ export interface ResolverRegistry {
 
 const resolve = async(astral: AstralClient, powergate: Powergate, parseddid: string, parsedid: string, parsedpath?: string, parsedfragment?: string ): Promise<DIDDocument | any | null> => {
     
-    const path = parseddid.concat(parsedpath);
-    const bytes: Uint8Array = await powergate.getGeoDIDDocument(astral.docmap[path].cid);
-    const strj = new TextDecoder('utf-8').decode(bytes);
+    let strj: any;
+    
+    try{
 
+        const endpoint = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv05';
+
+        let path: string = '';
+
+        if(parsedpath){
+            path = parseddid.concat(parsedpath);
+        }
+        else{
+            path = parseddid;
+        }
+
+        const query = gql`
+            query($path: String!) {
+                geoDID(id: $path) {
+                id
+                cid
+                }
+            }
+        `;
+
+        const variables = { path } ;
+
+        const data = await request(endpoint, query, variables)
+        console.log(JSON.stringify(data));
+        
+        const bytes: Uint8Array = await powergate.getGeoDIDDocument(astral.docmap[path].cid);
+        strj = new TextDecoder('utf-8').decode(bytes);
+    }catch(e){
+        console.log(e);
+    }
+    
     return JSON.parse(strj);
 }
 

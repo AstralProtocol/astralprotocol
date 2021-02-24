@@ -44,7 +44,9 @@ class GeoDoctypeUtils {
     }
     static createCID(_id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const bytes = new TextEncoder().encode(_id);
+            const event = new Date();
+            const str_time = event.toString();
+            const bytes = new TextEncoder().encode(_id.concat(str_time));
             const hash = yield multihashing(bytes, 'sha2-256');
             const cid = new cids_1.default(0, 'dag-pb', hash, 'base58btc');
             const cidreturn = cid.toString();

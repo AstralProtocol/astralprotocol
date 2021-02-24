@@ -28,9 +28,6 @@ export class AstralClient {
 
     constructor(public _ethereumAddress: string) {
         this.document = new Document(_ethereumAddress);
-        this.graphQLClient = new GraphQLClient(
-            'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv05',
-        );
         this.docmap = {};
     }
 
@@ -86,11 +83,11 @@ export class AstralClient {
             }
             token = await powergate.getToken();
             const stringdoc = JSON.stringify(documentInfo.documentVal);
-            console.log(stringdoc); // delete
+            //console.log(stringdoc); // delete
             const uint8array = new TextEncoder().encode(stringdoc);
-            console.log(uint8array); // delete
+            //console.log(uint8array); // delete
             cid = await powergate.getAssetCid(uint8array);
-            console.log(cid); // delete
+            //console.log(cid); // delete
             await powergate.pin(cid);
 
             if (this.docmap[documentInfo.geodidid] === undefined) {
@@ -171,29 +168,5 @@ export class AstralClient {
 
         return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
     }
-    async testQL() {
-        const query = gql`
-            {
-                geoDIDs {
-                    id
-                    owner
-                    cid
-                    storage
-                    root
-                    parent
-                    edges {
-                        id
-                        childGeoDID {
-                            id
-                        }
-                    }
-                    active
-                    type
-                }
-            }
-        `;
-
-        const data = await this.graphQLClient.request(query);
-        console.log(JSON.stringify(data));
-    }
 }
+

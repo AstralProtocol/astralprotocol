@@ -44,7 +44,7 @@ class AstralClient {
                 response = yield this.document.addGenesisDocument(_typeOfGeoDID);
             }
             catch (e) {
-                console.log("Unable to initialize");
+                console.log('Unable to initialize');
             }
             return response;
         });
@@ -56,7 +56,7 @@ class AstralClient {
                 response = yield this.document.addChildDocument(_typeOfGeoDID, _parentID, _path);
             }
             catch (e) {
-                console.log("Unable to initialize");
+                console.log('Unable to initialize');
             }
             return response;
         });
@@ -84,7 +84,7 @@ class AstralClient {
                 if (this.docmap[documentInfo.geodidid] === undefined) {
                     this.docmap[documentInfo.geodidid] = {
                         authToken: token,
-                        cid: cid
+                        cid: cid,
                     };
                 }
                 else {
@@ -115,7 +115,7 @@ class AstralClient {
             return {
                 id: docId.concat(asset.name),
                 type: asset.type,
-                serviceEndpoint: seCID
+                serviceEndpoint: seCID,
             };
         });
     }
@@ -126,8 +126,8 @@ class AstralClient {
             try {
                 response = yield this.loadDocument(docId, token);
                 if (response.documentInfo.documentVal.didmetadata.type === "item") {
-                    serviceArray = yield assets.map(value => this.pinAsset(docId, response.powergateInstance, value));
-                    yield serviceArray.forEach((value) => (response.documentInfo.documentVal.service).push(value));
+                    serviceArray = yield assets.map((value) => this.pinAsset(docId, response.powergateInstance, value));
+                    yield serviceArray.forEach((value) => response.documentInfo.documentVal.service.push(value));
                 }
                 else {
                     throw new Error('Unfortunately the Document ID you provided is not of Item type, so you cannot add any Assets to this Document. Please try again with a valid GeoDID Item');
@@ -157,24 +157,25 @@ class AstralClient {
     testQL() {
         return __awaiter(this, void 0, void 0, function* () {
             const query = graphql_request_1.gql `
-        {
-            geoDIDs {
-                id
-                owner
-                cid
-                storage
-                root
-                parent
-                edges {
+            {
+                geoDIDs {
                     id
-                    childGeoDID {
-                    id
+                    owner
+                    cid
+                    storage
+                    root
+                    parent
+                    edges {
+                        id
+                        childGeoDID {
+                            id
+                        }
                     }
+                    active
+                    type
                 }
-                active
-                type
             }
-        }`;
+        `;
             const data = yield this.graphQLClient.request(query);
             console.log(JSON.stringify(data));
         });
