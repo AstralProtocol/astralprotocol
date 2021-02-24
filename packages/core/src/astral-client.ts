@@ -29,7 +29,7 @@ export class AstralClient {
     constructor(public _ethereumAddress: string) {
         this.document = new Document(_ethereumAddress);
         this.graphQLClient = new GraphQLClient(
-            'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv03',
+            'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv04',
         );
         this.docmap = {};
     }
