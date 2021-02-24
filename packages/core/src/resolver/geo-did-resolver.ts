@@ -1,7 +1,7 @@
 import { AstralClient } from '../astral-client';
 import { DIDResolver, DIDDocument, ParsedDID } from 'did-resolver';
 import { Powergate } from '../pin/powergate';
-import { request, GraphQLClient, gql } from 'graphql-request';
+import { GraphQLClient, gql } from 'graphql-request';
 
 export interface ResolverRegistry {
     [index: string]: DIDResolver;
@@ -20,6 +20,10 @@ const resolve = async (
     try {
         const endpoint = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv05';
 
+        const graphQLClient = new GraphQLClient(endpoint, {
+            headers: {},
+        });
+
         let path: string = '';
 
         if (parsedpath) {
@@ -33,7 +37,6 @@ const resolve = async (
         const query = gql`
             query($path: ID!) {
                 geoDID(id: $path) {
-                    id
                     cid
                 }
             }
@@ -41,8 +44,10 @@ const resolve = async (
 
         const variables = { path };
 
-        const data = await request(endpoint, query, variables);
-        console.log(JSON.stringify(data));
+        const data = await graphQLClient.request(endpoint, query, variables);
+        const returnData = JSON.stringify(data, undefined, 2);
+
+        console.log(returnData);
 
         const bytes: Uint8Array = await powergate.getGeoDIDDocument(astral.docmap[path].cid);
         strj = new TextDecoder('utf-8').decode(bytes);

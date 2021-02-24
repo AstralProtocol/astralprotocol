@@ -21,6 +21,7 @@ const resolve = (astral, powergate, parseddid, parsedid, parsedpath, parsedfragm
         else {
             path = parseddid;
         }
+        console.log(path);
         const query = graphql_request_1.gql `
             query($path: ID!) {
                 geoDID(id: $path) {
