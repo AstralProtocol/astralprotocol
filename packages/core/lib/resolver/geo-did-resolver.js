@@ -36,9 +36,9 @@ const resolve = (astral, powergate, parseddid, parsedid, parsedpath, parsedfragm
         };
         const data = yield graphQLClient.request(query, variables);
         const returnData = console.log(JSON.stringify(data, undefined, 2));
-        console.log(data);
-        if (data.geoDID) {
-            const bytes = yield powergate.getGeoDIDDocument(data.geoDID.cid);
+        console.log(returnData);
+        if (returnData.geoDID.cid) {
+            const bytes = yield powergate.getGeoDIDDocument(returnData.geoDID.cid);
             strj = new TextDecoder('utf-8').decode(bytes);
         }
     }

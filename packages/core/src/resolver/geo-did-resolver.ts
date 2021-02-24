@@ -7,6 +7,10 @@ export interface ResolverRegistry {
     [index: string]: DIDResolver;
 }
 
+interface ReturnData {
+    [index: string]: DIDResolver;
+}
+
 const resolve = async (
     astral: AstralClient,
     powergate: Powergate,
@@ -46,10 +50,10 @@ const resolve = async (
 
         const data = await graphQLClient.request(query, variables);
         const returnData = console.log(JSON.stringify(data, undefined, 2));
-
+        console.log(data);
         console.log(returnData);
-        if (returnData.geoDID.cid) {
-            const bytes: Uint8Array = await powergate.getGeoDIDDocument(returnData.geoDID.cid);
+        if (data) {
+            const bytes: Uint8Array = await powergate.getGeoDIDDocument(data.geoDID.cid);
             strj = new TextDecoder('utf-8').decode(bytes);
         }
     } catch (e) {
