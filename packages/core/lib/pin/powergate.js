@@ -29,7 +29,7 @@ class Powergate {
     }
     static build(tokenval) {
         return __awaiter(this, void 0, void 0, function* () {
-            const host = "http://0.0.0.0:6002";
+            const host = 'http://13.82.150.65:6002';
             const pow = powergate_client_1.createPow({ host });
             if (tokenval) {
                 pow.setAdminToken(tokenval);
