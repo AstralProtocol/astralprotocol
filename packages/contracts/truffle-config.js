@@ -4,13 +4,17 @@ require('dotenv').config();
 let mnemonic = process.env.MNEMONIC
 let ropstenURL = process.env.ROPSTEN_API_KEY
 
+let provider
 
-let provider = new HDWalletProvider({
-  mnemonic: {
-    phrase: mnemonic,
-  },
-  providerOrUrl: ropstenURL,
-});
+if(mnemonic && ropstenURL) {
+  provider = new HDWalletProvider({
+    mnemonic: {
+      phrase: mnemonic,
+    },
+    providerOrUrl: ropstenURL,
+  });
+}
+
 
 module.exports = {
   plugins: ["solidity-coverage"],
