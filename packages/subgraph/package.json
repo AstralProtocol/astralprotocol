@@ -25,7 +25,7 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ astralprotocol/spatialassetsv04 --access-token PUT_TOKEN_HERE",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ astralprotocol/spatialassetsv05 --access-token PUT_TOKEN_HERE",
     "create-local": "graph create --node http://localhost:8020/ astralprotocol/spatialassets",
     "remove-local": "graph remove --node http://localhost:8020/ astralprotocol/spatialassets",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 astralprotocol/spatialassets",

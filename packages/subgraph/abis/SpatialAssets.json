@@ -26716,8 +26716,8 @@
         }
       },
       "links": {},
-      "address": "0xf3B1842AEc522F7FfC7aEa63ed08425BE859D0e9",
-      "transactionHash": "0xad9ce82975be7935e8b6a86afbae4fd3f453c5dcefb2db2184c869c6a55ecaed"
+      "address": "0x3371755F6b514c16810A01b95b58789cD76535e7",
+      "transactionHash": "0x95246ba1b2d13d86312f51a172e12a7ef532491099090249f02fcc9f4e544a5f"
     },
     "333": {
       "events": {
@@ -27246,7 +27246,7 @@
     }
   },
   "schemaVersion": "3.3.4",
-  "updatedAt": "2021-02-24T12:17:45.058Z",
+  "updatedAt": "2021-02-24T14:46:12.253Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "{SpatialAssets} registry This contract uses {AccessControl} to lock permissioned functions using the different roles - head to its documentation for details. The account that deploys the contract will be granted the 'DATA_SUPPLIER' as well as the default admin role, which will let it grant 'DATA_SUPPLIER' roles to other accounts",
