@@ -28,12 +28,12 @@ const resolve = async (
             headers: {},
         });
 
-        let path: string = '';
+        let pathActual: string = '';
 
         if (parsedpath) {
-            path = parseddid.concat(parsedpath);
+            pathActual = parseddid.concat(parsedpath);
         } else {
-            path = parseddid;
+            pathActual = parseddid;
         }
 
         const query = gql`
@@ -45,14 +45,11 @@ const resolve = async (
         `;
 
         const variables = {
-            path,
+            path: pathActual,
         };
 
         const data = await graphQLClient.request(query, variables);
-        const returnData = console.log(JSON.stringify(data, undefined, 2));
-        console.log(typeof data);
-        console.log(data);
-        console.log(returnData);
+
         if (data) {
             const bytes: Uint8Array = await powergate.getGeoDIDDocument(data.geoDID.cid);
             strj = new TextDecoder('utf-8').decode(bytes);
