@@ -1,6 +1,6 @@
 {
   "name": "@astralprotocol/contracts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "These contracts serve as the Registry for the Astral Protocol GeoDIDs. It allows binding of a GeoDID to an ethereum address and CID name resolving.",
   "author": "Astral <contact@astral.global>",
   "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
