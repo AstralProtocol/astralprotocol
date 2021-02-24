@@ -2,7 +2,6 @@ import { Powergate } from './pin/powergate';
 import { Document } from './docu/document';
 import { ServiceEndpoint } from 'did-resolver';
 import { IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
-import { GraphQLClient } from 'graphql-request';
 export { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
 interface DocMap {
     [key: string]: InstanceInfo;
@@ -16,7 +15,6 @@ export declare class AstralClient {
     docmap: DocMap;
     document: Document;
     powergate: Powergate;
-    graphQLClient: GraphQLClient;
     constructor(_ethereumAddress: string);
     getPowergateInstance(token?: string): Promise<Powergate>;
     createGenesisGeoDID(_typeOfGeoDID: string): Promise<IDocumentInfo>;
