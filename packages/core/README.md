@@ -10,12 +10,18 @@ In order to store the GeoDIDs created by the core package, you will need to star
 
 In order to setup the Powergate Client locally on your system you must have [Docker](https://docs.docker.com/engine/install/), [Docker-Compose](https://docs.docker.com/compose/install/), and [Go 1.16](https://golang.org/dl/) installed. 
 
+
 In your terminal, create a new directory and clone the Powergate repo into it:
+
 ```git clone https://github.com/textileio/powergate.git```
 
+
 After you clone the repo, enter the following commands:
+
 ```cd powergate/docker```
+
 ```make localnet```
+
 
 More information regarding Powergate's Localnet mode, please refer to their documentation: https://github.com/textileio/powergate#localnet-mode
 
