@@ -38,6 +38,7 @@
     "dependencies": {
         "@textile/powergate-client": "^4.0.0",
         "ajv": "^6.12.5",
+        "apollo-fetch": "^0.7.0",
         "async": "^3.2.0",
         "axios": "^0.21.1",
         "blob": "^0.1.0",

@@ -1,14 +1,15 @@
 import { AstralClient } from '../astral-client';
 import { DIDResolver, DIDDocument, ParsedDID } from 'did-resolver';
 import { Powergate } from '../pin/powergate';
-import { GraphQLClient, gql } from 'graphql-request';
+
+import { createApolloFetch } from 'apollo-fetch';
 
 export interface ResolverRegistry {
     [index: string]: DIDResolver;
 }
 
-interface IVariables {
-    path: string
+interface Variables {
+    [key: string]: any;
 }
 
 interface Response {
@@ -30,11 +31,12 @@ const resolve = async (
     let strj: any;
 
     try {
-        const endpoint = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv05';
+        const uri = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv05';
 
+        /*
         const graphQLClient = new GraphQLClient(endpoint, {
             headers: {},
-        });
+        });*/
 
         let pathActual: string = '';
 
@@ -43,28 +45,35 @@ const resolve = async (
         } else {
             pathActual = parseddid;
         }
+        
 
-        const query = gql`
-            query getCid($path: String!) {
-                geoDID(id: $path) {
-                    cid
-                }
+        const query = `
+        query getCid($path: ID!) {
+            geoDID(id: $path) {
+                cid
             }
-        `;
+        }`;
 
-        console.log(pathActual);
-
-        const variables: IVariables = {
+        const variables = {
             path: pathActual,
         };
 
+        const apolloFetch = createApolloFetch({ uri });
+        console.log(apolloFetch);
+
+        console.log(pathActual);
+
         console.log(variables);
 
-        const data: Response = await graphQLClient.request(query, variables);
-        console.log(data);
+        // Error: Response is null when geodid id is not hardcoded.
+        const res = await apolloFetch({ query, variables });
+        //const data: Response = await graphQLClient.request(query, variables);
+        console.log(res);
 
-        if (data) {
-            const bytes: Uint8Array = await powergate.getGeoDIDDocument(data.geoDID.cid);
+        const cid = res.data.geoDID.cid;
+
+        if (res.data) {
+            const bytes: Uint8Array = await powergate.getGeoDIDDocument(cid);
             strj = new TextDecoder('utf-8').decode(bytes);
         }
 
