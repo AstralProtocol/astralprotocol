@@ -7,8 +7,16 @@ export interface ResolverRegistry {
     [index: string]: DIDResolver;
 }
 
-interface ReturnData {
-    [index: string]: DIDResolver;
+interface IVariables {
+    path: string
+}
+
+interface Response {
+    geoDID: GeoDID
+}
+
+interface GeoDID {
+    cid: string 
 }
 
 const resolve = async (
@@ -46,19 +54,20 @@ const resolve = async (
 
         console.log(pathActual);
 
-        const variables = {
-            path: 'did:geo:QmZjqfZbdR2f6pUXYjkFgfQA3y2rEJ2jXddtTGwz2zjMP2',
+        const variables: IVariables = {
+            path: pathActual,
         };
 
-        const data = await graphQLClient.request(query, variables);
+        console.log(variables);
+
+        const data: Response = await graphQLClient.request(query, variables);
         console.log(data);
 
-        /*
         if (data) {
-            const bytes: Uint8Array = await powergate.getGeoDIDDocument();
+            const bytes: Uint8Array = await powergate.getGeoDIDDocument(data.geoDID.cid);
             strj = new TextDecoder('utf-8').decode(bytes);
-        }*/
-        
+        }
+
     } catch (e) {
         console.log(e);
     }
