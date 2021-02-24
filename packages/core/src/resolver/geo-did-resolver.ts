@@ -35,7 +35,7 @@ const resolve = async (
         console.log(path);
 
         const query = gql`
-            query($path: ID!) {
+            query getCid($path: ID!) {
                 geoDID(id: $path) {
                     cid
                 }

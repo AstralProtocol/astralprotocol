@@ -14,6 +14,9 @@ const resolve = (astral, powergate, parseddid, parsedid, parsedpath, parsedfragm
     let strj;
     try {
         const endpoint = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv05';
+        const graphQLClient = new graphql_request_1.GraphQLClient(endpoint, {
+            headers: {},
+        });
         let path = '';
         if (parsedpath) {
             path = parseddid.concat(parsedpath);
@@ -25,14 +28,14 @@ const resolve = (astral, powergate, parseddid, parsedid, parsedpath, parsedfragm
         const query = graphql_request_1.gql `
             query($path: ID!) {
                 geoDID(id: $path) {
-                    id
                     cid
                 }
             }
         `;
         const variables = { path };
-        const data = yield graphql_request_1.request(endpoint, query, variables);
-        console.log(JSON.stringify(data));
+        const data = yield graphQLClient.request(endpoint, query, variables);
+        const returnData = JSON.stringify(data, undefined, 2);
+        console.log(returnData);
         const bytes = yield powergate.getGeoDIDDocument(astral.docmap[path].cid);
         strj = new TextDecoder('utf-8').decode(bytes);
     }
