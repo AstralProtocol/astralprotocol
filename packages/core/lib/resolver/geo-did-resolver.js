@@ -32,13 +32,13 @@ const resolve = (astral, powergate, parseddid, parsedid, parsedpath, parsedfragm
             }
         `;
         const variables = {
-            path: 'did:geo:QmfPW29e68759T75YbBAMicb4Gsr3duXRwtKtwCuKN3ENn',
+            path,
         };
         const data = yield graphQLClient.request(query, variables);
-        const returnData = JSON.stringify(data, undefined, 2);
-        console.log(returnData);
-        const bytes = yield powergate.getGeoDIDDocument(astral.docmap[path].cid);
-        strj = new TextDecoder('utf-8').decode(bytes);
+        if (data.geoDID) {
+            const bytes = yield powergate.getGeoDIDDocument(data.geoDID.cid);
+            strj = new TextDecoder('utf-8').decode(bytes);
+        }
     }
     catch (e) {
         console.log(e);

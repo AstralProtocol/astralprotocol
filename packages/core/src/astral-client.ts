@@ -3,7 +3,6 @@ import { Document } from './docu/document';
 import GeoDIDResolver from './resolver/geo-did-resolver';
 import { Resolver, ServiceEndpoint } from 'did-resolver';
 import { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
-import { request, GraphQLClient, gql } from 'graphql-request';
 
 export { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
 
@@ -23,8 +22,6 @@ export class AstralClient {
     document: Document;
 
     powergate: Powergate;
-
-    graphQLClient: GraphQLClient;
 
     constructor(public _ethereumAddress: string) {
         this.document = new Document(_ethereumAddress);
@@ -169,4 +166,3 @@ export class AstralClient {
         return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
     }
 }
-

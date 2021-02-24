@@ -46,6 +46,7 @@ const resolve = async (
 
         const data = await graphQLClient.request(query, variables);
 
+        console.log(data);
         if (data.geoDID) {
             const bytes: Uint8Array = await powergate.getGeoDIDDocument(data.geoDID.cid);
             strj = new TextDecoder('utf-8').decode(bytes);
