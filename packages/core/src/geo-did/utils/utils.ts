@@ -43,7 +43,10 @@ export class GeoDoctypeUtils {
 
     static async createCID(_id: string): Promise<string> {
 
-        const bytes = new TextEncoder().encode(_id);
+        const event = new Date();
+        const str_time = event.toString();
+
+        const bytes = new TextEncoder().encode(_id.concat(str_time));
         const hash = await multihashing(bytes, 'sha2-256');
 
         const cid = new CID(0, 'dag-pb', hash, 'base58btc');
