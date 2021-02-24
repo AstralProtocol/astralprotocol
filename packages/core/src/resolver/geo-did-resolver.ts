@@ -47,9 +47,9 @@ const resolve = async (
         const data = await graphQLClient.request(query, variables);
         const returnData = console.log(JSON.stringify(data, undefined, 2));
 
-        console.log(data);
-        if (data.geoDID) {
-            const bytes: Uint8Array = await powergate.getGeoDIDDocument(data.geoDID.cid);
+        console.log(returnData);
+        if (returnData.geoDID.cid) {
+            const bytes: Uint8Array = await powergate.getGeoDIDDocument(returnData.geoDID.cid);
             strj = new TextDecoder('utf-8').decode(bytes);
         }
     } catch (e) {

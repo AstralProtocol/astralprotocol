@@ -35,6 +35,7 @@ const resolve = (astral, powergate, parseddid, parsedid, parsedpath, parsedfragm
             path,
         };
         const data = yield graphQLClient.request(query, variables);
+        const returnData = console.log(JSON.stringify(data, undefined, 2));
         console.log(data);
         if (data.geoDID) {
             const bytes = yield powergate.getGeoDIDDocument(data.geoDID.cid);
