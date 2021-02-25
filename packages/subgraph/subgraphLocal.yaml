@@ -21,7 +21,7 @@ dataSources:
       eventHandlers:
         - event: SpatialAssetRegistered(indexed address,indexed bytes32,indexed bytes32,bytes32,bytes32,bool)
           handler: handleSpatialAssetRegistered
-        - event: SpatialAssetDeactivated(indexed bytes32,bytes32[])
+        - event: SpatialAssetDeactivated(indexed bytes32)
           handler: handleSpatialAssetDeactivated
         - event: ParentAdded(indexed bytes32,indexed bytes32)
           handler: handleParentAdded

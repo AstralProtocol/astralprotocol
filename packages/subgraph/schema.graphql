@@ -4,15 +4,16 @@ type GeoDID @entity {
   cid: String!
   storage: Bytes!
   root: String!
+  isRoot: Boolean!
   parent: String
-  edges: [Edge!] @derivedFrom(field: "self")
+  edges: [Edge!]!
   active: Boolean!
   type: String!
 }
 
 type Edge @entity {
   id: ID!
-  self: GeoDID!
+  parentGeoDID: GeoDID!
   childGeoDID: GeoDID!
   active: Boolean!
 }

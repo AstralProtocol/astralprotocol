@@ -7,9 +7,30 @@ import {
   SpatialAssetDeactivated,
 } from "../generated/SpatialAssets/SpatialAssets";
 import { GeoDID, Edge } from "../generated/schema";
-import { Bytes } from "@graphprotocol/graph-ts";
+import { Bytes, log } from "@graphprotocol/graph-ts";
 
 import { addQm } from "./helpers";
+
+// this is a recursive function to change the root id in the children (and their children)
+function changeRoot(edges: string[]): void {
+  if (edges.length > 0) {
+    edges.forEach((ed) => {
+      let edge = Edge.load(ed);
+      let child = GeoDID.load(edge.childGeoDID);
+
+      child.isRoot = false;
+      let parent = GeoDID.load(edge.parentGeoDID);
+
+      child.root = parent.root;
+
+      child.save();
+      if (child.edges.length > 0) {
+        changeRoot(child.edges);
+      }
+    });
+  }
+}
+
 export function handleSpatialAssetRegistered(
   event: SpatialAssetRegistered
 ): void {
@@ -31,6 +52,12 @@ export function handleSpatialAssetRegistered(
 
   geoDID.root = base58HashRoot;
 
+  if (hexHashId.toBase58() == hexHashRoot.toBase58()) {
+    geoDID.isRoot = true;
+  } else {
+    geoDID.isRoot = false;
+  }
+
   geoDID.active = true;
 
   if (event.params.canBeParent) {
@@ -39,6 +66,7 @@ export function handleSpatialAssetRegistered(
     geoDID.type = "Item";
   }
 
+  geoDID.edges = [];
   geoDID.save();
 }
 
@@ -50,19 +78,35 @@ export function handleParentAdded(event: ParentAdded): void {
 
   let edge = new Edge(base58HashParent + "-" + base58HashChild);
 
-  edge.self = base58HashParent;
+  edge.parentGeoDID = base58HashParent;
   edge.childGeoDID = base58HashChild;
   edge.active = true;
-
   edge.save();
 
-  let geoDID = GeoDID.load(base58HashChild);
+  // add edge to parent
+
   let parentGeoDID = GeoDID.load(base58HashParent);
 
+  let edges = parentGeoDID.edges;
+
+  edges.push(edge.id);
+
+  parentGeoDID.edges = edges;
+
+  parentGeoDID.save();
+
+  let geoDID = GeoDID.load(base58HashChild);
+
   geoDID.parent = base58HashParent;
+  geoDID.isRoot = false;
   geoDID.root = parentGeoDID.root;
 
   geoDID.save();
+
+  // change root to root of parent
+  if (Array.isArray(geoDID.edges)) {
+    changeRoot(geoDID.edges);
+  }
 }
 
 export function handleChildrenAdded(event: ChildrenAdded): void {
@@ -73,19 +117,34 @@ export function handleChildrenAdded(event: ChildrenAdded): void {
 
   let edge = new Edge(base58HashParent + "-" + base58HashChild);
 
-  edge.self = base58HashParent;
+  edge.parentGeoDID = base58HashParent;
   edge.childGeoDID = base58HashChild;
   edge.active = true;
-
   edge.save();
 
-  let geoDID = GeoDID.load(base58HashChild);
+  // add edge to parent
+
   let parentGeoDID = GeoDID.load(base58HashParent);
 
-  geoDID.parent = base58HashParent;
-  geoDID.root = parentGeoDID.root;
+  let edges = parentGeoDID.edges;
 
+  edges.push(edge.id);
+
+  parentGeoDID.edges = edges;
+
+  parentGeoDID.save();
+
+  let geoDID = GeoDID.load(base58HashChild);
+
+  geoDID.parent = base58HashParent;
+  geoDID.isRoot = false;
+  geoDID.root = parentGeoDID.root;
   geoDID.save();
+
+  // change root to root of parent
+  if (Array.isArray(geoDID.edges)) {
+    changeRoot(geoDID.edges);
+  }
 }
 
 export function handleParentRemoved(event: ParentRemoved): void {
@@ -96,19 +155,40 @@ export function handleParentRemoved(event: ParentRemoved): void {
 
   let edge = Edge.load(base58HashParent + "-" + base58HashChild);
 
-  edge.self = "";
-  edge.childGeoDID = "";
   edge.active = false;
 
   edge.save();
 
+  // remove edge from parent
+  let parentGeoDID = GeoDID.load(base58HashParent);
+
+  let originalEdges = parentGeoDID.edges;
+
+  let changedEdges: Array<string>;
+
+  for (let i = 0; i < originalEdges.length; i++) {
+    let ed = Edge.load(originalEdges[i]);
+    if (ed.id != edge.id) {
+      changedEdges.push(originalEdges[i]);
+    }
+  }
+
+  parentGeoDID.edges = changedEdges;
+
+  parentGeoDID.save();
+
   let geoDID = GeoDID.load(base58HashChild);
 
-  geoDID.parent = "";
+  geoDID.parent = null;
 
-  geoDID.root = "";
-
+  geoDID.root = geoDID.id;
+  geoDID.isRoot = true;
   geoDID.save();
+
+  // change root from children to itself
+  if (Array.isArray(geoDID.edges)) {
+    changeRoot(geoDID.edges);
+  }
 }
 
 export function handleChildrenRemoved(event: ChildrenRemoved): void {
@@ -119,19 +199,38 @@ export function handleChildrenRemoved(event: ChildrenRemoved): void {
 
   let edge = Edge.load(base58HashParent + "-" + base58HashChild);
 
-  edge.self = "";
-  edge.childGeoDID = "";
   edge.active = false;
 
   edge.save();
 
+  // remove edge from parent
+  let parentGeoDID = GeoDID.load(base58HashParent);
+
+  let originalEdges = parentGeoDID.edges;
+
+  let changedEdges: Array<string>;
+
+  for (let i = 0; i < originalEdges.length; i++) {
+    let ed = Edge.load(originalEdges[i]);
+    if (ed.id != edge.id) {
+      changedEdges.push(originalEdges[i]);
+    }
+  }
+
+  parentGeoDID.edges = changedEdges;
+
+  parentGeoDID.save();
+
   let geoDID = GeoDID.load(base58HashChild);
 
-  geoDID.parent = "";
-
+  geoDID.parent = null;
   geoDID.root = geoDID.id;
-
+  geoDID.isRoot = true;
   geoDID.save();
+
+  if (Array.isArray(geoDID.edges)) {
+    changeRoot(geoDID.edges);
+  }
 }
 
 export function handleSpatialAssetDeactivated(
@@ -141,38 +240,36 @@ export function handleSpatialAssetDeactivated(
   let base58Hash = "did:geo:" + hexHashId.toBase58(); // imported crypto function
 
   let geoDID = GeoDID.load(base58Hash);
-  let edgeToParent = Edge.load(geoDID.parent + "-" + base58Hash);
 
-  edgeToParent.self = "";
-  edgeToParent.active = false;
-  edgeToParent.save();
+  if (geoDID.parent) {
+    let edgeToParent = Edge.load(geoDID.parent + "-" + base58Hash);
+
+    edgeToParent.active = false;
+    edgeToParent.save();
+
+    // remove edge from parent
+    let parentGeoDID = GeoDID.load(geoDID.parent);
+
+    let originalEdges = parentGeoDID.edges;
+
+    let changedEdges: Array<string>;
+
+    for (let i = 0; i < originalEdges.length; i++) {
+      let ed = Edge.load(originalEdges[i]);
+      if (ed.id != edgeToParent.id) {
+        changedEdges.push(originalEdges[i]);
+      }
+    }
+
+    parentGeoDID.edges = changedEdges;
+
+    parentGeoDID.save();
+  }
 
   geoDID.owner = "";
   geoDID.root = "";
   geoDID.active = false;
-  geoDID.parent = "";
+  geoDID.parent = null;
 
   geoDID.save();
-
-  let childrenToRemove = event.params.childrenToRemove;
-  let childrenToRemoveLen = event.params.childrenToRemove.length;
-
-  for (let i = 0; i < childrenToRemoveLen; i++) {
-    let hexHashIdChildren = addQm(childrenToRemove[i]) as Bytes;
-    let base58HashChildren = "did:geo:" + hexHashIdChildren.toBase58(); // imported crypto function
-
-    let edgeToChildren = Edge.load(base58Hash + "-" + base58HashChildren);
-
-    edgeToChildren.self = "";
-    edgeToChildren.active = false;
-    edgeToChildren.save();
-
-    let child = GeoDID.load(base58HashChildren);
-
-    child.parent = "";
-
-    child.root = child.id;
-
-    child.save();
-  }
 }

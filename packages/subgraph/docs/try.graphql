@@ -5,6 +5,7 @@
     cid
     storage
     root
+    isRoot
     parent
     edges {
       id

@@ -40,35 +40,43 @@ module.exports = async function (callback) {
 
   try {
 
-  const SpatialAssetsContract = await SpatialAssets.deployed();
-
-
-    // geodid id 4 remove parent 3
-  let tx = await SpatialAssetsContract.removeParentGeoDID(bytes32GeoDID4,bytes32GeoDID3)
-
-    console.log(
-      " geodid id 4 remove parent 3 ",
-      tx.tx
-      );
+      const SpatialAssetsContract = await SpatialAssets.deployed();
+      let tx
+    
+      // to delete
+      tx = await SpatialAssetsContract.deactivateSpatialAsset(bytes32GeoDID6,[bytes32GeoDID1, bytes32GeoDID5])
 
     
-    // geodid id 6 remove children 1 and 5
-    tx = await SpatialAssetsContract.removeChildrenGeoDIDs(bytes32GeoDID6,[bytes32GeoDID1,bytes32GeoDID5])
+/*
 
-    console.log(
-      " geodid id 6 remove children 1 and 5",
-      tx.tx
-      );
+        // geodid id 4 remove parent 3
+      tx = await SpatialAssetsContract.removeParentGeoDID(bytes32GeoDID4,bytes32GeoDID3)
 
-    // delete geodid 2
-    tx = await SpatialAssetsContract.deactivateSpatialAsset(bytes32GeoDID2,[bytes32GeoDID7])
+        console.log(
+          " geodid id 4 remove parent 3 ",
+          tx.tx )
 
-    console.log(
-      " geodid id 2 delete",
-      tx.tx
-      );
+          
+        // geodid id 6 remove children 1 and 5
+        tx = await SpatialAssetsContract.removeChildrenGeoDIDs(bytes32GeoDID6,[bytes32GeoDID1,bytes32GeoDID5])
 
-    }
+        console.log(
+          " geodid id 6 remove children 1 and 5",
+          tx.tx
+          );
+
+        
+
+        tx = await SpatialAssetsContract.deactivateSpatialAsset(bytes32GeoDID2,[bytes32GeoDID7])
+
+        console.log(
+          " geodid id 2 delete",
+          tx.tx
+          );
+    
+      
+        */
+      }
     catch(error) {
       console.log(error)
     }

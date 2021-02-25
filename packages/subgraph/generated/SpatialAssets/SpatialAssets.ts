@@ -192,10 +192,6 @@ export class SpatialAssetDeactivated__Params {
   get geoDIDId(): Bytes {
     return this._event.parameters[0].value.toBytes();
   }
-
-  get childrenToRemove(): Array<Bytes> {
-    return this._event.parameters[1].value.toBytesArray();
-  }
 }
 
 export class SpatialAssetRegistered extends ethereum.Event {

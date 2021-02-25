@@ -78,6 +78,15 @@ export class GeoDID extends Entity {
     this.set("root", Value.fromString(value));
   }
 
+  get isRoot(): boolean {
+    let value = this.get("isRoot");
+    return value.toBoolean();
+  }
+
+  set isRoot(value: boolean) {
+    this.set("isRoot", Value.fromBoolean(value));
+  }
+
   get parent(): string | null {
     let value = this.get("parent");
     if (value === null || value.kind == ValueKind.NULL) {
@@ -95,21 +104,13 @@ export class GeoDID extends Entity {
     }
   }
 
-  get edges(): Array<string> | null {
+  get edges(): Array<string> {
     let value = this.get("edges");
-    if (value === null || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
+    return value.toStringArray();
   }
 
-  set edges(value: Array<string> | null) {
-    if (value === null) {
-      this.unset("edges");
-    } else {
-      this.set("edges", Value.fromStringArray(value as Array<string>));
-    }
+  set edges(value: Array<string>) {
+    this.set("edges", Value.fromStringArray(value));
   }
 
   get active(): boolean {
@@ -161,13 +162,13 @@ export class Edge extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get self(): string {
-    let value = this.get("self");
+  get parentGeoDID(): string {
+    let value = this.get("parentGeoDID");
     return value.toString();
   }
 
-  set self(value: string) {
-    this.set("self", Value.fromString(value));
+  set parentGeoDID(value: string) {
+    this.set("parentGeoDID", Value.fromString(value));
   }
 
   get childGeoDID(): string {

@@ -21,7 +21,7 @@ contract SpatialAssets is Context, AccessControl {
     /**
      * @dev Emitted when Spatial Assets of id `id` are deactivated.
      */
-    event SpatialAssetDeactivated(bytes32 indexed geoDIDId, bytes32[] childrenToRemove);
+    event SpatialAssetDeactivated(bytes32 indexed geoDIDId);
 
     /**
      * @dev Emitted when a parent geodid is added to a node
@@ -251,13 +251,14 @@ contract SpatialAssets is Context, AccessControl {
             for(uint256 j=0; j < childrensLen; j++) {
                 bytes32 childrenGeoDID = childrenToRemove[j];
                 if (_owners[childrenGeoDID] != address(0) && _hasParent[childrenGeoDID]) {
-                    _root[childrenGeoDID] = childrenGeoDID;
                     _hasParent[childrenGeoDID] = false;
+                    _root[childrenGeoDID] = childrenGeoDID;
+                    emit ChildrenRemoved(geoDIDId, childrenGeoDID);
                 }
             }
         }
 
-        emit SpatialAssetDeactivated(geoDIDId, childrenToRemove);
+        emit SpatialAssetDeactivated(geoDIDId);
     }
   
     /**
