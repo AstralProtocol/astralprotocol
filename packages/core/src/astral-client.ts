@@ -166,4 +166,3 @@ export class AstralClient {
         return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
     }
 }
-
