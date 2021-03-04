@@ -31,7 +31,7 @@ const resolve = async (
     let strj: any;
 
     try {
-        const uri = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv05';
+        const uri = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv06';
 
         /*
         const graphQLClient = new GraphQLClient(endpoint, {
