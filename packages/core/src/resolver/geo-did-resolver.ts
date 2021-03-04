@@ -18,8 +18,31 @@ interface Response {
     }
 }
 
-async function getCID<T extends Response>(data: T): Promise<string>{
+async function declareCID<T extends Response>(data: T): Promise<string>{
     return (data.geoDID.cid).toString();
+}
+
+const getCID = async (client: GraphQLClient, query: any, variables: Variables): Promise<string> => {
+    let data: any;
+    let cid: string; 
+
+    try{
+        data = await client.request(query, variables)
+        if(data.hasOwnProperty('geoDID')){
+            if(data.geoDID != null){
+                cid = await declareCID(data);
+            }
+            else{
+                cid = 'Unknown';
+            }
+        } 
+        
+        console.log(cid);
+    }catch(e){
+        console.log(e);
+    }
+
+    return cid;
 }
 
 const resolve = async (
@@ -32,7 +55,7 @@ const resolve = async (
 ): Promise<DIDDocument | any | null> => {
     let strj: any;
 
-    const client = new GraphQLClient('https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv05')
+    const client = new GraphQLClient('https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv05');
 
     let pathActual: string = '';
 
@@ -60,28 +83,34 @@ const resolve = async (
 
     try {
 
-        const data: any = await client.request(query, variables)
-
-        let cid: string = '';
-
-        if(data.hasOwnProperty('geoDID')){
-            if(data.geoDID != null){
-                cid = await getCID(data);
-            }
-            else{
-                cid = 'Unknown';
-            }
-        } 
+        let timeout: boolean = false;
         
-        console.log(cid);
-
-        if (cid != 'Unknown') {
-            const bytes: Uint8Array = await powergate.getGeoDIDDocument(cid);
-            strj = new TextDecoder('utf-8').decode(bytes);
+        let cid: string = await getCID(client, query, variables);
+        
+        // runs getCID every 2 seconds for 1 minute. Total of 30 calls.
+        if(cid == 'Unknown'){
+            if(timeout == false){
+                while(timeout == false){
+                    let timeOut = setInterval(async() => {
+                        cid = await getCID(client, query, variables);
+            
+                        if(cid != 'Unknown') {
+                            clearInterval(timeOut);
+                            timeout = true;
+                        }
+                    }, 2000);
+        
+                    // after 1 minute seconds stop
+                    setTimeout(() => { clearInterval(timeOut); timeout = true; }, 60000);
+                }
+            }
+            else if(timeout == true){
+                throw new Error("The Request has timed out: This is probably because the GeoDID has not been pinned on the FFS yet. Please pin the document first with the pinDocument function, thank you.")
+            }
         }
-        else{
-            throw new Error("This GeoDID has not been pinned on the FFS yet. Please pin the document first with the pinDocument function, thank you.")
-        }
+        
+        const bytes: Uint8Array = await powergate.getGeoDIDDocument(cid);
+        strj = new TextDecoder('utf-8').decode(bytes);
 
     } catch (e) {
         console.log(e);
