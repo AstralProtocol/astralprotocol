@@ -41,21 +41,21 @@ const resolve = async (
         let pathActual: string = '';
 
         if (parsedpath) {
-            pathActual = parseddid.concat(parsedpath);
+            pathActual = await parseddid.concat(parsedpath);
         } else {
-            pathActual = parseddid;
+            pathActual = await parseddid;
         }
         
 
         const query = `
-        query getCid($path: String!) {
-            geoDID(id: $path) {
+        query($geoDIDID: ID!) {
+            geoDID(id: $geoDIDID) {
                 cid
             }
         }`;
 
         const variables: Variables = {
-            path: `${pathActual}`,
+            geoDIDID: pathActual,
         };
 
         const apolloFetch = createApolloFetch({ uri });
@@ -71,6 +71,7 @@ const resolve = async (
         console.log(res);
 
         const cid = res.data.geoDID.cid;
+        console.log(cid);
 
         if (res.data) {
             const bytes: Uint8Array = await powergate.getGeoDIDDocument(cid);
