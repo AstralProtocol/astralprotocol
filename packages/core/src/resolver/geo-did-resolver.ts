@@ -9,7 +9,7 @@ export interface ResolverRegistry {
 }
 
 interface Variables {
-    [key: string]: string;
+    geoDIDID: string;
 }
 
 interface Response {
@@ -41,9 +41,9 @@ const resolve = async (
         let pathActual: string = '';
 
         if (parsedpath) {
-            pathActual = await parseddid.concat(parsedpath);
+            pathActual = parseddid.concat(parsedpath);
         } else {
-            pathActual = await parseddid;
+            pathActual = parseddid;
         }
         
 

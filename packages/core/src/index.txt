@@ -42,10 +42,4 @@ async function runTest(){
     }
 }
 
-async function run(){
-    const astral = new AstralClient('0xa3e1c2602f628112E591A18004bbD59BDC3cb512');
-    astral.testQL();
-}
-
-//runTest();
-run();
+runTest();
