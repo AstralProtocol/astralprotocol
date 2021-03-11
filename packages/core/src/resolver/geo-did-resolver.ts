@@ -32,9 +32,6 @@ const getCID = async (client: GraphQLClient, query: any, variables: Variables): 
             if(data.geoDID != null){
                 cid = await declareCID(data);
             }
-            else{
-                cid = null;
-            }
         } 
         
         console.log(cid);
@@ -51,13 +48,12 @@ const returnCID = async (client: GraphQLClient, query: any, variables: Variables
     
     // runs getCID every 2 seconds for 1 minute. Total of 30 calls.
     try{
-        if(cid == null){
+        if(cid == undefined){
             let timeOut = setInterval(async() => {
                 cid = await getCID(client, query, variables);
     
-                if(cid != null) {
+                if(cid != undefined) {
                     clearInterval(timeOut);
-                    return cid;
                 }
     
             }, 5000);
@@ -69,6 +65,7 @@ const returnCID = async (client: GraphQLClient, query: any, variables: Variables
         console.log(e);
     }
     
+    return cid || undefined;
 }
 
 const resolve = async (
@@ -111,7 +108,7 @@ const resolve = async (
 
         const cid: string = await returnCID(client, query, variables);
 
-        if(cid == 'Unknown'){
+        if(cid == undefined){
             throw new Error('CID does not exist on The Graph');
         }
         
