@@ -24,7 +24,9 @@ async function declareCID<T extends Response>(data: T): Promise<string>{
 
 const getCID = async (client: GraphQLClient, query: any, variables: Variables): Promise<any> => {
     let data: any;
-    let cid: any; 
+    let cid: string; 
+
+    let counter: number = 0;
 
     try{
         data = await client.request(query, variables)
@@ -33,24 +35,12 @@ const getCID = async (client: GraphQLClient, query: any, variables: Variables): 
                 cid = await declareCID(data);
             }
         } 
-        
-        console.log(cid);
-    }catch(e){
-        console.log(e);
-    }
 
-    return cid;
-}
-
-const returnCID = async (client: GraphQLClient, query: any, variables: Variables): Promise<any> => {
-        
-    let cid: any = await getCID(client, query, variables);
-    
-    // runs getCID every 2 seconds for 1 minute. Total of 30 calls.
-    try{
         if(cid == undefined){
+            /*
             let timeOut = setInterval(async() => {
                 cid = await getCID(client, query, variables);
+                console.log(cid);
     
                 if(cid != undefined) {
                     clearInterval(timeOut);
@@ -59,13 +49,27 @@ const returnCID = async (client: GraphQLClient, query: any, variables: Variables
             }, 5000);
     
             // after 1 minute seconds stop
-            setTimeout(() => { clearInterval(timeOut); }, 60000);
+            setTimeout(() => { clearInterval(timeOut); }, 60000);*/
+
+            let interval = setInterval(async() => {
+                cid = await getCID(client, query, variables);
+                console.log(cid);
+    
+                if((cid != undefined) || (counter >= 12)) {
+                    clearInterval(interval);
+                }
+
+                counter++;
+            }, 5000);
+
         }
+        
+        console.log(cid);
     }catch(e){
         console.log(e);
     }
-    
-    return cid || undefined;
+
+    return cid;
 }
 
 const resolve = async (
@@ -106,7 +110,7 @@ const resolve = async (
 
     try {
 
-        const cid: string = await returnCID(client, query, variables);
+        const cid: string = await getCID(client, query, variables);
 
         if(cid == undefined){
             throw new Error('CID does not exist on The Graph');
