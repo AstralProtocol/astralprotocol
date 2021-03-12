@@ -15,13 +15,13 @@ export interface ResolverRegistry {
 }
 
 interface Variables {
-    [key: string]: any
+    [key: string]: any;
 }
 
 interface Response {
     geoDID: {
         cid: string;
-    }
+    };
 }
 
 async function declareCID<T extends Response>(data: T): Promise<any>{
@@ -30,9 +30,8 @@ async function declareCID<T extends Response>(data: T): Promise<any>{
 }
 
 async function getCID(client: GraphQLClient, query: any, variables: Variables): Promise<any> {
-
     var data: any;
-    var cid: string; 
+    var cid: string;
 
     var counter: number = 0;
 
@@ -44,16 +43,16 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
     });
 
     spinner.start();
-    spinner.color = 'yellow'
+    spinner.color = 'yellow';
 
     return await new Promise((resolve, reject) => {
       const interval = setIntervalAsync(async() => {
 
         data = await client.request(query, variables)
 
-        if(data.hasOwnProperty('geoDID')){
-            cid = await declareCID(data);
-        }
+            if (data.hasOwnProperty('geoDID')) {
+                cid = await declareCID(data);
+            }
 
         if (cid != undefined) {
             spinner.clear();
@@ -68,8 +67,8 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
             clearIntervalAsync(interval);
         }
 
-        counter++;
-      }, 5000);
+            counter++;
+        }, 5000);
     });
 }
 
@@ -95,8 +94,8 @@ const resolve = async (
         pathActual = parseddid;
     }
 
-    const query =  gql`
-        query($geoDIDID: ID!){
+    const query = gql`
+        query($geoDIDID: ID!) {
             geoDID(id: $geoDIDID) {
                 cid
             }
@@ -110,13 +109,11 @@ const resolve = async (
     };
 
     try {
-
         // wait for the response to return cid or timeout
         const cid: string = await getCID(client, query, variables);
-        
+
         const bytes: Uint8Array = await powergate.getGeoDIDDocument(cid);
         strj = new TextDecoder('utf-8').decode(bytes);
-
     } catch (e) {
         console.log(e);
     }
