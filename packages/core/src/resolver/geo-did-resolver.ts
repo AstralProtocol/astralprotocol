@@ -39,7 +39,7 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
 
     const spinner = new Ora({
         text: `${chalk.yellow('Loading document')}`,
-        spinner: cliSpinners.simpleDots
+        spinner: cliSpinners.dots
     });
 
     spinner.start();
