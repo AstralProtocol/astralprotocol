@@ -22,49 +22,32 @@ async function declareCID<T extends Response>(data: T): Promise<string>{
     return (data.geoDID.cid).toString();
 }
 
-const getCID = async (client: GraphQLClient, query: any, variables: Variables): Promise<any> => {
+const getCID = async (client: GraphQLClient, query: any, variables: Variables): Promise<string> => {
     let data: any;
-    let cid: string; 
+    let cid: string = ''; 
 
     let counter: number = 0;
 
     try{
-        data = await client.request(query, variables)
-        if(data.hasOwnProperty('geoDID')){
-            if(data.geoDID != null){
-                cid = await declareCID(data);
+
+        let interval = setInterval(async() => {
+
+            data = await client.request(query, variables)
+
+            if(data.hasOwnProperty('geoDID')){
+                if(data.geoDID != null){
+                    cid = await declareCID(data);
+                }
             }
-        } 
 
-        if(cid == undefined){
-            /*
-            let timeOut = setInterval(async() => {
-                cid = await getCID(client, query, variables);
+            if((cid != undefined) || (counter >= 50)) {
                 console.log(cid);
-    
-                if(cid != undefined) {
-                    clearInterval(timeOut);
-                }
-    
-            }, 5000);
-    
-            // after 1 minute seconds stop
-            setTimeout(() => { clearInterval(timeOut); }, 60000);*/
+                clearInterval(interval);
+            }
 
-            let interval = setInterval(async() => {
-                cid = await getCID(client, query, variables);
-                console.log(cid);
-    
-                if((cid != undefined) || (counter >= 12)) {
-                    clearInterval(interval);
-                }
+            counter++;
+        }, 3000);
 
-                counter++;
-            }, 5000);
-
-        }
-        
-        console.log(cid);
     }catch(e){
         console.log(e);
     }
