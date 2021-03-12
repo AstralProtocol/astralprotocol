@@ -37,6 +37,7 @@
     },
     "dependencies": {
         "@textile/powergate-client": "^4.0.0",
+        "@types/ora": "^3.2.0",
         "@types/set-interval-async": "^1.0.0",
         "ajv": "^6.12.5",
         "apollo-fetch": "^0.7.0",
@@ -46,6 +47,7 @@
         "cids": "^1.0.0",
         "class-transformer": "^0.3.1",
         "cli-progress": "^3.8.2",
+        "cli-spinners": "^2.5.0",
         "cross-fetch": "^3.0.6",
         "did-jwt": "^4.5.1",
         "did-resolver": "^2.1.1",
@@ -57,6 +59,7 @@
         "graphql-request": "^3.4.0",
         "lodash.clonedeep": "^4.5.0",
         "multihashing-async": "^2.0.1",
+        "ora": "^5.3.0",
         "reflect-metadata": "^0.1.13",
         "set-interval-async": "1.0.34"
     },

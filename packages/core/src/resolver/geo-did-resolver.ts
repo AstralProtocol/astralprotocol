@@ -3,6 +3,7 @@ import { DIDResolver, DIDDocument, ParsedDID } from 'did-resolver';
 import { Powergate } from '../pin/powergate';
 
 import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/dynamic';
+import ora from 'ora';
 
 import { GraphQLClient, gql } from 'graphql-request';
 
@@ -32,6 +33,10 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
 
     var counter: number = 0;
 
+    //const spinner = ora('Loading document').start();
+
+    const spinner = ora('Loading document').start();
+
     return await new Promise((resolve, reject) => {
       const interval = setIntervalAsync(async() => {
 
@@ -43,10 +48,12 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
         }
 
         if (cid != undefined) {
+            spinner.succeed('Success');
             resolve(cid);
             clearIntervalAsync(interval);
         }
         else if(counter >= 50){
+            spinner.fail('Failed');
             reject("The Request Timed out. Sorry please try again.");
             clearIntervalAsync(interval);
         }
