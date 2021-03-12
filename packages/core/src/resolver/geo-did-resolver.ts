@@ -2,6 +2,8 @@ import { AstralClient } from '../astral-client';
 import { DIDResolver, DIDDocument, ParsedDID } from 'did-resolver';
 import { Powergate } from '../pin/powergate';
 
+import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/dynamic';
+
 import { GraphQLClient, gql } from 'graphql-request';
 
 export interface ResolverRegistry {
@@ -21,6 +23,17 @@ interface Response {
 async function declareCID<T extends Response>(data: T): Promise<string>{
     return (data.geoDID.cid).toString();
 }
+/*
+async function waitUntil(condition: any) {
+    return await new Promise(resolve => {
+      const interval = setInterval(() => {
+        if (condition) {
+          resolve('foo');
+          clearInterval(interval);
+        };
+      }, 1000);
+    });
+}*/
 
 async function getCID(client: GraphQLClient, query: any, variables: Variables): Promise<any> {
     var data: any;
@@ -30,7 +43,7 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
 
     try{
 
-        var interval = setInterval(async() => {
+        var interval = setIntervalAsync(async() => {
 
             console.log("Try me")
 
@@ -45,10 +58,13 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
 
             if((cid != undefined) || (counter >= 50)) {
                 console.log(cid);
-                clearInterval(interval);
+                clearIntervalAsync(interval);
             }
 
             counter++;
+
+            return cid
+
         }, 10000);
 
     }catch(e){
