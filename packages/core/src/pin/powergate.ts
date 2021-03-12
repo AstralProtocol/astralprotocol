@@ -1,5 +1,4 @@
 import { Pow, createPow, powTypes } from '@textile/powergate-client';
-import CID from 'cids';
 
 const chalk = require('chalk');
 //import chalk from 'chalk';
@@ -26,7 +25,7 @@ export class Powergate implements Pinning {
 
     // Readonly properties must be initialized at their declaration or in the constructor.
     constructor(private _host: string, private _pow: Pow, private _token?: string) {
-        console.log(`${chalk.blue('The Auth Token value is: ')}` + `${chalk.majenta(_token)}` + '\n' );
+        console.log(`${chalk.blue('The Auth Token value is: ')}` + `${chalk.magenta.underline(_token)}` + '\n' );
     }
 
     static async build(tokenval?: string): Promise<Powergate> {
