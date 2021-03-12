@@ -22,14 +22,14 @@ async function declareCID<T extends Response>(data: T): Promise<string>{
     return (data.geoDID.cid).toString();
 }
 
-const getCID = async (client: GraphQLClient, query: any, variables: Variables): Promise<any> => {
+async function getCID(client: GraphQLClient, query: any, variables: Variables): Promise<any> {
     let data: any;
     let cid: string; 
 
     let counter: number = 0;
 
     try{
-
+        
         let interval = setInterval(async() => {
 
             data = await client.request(query, variables)
@@ -48,7 +48,7 @@ const getCID = async (client: GraphQLClient, query: any, variables: Variables): 
             }
 
             counter++;
-        }, 3000);
+        }, 10000);
 
     }catch(e){
         console.log(e);
