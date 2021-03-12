@@ -23,7 +23,7 @@ export class AstralClient {
 
     powergate: Powergate;
 
-    constructor(public _ethereumAddress: string, public _thegraphEndpoint: string) {
+    constructor(public _ethereumAddress: string, public _thegraphEndpoint = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv06') {
         this.document = new Document(_ethereumAddress);
         this.docmap = {};
     }
@@ -159,10 +159,12 @@ export class AstralClient {
             const geoDidResolver = GeoDIDResolver.getResolver(this, powergate);
             const didResolver = new Resolver(geoDidResolver);
             doc = await didResolver.resolve(docId);
+
+            return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
+
         } catch (e) {
             console.log(e);
-        }
-
-        return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
+            throw e;
+        }        
     }
 }

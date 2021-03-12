@@ -68,13 +68,23 @@ export class Powergate implements Pinning {
     }
 
     async getAssetCid(buffer: any): Promise<string> {
-        const { cid } = await this._pow.data.stage(buffer)
-        return cid;
+        try{
+            const { cid } = await this._pow.data.stage(buffer)
+            return cid;
+        }
+        catch(e){
+            throw e;
+        }
     }
 
     async getGeoDIDDocument(cid: string): Promise<Uint8Array> {
-        const bytes = await this._pow.data.get(cid)
-        return bytes;
+        try{
+            const bytes = await this._pow.data.get(cid)
+            return bytes;
+        }catch(e){
+            //console.log(e);
+            throw e;
+        }
     }
 
     async pin(cid: string): Promise<void> {

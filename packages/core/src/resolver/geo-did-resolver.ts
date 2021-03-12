@@ -39,7 +39,7 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
 
     const spinner = new Ora({
         text: `${chalk.yellow('Loading document')}`,
-        spinner: cliSpinners.star
+        spinner: cliSpinners.simpleDots
     });
 
     spinner.start();
@@ -56,14 +56,14 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
 
         if (cid != undefined) {
             spinner.clear();
-            spinner.succeed(`${chalk.green('Success')}`);
+            spinner.succeed(`${chalk.green('Request was successful')}`);
             resolve(cid);
             clearIntervalAsync(interval);
         }
-        else if(counter >= 50){
+        else if(counter >= 30){
             spinner.clear();
             spinner.fail(`${chalk.red('Failed: ')}`);
-            reject("The Request Timed out. Sorry please try again.");
+            reject(`${chalk.red('The Request Timed out. Please try again.')}`);
             clearIntervalAsync(interval);
         }
 
@@ -80,7 +80,6 @@ const resolve = async (
     parsedpath?: string,
     parsedfragment?: string,
 ): Promise<DIDDocument | any | null> => {
-    let strj: any = '{ empty }';
 
     const endpoint = astral._thegraphEndpoint;
 
@@ -102,8 +101,6 @@ const resolve = async (
         }
     `;
 
-    //const defau: string = 'did:geo:QmagvfzHDaPnFzwfii6Z4H4S3kcJByzhfGaTfj9DvpEa14';
-
     const variables: Variables = {
         geoDIDID: pathActual,
     };
@@ -113,12 +110,14 @@ const resolve = async (
         const cid: string = await getCID(client, query, variables);
 
         const bytes: Uint8Array = await powergate.getGeoDIDDocument(cid);
-        strj = new TextDecoder('utf-8').decode(bytes);
-    } catch (e) {
-        console.log(e);
-    }
+        const strj = new TextDecoder('utf-8').decode(bytes);
 
-    return JSON.parse(strj);
+        return JSON.parse(strj);;
+
+    } catch(e) {
+        console.log(e);
+        throw e;
+    }
 };
 
 // needs a powergate instance to call getResolver
@@ -126,7 +125,11 @@ export default {
     getResolver: (astral: AstralClient, powergate: Powergate): ResolverRegistry => {
         return {
             geo: async (did: string, parsed: ParsedDID): Promise<DIDDocument | any | null> => {
-                return resolve(astral, powergate, parsed.did, parsed.id, parsed.path, parsed.fragment);
+                try{
+                    return await resolve(astral, powergate, parsed.did, parsed.id, parsed.path, parsed.fragment);
+                }catch(e){
+                    throw e;
+                }
             },
         };
     },
