@@ -94,6 +94,7 @@ const resolve = async (
 
     try {
 
+        // wait for the response to return cid or timeout
         const cid: string = await getCID(client, query, variables);
         
         const bytes: Uint8Array = await powergate.getGeoDIDDocument(cid);
