@@ -57,7 +57,6 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
         if (cid != undefined) {
             spinner.clear();
             spinner.succeed(`${chalk.green('Request was successful')}`);
-            console.log('\n')
             resolve(cid);
             clearIntervalAsync(interval);
         }
@@ -65,7 +64,6 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
             spinner.clear();
             spinner.fail(`${chalk.red('Failed: ')}`);
             reject(`${chalk.red('The Request Timed out. Please try again.')}`);
-            console.log('\n')
             clearIntervalAsync(interval);
         }
 
