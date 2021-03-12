@@ -20,58 +20,40 @@ interface Response {
     }
 }
 
-async function declareCID<T extends Response>(data: T): Promise<string>{
-    return (data.geoDID.cid).toString();
+async function declareCID<T extends Response>(data: T): Promise<any>{
+    if(data.geoDID.cid){ return (data.geoDID.cid).toString() }
+    else{ return undefined }
 }
-/*
-async function waitUntil(condition: any) {
-    return await new Promise(resolve => {
-      const interval = setInterval(() => {
-        if (condition) {
-          resolve('foo');
-          clearInterval(interval);
-        };
-      }, 1000);
-    });
-}*/
 
 async function getCID(client: GraphQLClient, query: any, variables: Variables): Promise<any> {
+
     var data: any;
     var cid: string; 
 
     var counter: number = 0;
 
-    try{
+    return await new Promise((resolve, reject) => {
+      const interval = setIntervalAsync(async() => {
 
-        var interval = setIntervalAsync(async() => {
+        data = await client.request(query, variables)
+        console.log(data);
 
-            console.log("Try me")
+        if(data.hasOwnProperty('geoDID')){
+            cid = await declareCID(data);
+        }
 
-            data = await client.request(query, variables)
-            console.log(data);
+        if (cid != undefined) {
+            resolve(cid);
+            clearIntervalAsync(interval);
+        }
+        else if(counter >= 50){
+            reject("The Request Timed out. Sorry please try again.");
+            clearIntervalAsync(interval);
+        }
 
-            if(data.hasOwnProperty('geoDID')){
-                if(data.geoDID != null){
-                    cid = await declareCID(data);
-                }
-            }
-
-            if((cid != undefined) || (counter >= 50)) {
-                console.log(cid);
-                clearIntervalAsync(interval);
-            }
-
-            counter++;
-
-            return cid
-
-        }, 10000);
-
-    }catch(e){
-        console.log(e);
-    }
-
-    return cid;
+        counter++;
+      }, 5000);
+    });
 }
 
 const resolve = async (
@@ -113,10 +95,6 @@ const resolve = async (
     try {
 
         const cid: string = await getCID(client, query, variables);
-
-        if(cid == undefined){
-            throw new Error('CID does not exist on The Graph');
-        }
         
         const bytes: Uint8Array = await powergate.getGeoDIDDocument(cid);
         strj = new TextDecoder('utf-8').decode(bytes);
