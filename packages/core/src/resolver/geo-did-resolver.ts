@@ -3,9 +3,11 @@ import { DIDResolver, DIDDocument, ParsedDID } from 'did-resolver';
 import { Powergate } from '../pin/powergate';
 
 import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/dynamic';
-import ora from 'ora';
+import cliSpinners from 'cli-spinners';
 
 import { GraphQLClient, gql } from 'graphql-request';
+
+const Ora = require('ora');
 
 export interface ResolverRegistry {
     [index: string]: DIDResolver;
@@ -35,7 +37,13 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
 
     //const spinner = ora('Loading document').start();
 
-    const spinner = ora('Loading document').start();
+    const spinner = new Ora({
+        text: 'Loading document',
+        spinner: cliSpinners.simpleDotsScrolling
+    });
+
+    spinner.start();
+    spinner.color = 'yellow'
 
     return await new Promise((resolve, reject) => {
       const interval = setIntervalAsync(async() => {
@@ -48,12 +56,18 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
         }
 
         if (cid != undefined) {
-            spinner.succeed('Success');
+            spinner.stopAndPersist({
+                symbol: '✔',
+                text: 'Success'
+            });
             resolve(cid);
             clearIntervalAsync(interval);
         }
         else if(counter >= 50){
-            spinner.fail('Failed');
+            spinner.stopAndPersist({
+                symbol: '✖',
+                text: 'Failed'
+            });
             reject("The Request Timed out. Sorry please try again.");
             clearIntervalAsync(interval);
         }
@@ -82,8 +96,6 @@ const resolve = async (
     } else {
         pathActual = parseddid;
     }
-
-    console.log(pathActual);
 
     const query =  gql`
         query($geoDIDID: ID!){
