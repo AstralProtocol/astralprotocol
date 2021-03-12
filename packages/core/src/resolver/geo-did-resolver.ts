@@ -23,14 +23,16 @@ async function declareCID<T extends Response>(data: T): Promise<string>{
 }
 
 async function getCID(client: GraphQLClient, query: any, variables: Variables): Promise<any> {
-    let data: any;
-    let cid: string; 
+    var data: any;
+    var cid: string; 
 
-    let counter: number = 0;
+    var counter: number = 0;
 
     try{
-        
-        let interval = setInterval(async() => {
+
+        var interval = setInterval(async() => {
+
+            console.log("Try me")
 
             data = await client.request(query, variables)
             console.log(data);
@@ -44,7 +46,6 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
             if((cid != undefined) || (counter >= 50)) {
                 console.log(cid);
                 clearInterval(interval);
-                return cid;
             }
 
             counter++;
@@ -53,6 +54,8 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
     }catch(e){
         console.log(e);
     }
+
+    return cid;
 }
 
 const resolve = async (
