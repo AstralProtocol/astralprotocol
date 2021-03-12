@@ -23,7 +23,7 @@ export class AstralClient {
 
     powergate: Powergate;
 
-    constructor(public _ethereumAddress: string) {
+    constructor(public _ethereumAddress: string, public _thegraphEndpoint: string) {
         this.document = new Document(_ethereumAddress);
         this.docmap = {};
     }

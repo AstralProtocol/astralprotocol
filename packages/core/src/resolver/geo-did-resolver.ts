@@ -8,6 +8,7 @@ import cliSpinners from 'cli-spinners';
 import { GraphQLClient, gql } from 'graphql-request';
 
 const Ora = require('ora');
+const chalk = require('chalk');
 
 export interface ResolverRegistry {
     [index: string]: DIDResolver;
@@ -24,7 +25,7 @@ interface Response {
 }
 
 async function declareCID<T extends Response>(data: T): Promise<any>{
-    if(data.geoDID.cid){ return (data.geoDID.cid).toString() }
+    if(data.geoDID != null){ return (data.geoDID.cid).toString() }
     else{ return undefined }
 }
 
@@ -38,8 +39,8 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
     //const spinner = ora('Loading document').start();
 
     const spinner = new Ora({
-        text: 'Loading document',
-        spinner: cliSpinners.simpleDotsScrolling
+        text: `${chalk.yellow('Loading document')}`,
+        spinner: cliSpinners.star
     });
 
     spinner.start();
@@ -49,25 +50,20 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
       const interval = setIntervalAsync(async() => {
 
         data = await client.request(query, variables)
-        console.log(data);
 
         if(data.hasOwnProperty('geoDID')){
             cid = await declareCID(data);
         }
 
         if (cid != undefined) {
-            spinner.stopAndPersist({
-                symbol: '✔',
-                text: 'Success'
-            });
+            spinner.clear();
+            spinner.succeed(`${chalk.green('Success')}`);
             resolve(cid);
             clearIntervalAsync(interval);
         }
         else if(counter >= 50){
-            spinner.stopAndPersist({
-                symbol: '✖',
-                text: 'Failed'
-            });
+            spinner.clear();
+            spinner.fail(`${chalk.red('Failed: ')}`);
             reject("The Request Timed out. Sorry please try again.");
             clearIntervalAsync(interval);
         }
@@ -87,7 +83,9 @@ const resolve = async (
 ): Promise<DIDDocument | any | null> => {
     let strj: any = '{ empty }';
 
-    const client = new GraphQLClient('https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv05');
+    const endpoint = astral._thegraphEndpoint;
+
+    const client = new GraphQLClient(endpoint);
 
     let pathActual: string = '';
 
