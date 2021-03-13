@@ -32,7 +32,7 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
             this.links = [
                 {
                     id: this.geoDIDid,
-                    type: GeoDidType.Collection, 
+                    type: GeoDidType.Item, 
                     rel: Relationship.Root
                 },
                 {

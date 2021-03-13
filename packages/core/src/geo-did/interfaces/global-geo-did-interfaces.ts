@@ -3,7 +3,7 @@ import { Powergate } from '../../pin/powergate';
 
 export const enum GeoDidType{ Default = 'default', Item = 'item', Collection = 'collection' }
 export const enum Relationship{ Root = 'root', Self = 'self', Parent = 'parent', Child = 'child' }
-export const enum ServiceType{ Metadata = 'metadata', GeoJSON = 'geojson', JSON = 'json', GeoTIFF = 'geotiff', Misc = 'misc'}
+export const enum ServiceType{ Collection_Metadata = 'collection-metadata', Item_Metadata = 'item-metadata', GeoJSON = 'geojson', JSON = 'json', GeoTIFF = 'geotiff', Misc = 'misc'}
 
 export interface ILoadInfo {
     documentInfo: IDocumentInfo;
