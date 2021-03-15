@@ -1,7 +1,7 @@
 {
   "name": "@astralprotocol/stac-validator-js",
   "version": "0.0.6",
-  "description": "Node implementation of a Stac file validator",
+  "description": "Node implementation of a Stac file validator ",
   "author": "Astral <contact@astral.global>",
   "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
   "license": "MIT OR Apache-2.0",
