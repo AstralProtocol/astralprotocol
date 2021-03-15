@@ -4,7 +4,7 @@
   "description": "IPLD Encoded GeoTIFFs to enable CID serving capabilities on IPFS. ",
   "author": "Astral <contact@astral.global>",
   "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
-  "license": "APACHE OR MIT",
+  "license": "MIT OR Apache-2.0",
   "main": "lib/index.ts",
   "typings": "lib/index.d.ts",
   "directories": {

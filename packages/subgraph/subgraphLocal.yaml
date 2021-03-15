@@ -31,4 +31,10 @@ dataSources:
           handler: handleParentRemoved
         - event: ChildrenRemoved(indexed bytes32,indexed bytes32)
           handler: handleChildrenRemoved
+        - event: ChildrenErrorNoParent(indexed bytes32,indexed bytes32)
+          handler: handleChildrenErrorNoParent
+        - event: ChildrenErrorNoExistence(indexed bytes32,indexed bytes32)
+          handler: handleChildrenErrorNoExistence
+        - event: ChildrenErrorHasParent(indexed bytes32,indexed bytes32)
+          handler: handleChildrenErrorHasParent
       file: ./src/mapping.ts

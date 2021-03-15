@@ -5,9 +5,12 @@ import {
   ParentRemoved,
   ChildrenRemoved,
   SpatialAssetDeactivated,
+  ChildrenErrorNoParent,
+  ChildrenErrorNoExistence,
+  ChildrenErrorHasParent,
 } from "../generated/SpatialAssets/SpatialAssets";
 import { GeoDID, Edge } from "../generated/schema";
-import { Bytes, log } from "@graphprotocol/graph-ts";
+import { Bytes } from "@graphprotocol/graph-ts";
 
 import { addQm } from "./helpers";
 
@@ -67,6 +70,7 @@ export function handleSpatialAssetRegistered(
   }
 
   geoDID.edges = [];
+  geoDID.errors = [];
   geoDID.save();
 }
 
@@ -179,7 +183,7 @@ export function handleParentRemoved(event: ParentRemoved): void {
 
   let geoDID = GeoDID.load(base58HashChild);
 
-  geoDID.parent = null;
+  geoDID.parent = "";
 
   geoDID.root = geoDID.id;
   geoDID.isRoot = true;
@@ -223,7 +227,7 @@ export function handleChildrenRemoved(event: ChildrenRemoved): void {
 
   let geoDID = GeoDID.load(base58HashChild);
 
-  geoDID.parent = null;
+  geoDID.parent = "";
   geoDID.root = geoDID.id;
   geoDID.isRoot = true;
   geoDID.save();
@@ -269,7 +273,82 @@ export function handleSpatialAssetDeactivated(
   geoDID.owner = "";
   geoDID.root = "";
   geoDID.active = false;
-  geoDID.parent = null;
+  geoDID.parent = "";
+
+  geoDID.save();
+}
+
+export function handleChildrenErrorNoParent(
+  event: ChildrenErrorNoParent
+): void {
+  let hexHashIdParent = addQm(event.params.geoDIDId) as Bytes;
+  let base58HashParent = "did:geo:" + hexHashIdParent.toBase58(); // imported crypto function
+  let hexHashChild = addQm(event.params.childrenGeoDIDId) as Bytes;
+  let base58HashChild = "did:geo:" + hexHashChild.toBase58(); // imported crypto function
+
+  let geoDID = GeoDID.load(base58HashParent);
+
+  let originalErrors = geoDID.errors;
+
+  let newErrors: Array<string>;
+
+  for (let i = 0; i < originalErrors.length; i++) {
+    newErrors.push(originalErrors[i]);
+  }
+
+  newErrors.push("ChildrenErrorNoParent" + base58HashChild);
+
+  geoDID.errors = newErrors;
+
+  geoDID.save();
+}
+
+export function handleChildrenErrorNoExistence(
+  event: ChildrenErrorNoExistence
+): void {
+  let hexHashIdParent = addQm(event.params.geoDIDId) as Bytes;
+  let base58HashParent = "did:geo:" + hexHashIdParent.toBase58(); // imported crypto function
+  let hexHashChild = addQm(event.params.childrenGeoDIDId) as Bytes;
+  let base58HashChild = "did:geo:" + hexHashChild.toBase58(); // imported crypto function
+
+  let geoDID = GeoDID.load(base58HashParent);
+
+  let originalErrors = geoDID.errors;
+
+  let newErrors: Array<string>;
+
+  for (let i = 0; i < originalErrors.length; i++) {
+    newErrors.push(originalErrors[i]);
+  }
+
+  newErrors.push("ChildrenErrorNoExistence" + base58HashChild);
+
+  geoDID.errors = newErrors;
+
+  geoDID.save();
+}
+
+export function handleChildrenErrorHasParent(
+  event: ChildrenErrorHasParent
+): void {
+  let hexHashIdParent = addQm(event.params.geoDIDId) as Bytes;
+  let base58HashParent = "did:geo:" + hexHashIdParent.toBase58(); // imported crypto function
+  let hexHashChild = addQm(event.params.childrenGeoDIDId) as Bytes;
+  let base58HashChild = "did:geo:" + hexHashChild.toBase58(); // imported crypto function
+
+  let geoDID = GeoDID.load(base58HashParent);
+
+  let originalErrors = geoDID.errors;
+
+  let newErrors: Array<string>;
+
+  for (let i = 0; i < originalErrors.length; i++) {
+    newErrors.push(originalErrors[i]);
+  }
+
+  newErrors.push("ChildrenErrorHasParent" + base58HashChild);
+
+  geoDID.errors = newErrors;
 
   geoDID.save();
 }

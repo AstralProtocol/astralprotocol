@@ -4,7 +4,7 @@
   "description": "Node implementation of a Stac file validator",
   "author": "Astral <contact@astral.global>",
   "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
-  "license": "APACHE OR MIT",
+  "license": "MIT OR Apache-2.0",
   "main": "src/stac-validator.js",
   "directories": {
     "lib": "lib"

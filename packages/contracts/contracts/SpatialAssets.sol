@@ -43,6 +43,25 @@ contract SpatialAssets is Context, AccessControl {
      */
     event ChildrenRemoved(bytes32 indexed geoDIDId, bytes32 indexed childrenGeoDIDId);
 
+    
+    /**
+     * @dev Emitted when a children geodid does not have a parent when trying to remove it from a parent
+     */
+    event ChildrenErrorNoParent(bytes32 indexed geoDIDId, bytes32 indexed childrenGeoDIDId);
+
+    
+    /**
+     * @dev Emitted when a children geodid does not exist
+     */
+    event ChildrenErrorNoExistence(bytes32 indexed geoDIDId, bytes32 indexed childrenGeoDIDId);
+
+    
+    /**
+     * @dev Emitted when a children geodid already has a parent but shouldn't have
+     */
+    event ChildrenErrorHasParent(bytes32 indexed geoDIDId, bytes32 indexed childrenGeoDIDId);
+
+
     bytes32 public constant DATA_SUPPLIER = keccak256("DATA_SUPPLIER");
 
     string private _uri;
@@ -168,6 +187,10 @@ contract SpatialAssets is Context, AccessControl {
                     _hasParent[childrenGeoDID] = true;
                     _root[childrenGeoDID] = _root[geoDIDId];
                     emit ChildrenAdded(geoDIDId, childrenGeoDID);
+                } else if (_owners[childrenGeoDID] != address(0) && _hasParent[childrenGeoDID]){
+                    emit ChildrenErrorHasParent(geoDIDId, childrenGeoDID);
+                } else {
+                    emit ChildrenErrorNoExistence(geoDIDId, childrenGeoDID);
                 }
             }
         }
@@ -209,6 +232,10 @@ contract SpatialAssets is Context, AccessControl {
                     _hasParent[childrenGeoDID] = false;
                     _root[childrenGeoDID] = childrenGeoDID;
                     emit ChildrenRemoved(geoDIDId, childrenGeoDID);
+                } else if (_owners[childrenGeoDID] != address(0) && !_hasParent[childrenGeoDID]){
+                    emit ChildrenErrorNoParent(geoDIDId, childrenGeoDID);
+                } else {
+                    emit ChildrenErrorNoExistence(geoDIDId, childrenGeoDID);
                 }
             }
         }
@@ -254,6 +281,10 @@ contract SpatialAssets is Context, AccessControl {
                     _hasParent[childrenGeoDID] = false;
                     _root[childrenGeoDID] = childrenGeoDID;
                     emit ChildrenRemoved(geoDIDId, childrenGeoDID);
+                }  else if (_owners[childrenGeoDID] != address(0) && !_hasParent[childrenGeoDID]){
+                    emit ChildrenErrorNoParent(geoDIDId, childrenGeoDID);
+                } else {
+                    emit ChildrenErrorNoExistence(geoDIDId, childrenGeoDID);
                 }
             }
         }

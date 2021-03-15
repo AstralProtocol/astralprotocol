@@ -9,6 +9,7 @@ type GeoDID @entity {
   edges: [Edge!]!
   active: Boolean!
   type: String!
+  errors: [String!]!
 }
 
 type Edge @entity {

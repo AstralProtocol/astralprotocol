@@ -32,6 +32,72 @@ export class ChildrenAdded__Params {
   }
 }
 
+export class ChildrenErrorHasParent extends ethereum.Event {
+  get params(): ChildrenErrorHasParent__Params {
+    return new ChildrenErrorHasParent__Params(this);
+  }
+}
+
+export class ChildrenErrorHasParent__Params {
+  _event: ChildrenErrorHasParent;
+
+  constructor(event: ChildrenErrorHasParent) {
+    this._event = event;
+  }
+
+  get geoDIDId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get childrenGeoDIDId(): Bytes {
+    return this._event.parameters[1].value.toBytes();
+  }
+}
+
+export class ChildrenErrorNoExistence extends ethereum.Event {
+  get params(): ChildrenErrorNoExistence__Params {
+    return new ChildrenErrorNoExistence__Params(this);
+  }
+}
+
+export class ChildrenErrorNoExistence__Params {
+  _event: ChildrenErrorNoExistence;
+
+  constructor(event: ChildrenErrorNoExistence) {
+    this._event = event;
+  }
+
+  get geoDIDId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get childrenGeoDIDId(): Bytes {
+    return this._event.parameters[1].value.toBytes();
+  }
+}
+
+export class ChildrenErrorNoParent extends ethereum.Event {
+  get params(): ChildrenErrorNoParent__Params {
+    return new ChildrenErrorNoParent__Params(this);
+  }
+}
+
+export class ChildrenErrorNoParent__Params {
+  _event: ChildrenErrorNoParent;
+
+  constructor(event: ChildrenErrorNoParent) {
+    this._event = event;
+  }
+
+  get geoDIDId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+
+  get childrenGeoDIDId(): Bytes {
+    return this._event.parameters[1].value.toBytes();
+  }
+}
+
 export class ChildrenRemoved extends ethereum.Event {
   get params(): ChildrenRemoved__Params {
     return new ChildrenRemoved__Params(this);

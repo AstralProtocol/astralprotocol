@@ -130,6 +130,15 @@ export class GeoDID extends Entity {
   set type(value: string) {
     this.set("type", Value.fromString(value));
   }
+
+  get errors(): Array<string> {
+    let value = this.get("errors");
+    return value.toStringArray();
+  }
+
+  set errors(value: Array<string>) {
+    this.set("errors", Value.fromStringArray(value));
+  }
 }
 
 export class Edge extends Entity {
