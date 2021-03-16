@@ -6,7 +6,7 @@ dataSources:
     name: SpatialAssets
     network: ropsten
     source:
-      address: "0xaD7A9a778f8adAFAA6a0481ECffE27eF737C634e"
+      address: "0x73e673c914bb6A1F016543D0C48c9fd9e927b28A"
       abi: SpatialAssets
     mapping:
       kind: ethereum/events
