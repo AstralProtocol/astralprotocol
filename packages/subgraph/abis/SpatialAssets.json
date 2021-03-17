@@ -29571,8 +29571,8 @@
         }
       },
       "links": {},
-      "address": "0x73e673c914bb6A1F016543D0C48c9fd9e927b28A",
-      "transactionHash": "0x3727738c2b85b9037b4f37adf4b8176a356c99c0e017e622c3aa8988c98c480e"
+      "address": "0x86BF245e24755Edb4432521E36245A679624dA5E",
+      "transactionHash": "0xce76bcff8eeeb71a294e64bd430e1f1f97e5063c1ab646bfa6edf1e5a5d655f6"
     },
     "333": {
       "events": {
@@ -30106,15 +30106,72 @@
           ],
           "name": "SpatialAssetDeactivated",
           "type": "event"
+        },
+        "0xc2fbe5202fa3aef19d26284e739c3305170f8c2e9acf77122fc10277a492ac6b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "geoDIDId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "childrenGeoDIDId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "ChildrenErrorHasParent",
+          "type": "event"
+        },
+        "0x9fd08a31a95521d410b6d20008384ec9a65bff57159bb95ad8ba86c03fda0466": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "geoDIDId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "childrenGeoDIDId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "ChildrenErrorNoExistence",
+          "type": "event"
+        },
+        "0x69081739e741291d0f0ca163bc158eaa3775c02069512953c69e7ae7e7a1970c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "geoDIDId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "childrenGeoDIDId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "ChildrenErrorNoParent",
+          "type": "event"
         }
       },
       "links": {},
       "address": "0xCfEB869F69431e42cdB54A4F4f105C19C080A601",
-      "transactionHash": "0xb098ca468dd93aa56337c0f998f9ee61e04a37de9e685ef8c5ee796a49f7b814"
+      "transactionHash": "0x126672783b76dd30253aa8f7e0fdf5d1384fac33679d57c92c3db20d360aa027"
     }
   },
   "schemaVersion": "3.3.4",
-  "updatedAt": "2021-03-15T21:45:33.390Z",
+  "updatedAt": "2021-03-17T16:26:39.645Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "{SpatialAssets} registry This contract uses {AccessControl} to lock permissioned functions using the different roles - head to its documentation for details. The account that deploys the contract will be granted the 'DATA_SUPPLIER' as well as the default admin role, which will let it grant 'DATA_SUPPLIER' roles to other accounts",

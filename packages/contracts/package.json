@@ -28,6 +28,7 @@
     "console": "truffle console --network development",
     "ganache": "ganache-cli -h 0.0.0.0 -p 8545 -d -i 333",
     "deployGeoDIDs": "truffle exec scripts/deployGeoDIDs.js --network ropsten",
+    "testg": "truffle exec scripts/test.js --network development",
     "new-instance": "truffle exec scripts/newInstance.js --network development",
     "remove-links": "truffle exec scripts/newInstance-remove.js --network development",
     "truffle-build": "truffle compile -all",

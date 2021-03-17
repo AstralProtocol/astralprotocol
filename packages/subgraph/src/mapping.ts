@@ -41,6 +41,8 @@ export function handleSpatialAssetRegistered(
   let base58HashId = "did:geo:" + hexHashId.toBase58(); // imported crypto function
 
   let geoDID = new GeoDID(base58HashId);
+  geoDID.bytes32hash = event.params.geoDIDId;
+  geoDID.bytes32hashWithQM = hexHashId;
 
   geoDID.owner = event.params.to.toHexString();
 

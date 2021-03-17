@@ -42,6 +42,24 @@ export class GeoDID extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get bytes32hash(): Bytes {
+    let value = this.get("bytes32hash");
+    return value.toBytes();
+  }
+
+  set bytes32hash(value: Bytes) {
+    this.set("bytes32hash", Value.fromBytes(value));
+  }
+
+  get bytes32hashWithQM(): Bytes {
+    let value = this.get("bytes32hashWithQM");
+    return value.toBytes();
+  }
+
+  set bytes32hashWithQM(value: Bytes) {
+    this.set("bytes32hashWithQM", Value.fromBytes(value));
+  }
+
   get owner(): string {
     let value = this.get("owner");
     return value.toString();

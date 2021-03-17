@@ -1,5 +1,7 @@
 type GeoDID @entity {
   id: ID!
+  bytes32hash: Bytes!
+  bytes32hashWithQM: Bytes!
   owner: String!
   cid: String!
   storage: Bytes!
