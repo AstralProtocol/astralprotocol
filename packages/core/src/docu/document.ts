@@ -55,19 +55,6 @@ export class Document {
         const factory: ConcreteDefaultFactory = new ConcreteDefaultFactory();
 
         try{
-            switch(_typeOfGeoDID.toLowerCase()){
-                case 'collection':
-                    document = await factory.createGeoDIDDocument(ConcreteDefaultGeoDIDCollection);
-                    await document.prepChildGeoDID(this._ethereumAddress, _parentID, _path);
-                    break;
-                case 'item':
-                    document = await factory.createGeoDIDDocument(ConcreteDefaultGeoDIDItem);
-                    await document.prepChildGeoDID(this._ethereumAddress, _parentID, _path);
-                    break;
-                default:
-                    throw new Error('Invalid Option, please select Item or Collection');
-            }
-
             if(_typeOfGeoDID.toLowerCase() == 'collection'){
                 document = await factory.createGeoDIDDocument(ConcreteDefaultGeoDIDCollection);
                 await document.prepChildGeoDID(this._ethereumAddress, _parentID, _path);
