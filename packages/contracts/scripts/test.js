@@ -30,48 +30,18 @@ module.exports = async function (callback) {
     return hashStr
   }
         
-  const geoDID1 = 'did:geo:QmQ747r7eLfsVtBFBSRwfXsPK6tADJpQzJxz4uFdoZb9XJ';
-  const cid1 = 'QmQ747r7eLfsVtBFBSRwfXsPK6tADJpQzJxz4uFdoZb9XJ';
+  const geoDID1 = 'did:geo:QmUZ4e5quBeXG5t38hGBgXweob5rat9mcix6qn9AsAMrsC';
 
-  const geoDID2 = 'did:geo:QmNSUYVKDSvPUnRLKmuxk9diJ6yS96r1TrAXzjTiBcCLAL';
-  const cid2 = 'QmNSUYVKDSvPUnRLKmuxk9diJ6yS96r1TrAXzjTiBcCLAL';
+  const geoDID2 = 'did:geo:QmZ9Mc8sPk6oASJz4g1cvgh5bvps6bp7s6B2seK9NyL5qj';
 
-  const geoDID3 = 'did:geo:QmTtDqWzo179ujTXU7pf2PodLNjpcpQQCXhkiQXi6wZvKd';
-  const cid3 = 'QmTtDqWzo179ujTXU7pf2PodLNjpcpQQCXhkiQXi6wZvKd';
-
-  const geoDID4 = 'did:geo:QmYA2fn8cMbVWo4v95RwcwJVyQsNtnEwHerfWR8UNtEwoE';
-  const cid4 = 'QmYA2fn8cMbVWo4v95RwcwJVyQsNtnEwHerfWR8UNtEwoE';
-
-  const geoDID5 = 'did:geo:QmV9tSDx9UiPeWExXEeH6aoDvmihvx6jD5eLb4jbTaKGps';
-  const cid5 = 'QmV9tSDx9UiPeWExXEeH6aoDvmihvx6jD5eLb4jbTaKGps';
-
-  const geoDID6 = 'did:geo:QmSrPmbaUKA3ZodhzPWZnpFgcPMFWF4QsxXbkWfEptTBJd';
-  const cid6 = 'QmSrPmbaUKA3ZodhzPWZnpFgcPMFWF4QsxXbkWfEptTBJd';
-
-  const geoDID7 = 'did:geo:QmdiA1atSBgU178s5rsWont8cYns3fmwHxELTpiP9uFfLW';
-  const cid7 = 'QmdiA1atSBgU178s5rsWont8cYns3fmwHxELTpiP9uFfLW';
+  const geoDID3 = 'did:geo:QmYgxdsHwArsZdActpg5APsTuYuFAYJY4gZxZkxAcCuDNN';
 
 
   const bytes32GeoDID1= getBytes32FromIpfsHash(geoDID1.substring(8));
-  const bytes32Cid1 = getBytes32FromIpfsHash(cid1);
 
   const bytes32GeoDID2= getBytes32FromIpfsHash(geoDID2.substring(8));
-  const bytes32Cid2 = getBytes32FromIpfsHash(cid2);
 
   const bytes32GeoDID3= getBytes32FromIpfsHash(geoDID3.substring(8));
-  const bytes32Cid3 = getBytes32FromIpfsHash(cid3);
-
-  const bytes32GeoDID4= getBytes32FromIpfsHash(geoDID4.substring(8));
-  const bytes32Cid4 = getBytes32FromIpfsHash(cid4);
-
-  const bytes32GeoDID5= getBytes32FromIpfsHash(geoDID5.substring(8));
-  const bytes32Cid5 = getBytes32FromIpfsHash(cid5);
-
-  const bytes32GeoDID6= getBytes32FromIpfsHash(geoDID6.substring(8));
-  const bytes32Cid6 = getBytes32FromIpfsHash(cid6);
-
-  const bytes32GeoDID7= getBytes32FromIpfsHash(geoDID7.substring(8));
-  const bytes32Cid7 = getBytes32FromIpfsHash(cid7);
 
 
 
@@ -83,6 +53,25 @@ module.exports = async function (callback) {
   console.log("Bytes32 GeoDID1: ", bytes32GeoDID1)
 
   console.log("Calculated GeoDID1: ", getIpfsHashFromBytes32(bytes32GeoDID1))
+  console.log("Calculated GeoDID from subgraph: ", getIpfsHashFromBytes32("0x5c5426554833fdbd64d4041b07a49363a9275520839c88cb9d7d4b5957acbe73"))
+
+  console.log("   ")
+
+  console.log("GeoDID2: ", geoDID2)
+
+  console.log("Bytes32 GeoDID2: ", bytes32GeoDID2)
+
+  console.log("Calculated GeoDID2: ", getIpfsHashFromBytes32(bytes32GeoDID2))
+  console.log("Calculated GeoDID from subgraph: ", getIpfsHashFromBytes32("0xa08bd4357eb3a3dbc6b8634c90ab033e51c7027c10468cb90550ad53429f1e32"))
+
+  console.log("   ")
+
+  console.log("GeoDI3: ", geoDID3)
+
+  console.log("Bytes32 GeoDID3: ", bytes32GeoDID3)
+
+  console.log("Calculated GeoDID3: ", getIpfsHashFromBytes32(bytes32GeoDID3))
+  console.log("Calculated GeoDID3 from subgraph: ", getIpfsHashFromBytes32("0x99c8c166e8986ffd28f5f5b6438791fb030c406e6fb717cdf3e6a84888be47f7"))
 
     }
     catch(error) {

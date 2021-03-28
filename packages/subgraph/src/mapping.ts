@@ -65,6 +65,8 @@ export function handleSpatialAssetRegistered(
 
   geoDID.active = true;
 
+  geoDID.parent = "";
+
   if (event.params.canBeParent) {
     geoDID.type = "Collection";
   } else {
@@ -247,7 +249,7 @@ export function handleSpatialAssetDeactivated(
 
   let geoDID = GeoDID.load(base58Hash);
 
-  if (geoDID.parent) {
+  if (geoDID.parent.length > 0) {
     let edgeToParent = Edge.load(geoDID.parent + "-" + base58Hash);
 
     edgeToParent.active = false;

@@ -105,21 +105,13 @@ export class GeoDID extends Entity {
     this.set("isRoot", Value.fromBoolean(value));
   }
 
-  get parent(): string | null {
+  get parent(): string {
     let value = this.get("parent");
-    if (value === null || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value.toString();
   }
 
-  set parent(value: string | null) {
-    if (value === null) {
-      this.unset("parent");
-    } else {
-      this.set("parent", Value.fromString(value as string));
-    }
+  set parent(value: string) {
+    this.set("parent", Value.fromString(value));
   }
 
   get edges(): Array<string> {
