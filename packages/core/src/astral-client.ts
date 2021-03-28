@@ -148,7 +148,8 @@ export class AstralClient {
 
             return document_Info;
         } catch (e) {
-            console.log(e);
+            //console.log(e);
+            throw e;
         }
     }
 

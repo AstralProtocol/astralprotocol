@@ -37,35 +37,40 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
 
     //const spinner = ora('Loading document').start();
 
-    const spinner = new Ora({
-        text: `${chalk.yellow('Loading document')}`,
-        spinner: cliSpinners.dots
-    });
-
-    spinner.start();
-    spinner.color = 'yellow';
-
     return await new Promise((resolve, reject) => {
-      const interval = setIntervalAsync(async() => {
+        const interval = setIntervalAsync(async() => {
+            const spinner = new Ora({
+                discardStdin: false,
+                text: `${chalk.yellow('Loading document')}`,
+                spinner: cliSpinners.dots
+            });
+        
+            spinner.start();
+            spinner.color = 'yellow';
+            try{
+                data = await client.request(query, variables)
 
-        data = await client.request(query, variables)
-
-            if (data.hasOwnProperty('geoDID')) {
-                cid = await declareCID(data);
+                if (data.hasOwnProperty('geoDID')) {
+                    cid = await declareCID(data);
+                }
+            }catch(err){
+                reject(`${err}`); // reject
             }
 
-        if (cid != undefined) {
-            spinner.clear();
-            spinner.succeed(`${chalk.green('Request was successful')}`);
-            resolve(cid);
-            clearIntervalAsync(interval);
-        }
-        else if(counter >= 30){
-            spinner.clear();
-            spinner.fail(`${chalk.red('Failed: ')}`);
-            reject(`${chalk.red('The Request Timed out. Please try again.')}`);
-            clearIntervalAsync(interval);
-        }
+            if (cid != undefined) {
+                spinner.clear();
+                spinner.succeed(`${chalk.green('Request was successful')}`);
+                resolve(cid);
+                clearIntervalAsync(interval);
+                spinner.stop();
+            }
+            else if(counter >= 30){
+                spinner.clear();
+                spinner.fail(`${chalk.red('Failed: ')}`);
+                reject(`${chalk.red('The Request Timed out. Please try again.')}`);
+                clearIntervalAsync(interval);
+                spinner.stop();
+            }
 
             counter++;
         }, 5000);
@@ -115,7 +120,7 @@ const resolve = async (
         return JSON.parse(strj);;
 
     } catch(e) {
-        console.log(e);
+        //console.log(e);
         throw e;
     }
 };
