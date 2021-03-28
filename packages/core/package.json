@@ -1,6 +1,6 @@
 {
     "name": "@astralprotocol/core",
-    "version": "1.0.50",
+    "version": "1.0.51",
     "description": "The @astralprotocol/core package is a Typescript NPM package that is responsible  for any CRUD operations performed on the DID Documents. This includes the creation of DID Documents, loading the DID Documents, as well as updating them. The package also has utilities that enable the creation of the collision resistant GeoDID IDs, a custom did-resolver that enables DID Resolution, as well as pinning features for storing the Documents on IPFS or FFS. This package is meant to be used in conjunction with the @astralprotocol/contracts and @astralprotocol/subgraph packages. However, the package can also be used independently if the user does not want to rely on the Ethereum network",
     "author": "Astral <contact@astral.global>",
     "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
