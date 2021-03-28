@@ -1,6 +1,6 @@
 import { ConcreteDefaultGeoDIDDocument } from './geo-did-default-document';
 import { GeoDidType, Relationship } from '../interfaces/global-geo-did-interfaces';
-import { GeoDoctypeUtils } from '../utils/utils';
+import { GeoDoctypeUtils } from '../doctype-utils/geo-doctype-utils';
 
 export class ConcreteDefaultGeoDIDCollection extends ConcreteDefaultGeoDIDDocument {
 

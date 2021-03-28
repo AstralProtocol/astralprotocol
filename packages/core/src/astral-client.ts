@@ -1,8 +1,9 @@
 import { Powergate } from './pin/powergate';
 import { Document } from './docu/document';
+import { GeoUtils } from './utils/geo-utils';
 import GeoDIDResolver from './resolver/geo-did-resolver';
-import { Resolver, ServiceEndpoint } from 'did-resolver';
-import { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
+import { DIDDocument, Resolver, ServiceEndpoint } from 'did-resolver';
+import { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo, IAssetInfo } from './geo-did/interfaces/global-geo-did-interfaces';
 
 export { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
 
@@ -28,20 +29,10 @@ export class AstralClient {
         this.docmap = {};
     }
 
-    async getPowergateInstance(token?: string): Promise<Powergate> {
-        if (token) {
-            const powergate: Powergate = await Powergate.build(token);
-            return powergate;
-        } else {
-            const powergate: Powergate  = await Powergate.build();
-            return powergate;
-        }
-    }
-
-    async createGenesisGeoDID(_typeOfGeoDID: string): Promise<IDocumentInfo> {
+    async createGenesisGeoDID(_typeOfGeoDID: string, assets?: IAsset[]): Promise<IDocumentInfo> {
         try {
             // prints the geodidid of the genesis geodid
-            const response: IDocumentInfo = await this.document.addGenesisDocument(_typeOfGeoDID);
+            const response: IDocumentInfo = await this.document.addGenesisDocument(_typeOfGeoDID, assets);
             return response;
         } catch (e) {
             console.log('Unable to initialize');
@@ -50,9 +41,9 @@ export class AstralClient {
     }
 
     // Option to create Child GeoDID
-    async createChildGeoDID(_typeOfGeoDID: string, _parentID: string, _path: string): Promise<IDocumentInfo> {
+    async createChildGeoDID(_typeOfGeoDID: string, _parentID: string, _path: string, assets?: IAsset[]): Promise<IDocumentInfo> {
         try {
-            const response: IDocumentInfo = await this.document.addChildDocument(_typeOfGeoDID, _parentID, _path);
+            const response: IDocumentInfo = await this.document.addChildDocument(_typeOfGeoDID, _parentID, _path, assets);
             return response;
         } catch (e) {
             console.log('Unable to initialize');
@@ -62,9 +53,14 @@ export class AstralClient {
 
     // must call getPowergateInstance before hand, in order to call pinDocument
     async pinDocument(documentInfo: IDocumentInfo, token?: string): Promise<IPinInfo> {
+
+        if(documentInfo.token != null || documentInfo.token != undefined) {
+            token = documentInfo.token;
+        }
+
         try {
             const pinDate: Date = new Date();
-            const powergate: Powergate = await this.getPowergateInstance(token);
+            const powergate: Powergate = await GeoUtils.getPowergateInstance(token);
             token = await powergate.getToken();
             const stringdoc = JSON.stringify(documentInfo.documentVal);
             //console.log(stringdoc); // delete
@@ -102,7 +98,7 @@ export class AstralClient {
             await powergate.pin(seCID);
 
             return {
-                id: docId.concat(asset.tag),
+                id: docId.concat(`#${asset.tag}`),
                 type: asset.type,
                 serviceEndpoint: seCID,
             };
@@ -143,12 +139,38 @@ export class AstralClient {
     async loadDocument(docId: string, token: string): Promise<ILoadInfo> {
 
         try {
-            const powergate: Powergate = await this.getPowergateInstance(token);
+            const powergate: Powergate = await GeoUtils.getPowergateInstance(token);
             const geoDidResolver = GeoDIDResolver.getResolver(this, powergate);
             const didResolver = new Resolver(geoDidResolver);
-            const doc = await didResolver.resolve(docId);
+            const doc: DIDDocument = await didResolver.resolve(docId);
 
             return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
+
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }        
+    }
+
+    // must have a fragment and token of the
+    async loadAsset(doc: DIDDocument, docId: string, token: string): Promise<IAssetInfo> {
+
+        try {
+            const powergate: Powergate = await GeoUtils.getPowergateInstance(token);
+            
+            const services: Array<ServiceEndpoint> = doc.service;
+            
+            for(let i = 0; i < services.length; i++){
+                if(services[i].id == docId){
+                    const asset_cid = services[i].serviceEndpoint; 
+                    var bytes: Uint8Array = await powergate.getFromPowergate(asset_cid);
+                    var type = services[i].type;
+
+                    break;
+                } 
+            }
+
+            return {id: docId, type: type, data: bytes};
 
         } catch (e) {
             console.log(e);

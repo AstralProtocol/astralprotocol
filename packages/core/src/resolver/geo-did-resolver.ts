@@ -1,6 +1,7 @@
 import { AstralClient } from '../astral-client';
-import { DIDResolver, DIDDocument, ParsedDID } from 'did-resolver';
+import { DIDResolver, DIDDocument, ParsedDID, ServiceEndpoint } from 'did-resolver';
 import { Powergate } from '../pin/powergate';
+import { IAssetInfo } from '../geo-did/interfaces/global-geo-did-interfaces';
 
 import { setIntervalAsync, clearIntervalAsync } from 'set-interval-async/dynamic';
 import cliSpinners from 'cli-spinners';
@@ -22,6 +23,11 @@ interface Response {
     geoDID: {
         cid: string;
     };
+}
+
+interface Resolve {
+    document: any;
+    asset?: any;
 }
 
 async function declareCID<T extends Response>(data: T): Promise<any>{
@@ -115,16 +121,21 @@ const resolve = async (
         // wait for the response to return cid or timeout
         const cid: string = await getCID(client, query, variables);
 
-        const bytes: Uint8Array = await powergate.getGeoDIDDocument(cid);
+        // gets the document
+        const bytes: Uint8Array = await powergate.getFromPowergate(cid);
         const strj = new TextDecoder('utf-8').decode(bytes);
 
-        return JSON.parse(strj);;
+        const document = JSON.parse(strj);
+
+        return document;
 
     } catch(e) {
         //console.log(e);
         throw e;
     }
 };
+
+
 
 // needs a powergate instance to call getResolver
 export default {

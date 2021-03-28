@@ -1,7 +1,7 @@
 import { IAbstractGeoDIDDocument } from '../interfaces/factory-interfaces';
 import { GeoDIDDocument, IMetadata, ILinks, GeoDidType, Relationship } from '../interfaces/global-geo-did-interfaces';
-import { GeoDoctypeUtils } from '../utils/utils';
-import { ServiceEndpoint, PublicKey, } from 'did-resolver';
+import { GeoDoctypeUtils } from '../doctype-utils/geo-doctype-utils';
+import { ServiceEndpoint, PublicKey } from 'did-resolver';
 
 
 export class ConcreteDefaultGeoDIDDocument implements IAbstractGeoDIDDocument{
@@ -9,6 +9,7 @@ export class ConcreteDefaultGeoDIDDocument implements IAbstractGeoDIDDocument{
     public label: string;
     public geoDIDid: string;
     public doctype: string;
+    protected token: string;
 
 
     protected publicKey: PublicKey[];
@@ -89,6 +90,10 @@ export class ConcreteDefaultGeoDIDDocument implements IAbstractGeoDIDDocument{
 
     public getGeoDIDid(): string {
         return this.geoDIDid;
+    }
+
+    public getPowergateToken(): string {
+        if(this.token) return this.token;
     }
 
 }

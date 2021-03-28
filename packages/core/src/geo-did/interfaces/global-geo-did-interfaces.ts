@@ -26,7 +26,14 @@ export interface IPinInfo {
 export interface IDocumentInfo {
     geodidid: string;
     documentVal: any;
+    token?: string;
     parentid?: string;
+}
+
+export interface IAssetInfo {
+    id: string;
+    type: string;
+    data: any;
 }
 
 export interface ILinks {

@@ -1,6 +1,9 @@
 import { ConcreteDefaultGeoDIDDocument } from './geo-did-default-document';
-import { GeoDidType, Relationship } from '../interfaces/global-geo-did-interfaces';
-import { GeoDoctypeUtils } from '../utils/utils';
+import { GeoDidType, Relationship, IAsset } from '../interfaces/global-geo-did-interfaces';
+import { GeoDoctypeUtils } from '../doctype-utils/geo-doctype-utils';
+import { GeoUtils } from '../../utils/geo-utils';
+import { Powergate } from '../../pin/powergate';
+import { ServiceEndpoint } from 'did-resolver';
 
 export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
 
@@ -8,7 +11,7 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
         super();
     }
     
-    public async prepRootGeoDID(ethAddress: string){
+    public async prepRootGeoDID(ethAddress: string, assets?: IAsset[]){
         
         // create the GeoDID Identifier
         try{
@@ -42,7 +45,12 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
                 }
             ];
 
-            this.serviceEndpoint = [];
+            if(assets){
+                this.serviceEndpoint = await this.addAssetsToGenesisItem(assets);
+            }
+            else{
+                this.serviceEndpoint = [];
+            }
 
             this.buildDocument();
         }
@@ -51,7 +59,7 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
         }
     }
 
-    public async prepChildGeoDID(ethAddress: string, parentid: string, path: string){
+    public async prepChildGeoDID(ethAddress: string, parentid: string, path: string,  assets?: IAsset[]){
         this.geoDIDid = parentid.concat('/' + path);
         const rootGeoDID = GeoDoctypeUtils.getBaseGeoDidId(parentid);
         
@@ -87,10 +95,53 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
             }
         ];
 
-        this.serviceEndpoint = [];
+        if(assets){
+            this.serviceEndpoint = await this.addAssetsToGenesisItem(assets);
+        }
+        else{
+            this.serviceEndpoint = [];
+        }
 
         this.buildDocument();
         
-    }  
+    }
+
+    async pinAsset(_powergate: Powergate, _asset: IAsset): Promise<ServiceEndpoint> {
+        try {
+            const uint8array = new TextEncoder().encode(_asset.data);
+            const seCID: string = await _powergate.getAssetCid(uint8array);
+            await _powergate.pin(seCID);
+
+            return {
+                id: this.geoDIDid.concat(`#${_asset.tag}`),
+                type: _asset.type,
+                serviceEndpoint: seCID,
+            };
+
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }
+    }
+
+    async addAssetsToGenesisItem(assets: IAsset[]): Promise<any> {
+
+        // by default creates new instance
+        const powergate: Powergate = await GeoUtils.getPowergateInstance();
+        this.token = await powergate.getToken();
+
+        let services: ServiceEndpoint[] = [];
+
+        try {
+            for(let i = 0; i < assets.length; i++){
+                const service: ServiceEndpoint = await this.pinAsset(powergate, assets[i]);
+                services.push(service); 
+            }
+            return services;
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }
+    }
 
 }
