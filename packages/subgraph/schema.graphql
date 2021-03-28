@@ -7,7 +7,7 @@ type GeoDID @entity {
   storage: Bytes!
   root: String!
   isRoot: Boolean!
-  parent: String
+  parent: String!
   edges: [Edge!]!
   active: Boolean!
   type: String!

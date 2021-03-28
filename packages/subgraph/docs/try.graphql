@@ -2,6 +2,9 @@
   geoDIDs {
     id
     owner
+    bytes32hash
+    bytes32hashWithQM
+    errors
     cid
     storage
     root
