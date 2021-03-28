@@ -106,7 +106,7 @@ export class AstralClient {
                 type: asset.type,
                 serviceEndpoint: seCID,
             };
-            
+
         } catch (e) {
             console.log(e);
             throw e;
@@ -122,7 +122,7 @@ export class AstralClient {
             response = await this.loadDocument(docId, token);
             let document_Info: IDocumentInfo = response.documentInfo;
 
-            if ((response.documentInfo.documentVal.didmetadata.type).toLowerCase() == 'GeoDidType.Item') {
+            if ((document_Info.documentVal.didmetadata.type).toLowerCase() == GeoDidType.Item ) {
                 for(let i = 0; i < assets.length; i++){
                     service = await this.pinAsset(docId, response.powergateInstance, assets[i]);
                     await document_Info.documentVal.service.push(service);
@@ -141,13 +141,12 @@ export class AstralClient {
 
     // TODO: Read/Load a GeoDID Document
     async loadDocument(docId: string, token: string): Promise<ILoadInfo> {
-        let doc: any;
 
         try {
             const powergate: Powergate = await this.getPowergateInstance(token);
             const geoDidResolver = GeoDIDResolver.getResolver(this, powergate);
             const didResolver = new Resolver(geoDidResolver);
-            doc = await didResolver.resolve(docId);
+            const doc = await didResolver.resolve(docId);
 
             return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
 
