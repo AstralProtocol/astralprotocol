@@ -29,61 +29,48 @@ export class AstralClient {
     }
 
     async getPowergateInstance(token?: string): Promise<Powergate> {
-        let powergate: Powergate;
-
         if (token) {
-            powergate = await Powergate.build(token);
+            const powergate: Powergate = await Powergate.build(token);
+            return powergate;
         } else {
-            powergate = await Powergate.build();
+            const powergate: Powergate  = await Powergate.build();
+            return powergate;
         }
-
-        return powergate;
     }
 
     async createGenesisGeoDID(_typeOfGeoDID: string): Promise<IDocumentInfo> {
-        let response: IDocumentInfo;
-
         try {
             // prints the geodidid of the genesis geodid
-            response = await this.document.addGenesisDocument(_typeOfGeoDID);
+            const response: IDocumentInfo = await this.document.addGenesisDocument(_typeOfGeoDID);
+            return response;
         } catch (e) {
             console.log('Unable to initialize');
+            throw e;
         }
-
-        return response;
     }
 
     // Option to create Child GeoDID
     async createChildGeoDID(_typeOfGeoDID: string, _parentID: string, _path: string): Promise<IDocumentInfo> {
-        let response: IDocumentInfo;
-
         try {
-            response = await this.document.addChildDocument(_typeOfGeoDID, _parentID, _path);
+            const response: IDocumentInfo = await this.document.addChildDocument(_typeOfGeoDID, _parentID, _path);
+            return response;
         } catch (e) {
             console.log('Unable to initialize');
+            throw e;
         }
-
-        return response;
     }
 
     // must call getPowergateInstance before hand, in order to call pinDocument
     async pinDocument(documentInfo: IDocumentInfo, token?: string): Promise<IPinInfo> {
-        let cid: string;
-        let pinDate: Date = new Date();
-        let powergate: Powergate;
-
         try {
-            if (token) {
-                powergate = await Powergate.build(token);
-            } else {
-                powergate = await Powergate.build();
-            }
+            const pinDate: Date = new Date();
+            const powergate: Powergate = await this.getPowergateInstance(token);
             token = await powergate.getToken();
             const stringdoc = JSON.stringify(documentInfo.documentVal);
             //console.log(stringdoc); // delete
             const uint8array = new TextEncoder().encode(stringdoc);
             //console.log(uint8array); // delete
-            cid = await powergate.getAssetCid(uint8array);
+            const cid: string = await powergate.getAssetCid(uint8array);
             //console.log(cid); // delete
             await powergate.pin(cid);
 
@@ -96,12 +83,12 @@ export class AstralClient {
                 this.updateMapping(documentInfo.geodidid, cid);
             }
 
-            console.log(this.docmap[documentInfo.geodidid]); // delete
+            //console.log(this.docmap[documentInfo.geodidid]); // delete
+            return { geodidid: documentInfo.geodidid, cid: cid, pinDate: pinDate, token: token };
         } catch (e) {
             console.log(e);
+            throw e;
         }
-
-        return { geodidid: documentInfo.geodidid, cid: cid, pinDate: pinDate, token: token };
     }
 
     updateMapping(docId: string, newCID: string): void {
@@ -109,21 +96,21 @@ export class AstralClient {
     }
 
     async pinAsset(docId: string, powergate: Powergate, asset: IAsset): Promise<ServiceEndpoint> {
-        let seCID: string;
-
         try {
             const uint8array = new TextEncoder().encode(asset.data);
-            seCID = await powergate.getAssetCid(uint8array);
+            const seCID: string = await powergate.getAssetCid(uint8array);
             await powergate.pin(seCID);
+
+            return {
+                id: docId.concat(asset.tag),
+                type: asset.type,
+                serviceEndpoint: seCID,
+            };
+            
         } catch (e) {
             console.log(e);
+            throw e;
         }
-
-        return {
-            id: docId.concat(asset.tag),
-            type: asset.type,
-            serviceEndpoint: seCID,
-        };
     }
 
     // Add Assets to an item. Validation happens
@@ -145,10 +132,9 @@ export class AstralClient {
                     'Unfortunately the Document ID you provided is not of Item type, so you cannot add any Assets to this Document. Please try again with a valid GeoDID Item',
                 );
             }
-
             return document_Info;
         } catch (e) {
-            //console.log(e);
+            console.log(e);
             throw e;
         }
     }
@@ -156,9 +142,9 @@ export class AstralClient {
     // TODO: Read/Load a GeoDID Document
     async loadDocument(docId: string, token: string): Promise<ILoadInfo> {
         let doc: any;
-        const powergate: Powergate = await this.getPowergateInstance(token);
 
         try {
+            const powergate: Powergate = await this.getPowergateInstance(token);
             const geoDidResolver = GeoDIDResolver.getResolver(this, powergate);
             const didResolver = new Resolver(geoDidResolver);
             doc = await didResolver.resolve(docId);

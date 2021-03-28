@@ -7,7 +7,7 @@ import cliSpinners from 'cli-spinners';
 
 import { GraphQLClient, gql } from 'graphql-request';
 
-const Ora = require('ora');
+//const Ora = require('ora');
 const chalk = require('chalk');
 
 export interface ResolverRegistry {
@@ -39,6 +39,7 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
 
     return await new Promise((resolve, reject) => {
         const interval = setIntervalAsync(async() => {
+            /*
             const spinner = new Ora({
                 discardStdin: false,
                 text: `${chalk.yellow('Loading document')}`,
@@ -46,7 +47,7 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
             });
         
             spinner.start();
-            spinner.color = 'yellow';
+            spinner.color = 'yellow';*/
             try{
                 data = await client.request(query, variables)
 
@@ -58,18 +59,18 @@ async function getCID(client: GraphQLClient, query: any, variables: Variables): 
             }
 
             if (cid != undefined) {
-                spinner.clear();
-                spinner.succeed(`${chalk.green('Request was successful')}`);
+                //spinner.clear();
+                //spinner.succeed(`${chalk.green('Request was successful')}`);
                 resolve(cid);
                 clearIntervalAsync(interval);
-                spinner.stop();
+                //spinner.stop();
             }
             else if(counter >= 30){
-                spinner.clear();
-                spinner.fail(`${chalk.red('Failed: ')}`);
+                //spinner.clear();
+                //spinner.fail(`${chalk.red('Failed: ')}`);
                 reject(`${chalk.red('The Request Timed out. Please try again.')}`);
                 clearIntervalAsync(interval);
-                spinner.stop();
+                //spinner.stop();
             }
 
             counter++;
