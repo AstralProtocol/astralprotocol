@@ -24,7 +24,7 @@ export class AstralClient {
 
     powergate: Powergate;
 
-    constructor(public _ethereumAddress: string, public _thegraphEndpoint = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsv06') {
+    constructor(public _ethereumAddress: string, public _thegraphEndpoint = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsfinalv1') {
         this.document = new Document(_ethereumAddress);
         this.docmap = {};
     }
