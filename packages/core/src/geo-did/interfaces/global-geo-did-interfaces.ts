@@ -11,8 +11,8 @@ export interface ILoadInfo {
 }
 
 export interface IAsset {
-    name: string;
     type: string;
+    tag: string;
     data: any;
 }
 

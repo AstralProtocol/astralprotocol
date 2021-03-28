@@ -120,7 +120,7 @@ export class AstralClient {
         }
 
         return {
-            id: docId.concat(asset.name),
+            id: docId.concat(asset.tag),
             type: asset.type,
             serviceEndpoint: seCID,
         };
@@ -129,25 +129,27 @@ export class AstralClient {
     // Add Assets to an item. Validation happens
     async addAssetsToItem(docId: string, assets: IAsset[], token?: string): Promise<IDocumentInfo> {
         let response: ILoadInfo;
-        let serviceArray: any;
+        let service: ServiceEndpoint;
 
         try {
             response = await this.loadDocument(docId, token);
+            let document_Info: IDocumentInfo = response.documentInfo;
 
-            if (response.documentInfo.documentVal.didmetadata.type === GeoDidType.Item) {
-                serviceArray = await assets.map((value) => this.pinAsset(docId, response.powergateInstance, value));
-                //add the serviceArray to the Document's services
-                await serviceArray.forEach((value: any) => response.documentInfo.documentVal.service.push(value));
+            if ((response.documentInfo.documentVal.didmetadata.type).toLowerCase() == 'GeoDidType.Item') {
+                for(let i = 0; i < assets.length; i++){
+                    service = await this.pinAsset(docId, response.powergateInstance, assets[i]);
+                    await document_Info.documentVal.service.push(service);
+                }
             } else {
                 throw new Error(
                     'Unfortunately the Document ID you provided is not of Item type, so you cannot add any Assets to this Document. Please try again with a valid GeoDID Item',
                 );
             }
+
+            return document_Info;
         } catch (e) {
             console.log(e);
         }
-
-        return response.documentInfo;
     }
 
     // TODO: Read/Load a GeoDID Document
