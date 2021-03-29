@@ -1,7 +1,7 @@
 {
   "name": "@astralprotocol/subgraph",
-  "version": "1.0.9",
-  "description": "The @astralprotocol/subgraph serves as the indexing engine of the protocol,  capturing the registration and modification events of GeoDIDs in the @astralprotocol/contracts. It acts like a decentralized querying database where it is substantially easier to make complex queries to the Spatial Assets registry. It is used to create the tree of GeoDID nodes that represents their relationships and groupings.",
+  "version": "1.0.11",
+  "description": "The @astralprotocol/subgraph serves as the indexing engine of the protocol, capturing the registration and modification events of GeoDIDs in the @astralprotocol/contracts. It acts like a decentralized querying database where it is substantially easier to make complex queries to the Spatial Assets registry. It is used to create the tree of GeoDID nodes that represents their relationships and groupings.",
   "author": "Astral <contact@astral.global>",
   "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
   "license": "MIT OR Apache-2.0",
@@ -25,7 +25,7 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ astralprotocol/spatialassetstesv2 --access-token PUT_TOKEN_HERE",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ astralprotocol/spatialassetsfinalv1 --access-token TOKEN_HERE",
     "create-local": "graph create --node http://localhost:8020/ astralprotocol/spatialassets",
     "remove-local": "graph remove --node http://localhost:8020/ astralprotocol/spatialassets",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 astralprotocol/spatialassets",
