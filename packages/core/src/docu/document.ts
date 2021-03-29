@@ -19,28 +19,20 @@ export class Document {
             if(_typeOfGeoDID.toLowerCase() == 'collection'){
                 document = await factory.createGeoDIDDocument(ConcreteDefaultGeoDIDCollection);
                 await document.prepRootGeoDID(this._ethereumAddress);
-                const geodidid: string = document.getGeoDIDid();
-                const documentVal = JSON.parse(document.getDidDocument());
-
-                return {
-                    geodidid: geodidid,
-                    documentVal: documentVal
-                }
             }
             else if(_typeOfGeoDID.toLowerCase() == 'item'){
                 document = await factory.createGeoDIDDocument(ConcreteDefaultGeoDIDItem);
                 await document.prepRootGeoDID(this._ethereumAddress, assets);
-                const geodidid: string = document.getGeoDIDid();
-                const documentVal = JSON.parse(document.getDidDocument());
-                const token: string = document.getPowergateToken();
-
-                return {
-                    geodidid: geodidid,
-                    documentVal: documentVal,
-                    token: token,
-                }
             }
             else throw new Error('Invalid Option, please select Item or Collection');
+
+            const geodidid: string = document.getGeoDIDid();
+            const documentVal = JSON.parse(document.getDidDocument());
+
+            return {
+                geodidid: geodidid,
+                documentVal: documentVal,
+            }
         }
         catch(e){
             console.log(e);
@@ -58,30 +50,21 @@ export class Document {
             if(_typeOfGeoDID.toLowerCase() == 'collection'){
                 document = await factory.createGeoDIDDocument(ConcreteDefaultGeoDIDCollection);
                 await document.prepChildGeoDID(this._ethereumAddress, _parentID, _path);
-                const geodidid: string = document.getGeoDIDid();
-                const documentVal = JSON.parse(document.getDidDocument());
-
-                return {
-                    geodidid: geodidid,
-                    documentVal: documentVal,
-                    parentid: _parentID
-                } 
             }
             else if(_typeOfGeoDID.toLowerCase() == 'item'){
                 document = await factory.createGeoDIDDocument(ConcreteDefaultGeoDIDItem);
                 await document.prepChildGeoDID(this._ethereumAddress, _parentID, _path);
-                const geodidid: string = document.getGeoDIDid();
-                const documentVal = JSON.parse(document.getDidDocument());
-                const token: string = document.getPowergateToken();
-
-                return {
-                    geodidid: geodidid,
-                    documentVal: documentVal,
-                    token: token,
-                    parentid: _parentID
-                } 
             }
             else throw new Error('Invalid Option, please select Item or Collection');
+
+            const geodidid: string = document.getGeoDIDid();
+            const documentVal = JSON.parse(document.getDidDocument());
+
+            return {
+                geodidid: geodidid,
+                documentVal: documentVal,
+                parentid: _parentID
+            } 
         }
         catch(e){
             console.log(e);

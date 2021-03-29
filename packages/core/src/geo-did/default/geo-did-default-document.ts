@@ -9,8 +9,6 @@ export class ConcreteDefaultGeoDIDDocument implements IAbstractGeoDIDDocument{
     public label: string;
     public geoDIDid: string;
     public doctype: string;
-    protected token: string;
-
 
     protected publicKey: PublicKey[];
     protected didmetadata: IMetadata;
@@ -90,10 +88,6 @@ export class ConcreteDefaultGeoDIDDocument implements IAbstractGeoDIDDocument{
 
     public getGeoDIDid(): string {
         return this.geoDIDid;
-    }
-
-    public getPowergateToken(): string {
-        if(this.token) return this.token;
     }
 
 }

@@ -11,11 +11,11 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
         super();
     }
     
-    public async prepRootGeoDID(ethAddress: string, assets?: IAsset[]){
+    public async prepRootGeoDID(_ethAddress: string, _assets?: IAsset[], _token?: string){
         
         // create the GeoDID Identifier
         try{
-            const geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(ethAddress);
+            const geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(_ethAddress);
             this.geoDIDid = GeoDoctypeUtils.normalizeDocId(geoId);
 
             this.publicKey = [
@@ -23,7 +23,7 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
                     id: this.geoDIDid.concat('#controller'),
                     type: 'Secp256k1VerificationKey2018',
                     controller: this.geoDIDid,
-                    ethereumAddress: ethAddress
+                    ethereumAddress: _ethAddress
                 }
             ];
     
@@ -45,8 +45,8 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
                 }
             ];
 
-            if(assets){
-                this.serviceEndpoint = await this.addAssetsToGenesisItem(assets);
+            if(_assets){
+                this.serviceEndpoint = await this.addAssetsToGenesisItem(_assets, _token);
             }
             else{
                 this.serviceEndpoint = [];
@@ -59,16 +59,16 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
         }
     }
 
-    public async prepChildGeoDID(ethAddress: string, parentid: string, path: string,  assets?: IAsset[]){
-        this.geoDIDid = parentid.concat('/' + path);
-        const rootGeoDID = GeoDoctypeUtils.getBaseGeoDidId(parentid);
+    public async prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string,  _assets?: IAsset[],  _token?: string){
+        this.geoDIDid = _parentid.concat('/' + _path);
+        const rootGeoDID = GeoDoctypeUtils.getBaseGeoDidId(_parentid);
         
         this.publicKey = [
             {
                 id: this.geoDIDid.concat('#controller'),
                 type: 'Secp256k1VerificationKey2018',
                 controller: this.geoDIDid,
-                ethereumAddress: ethAddress
+                ethereumAddress: _ethAddress
             }
         ];
 
@@ -89,14 +89,14 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
                 rel: Relationship.Self
             },
             {
-                id: parentid,
+                id: _parentid,
                 type: GeoDidType.Collection,
                 rel: Relationship.Parent
             }
         ];
 
-        if(assets){
-            this.serviceEndpoint = await this.addAssetsToGenesisItem(assets);
+        if(_assets){
+            this.serviceEndpoint = await this.addAssetsToGenesisItem(_assets, _token);
         }
         else{
             this.serviceEndpoint = [];
@@ -124,17 +124,16 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
         }
     }
 
-    async addAssetsToGenesisItem(assets: IAsset[]): Promise<any> {
+    async addAssetsToGenesisItem(_assets: IAsset[], _token?: string): Promise<any> {
 
         // by default creates new instance
         const powergate: Powergate = await GeoUtils.getPowergateInstance();
-        this.token = await powergate.getToken();
 
         let services: ServiceEndpoint[] = [];
 
         try {
-            for(let i = 0; i < assets.length; i++){
-                const service: ServiceEndpoint = await this.pinAsset(powergate, assets[i]);
+            for(let i = 0; i < _assets.length; i++){
+                const service: ServiceEndpoint = await this.pinAsset(powergate, _assets[i]);
                 services.push(service); 
             }
             return services;

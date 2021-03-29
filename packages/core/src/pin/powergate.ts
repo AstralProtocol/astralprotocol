@@ -24,9 +24,7 @@ export class Powergate implements Pinning {
     readonly endpoint?: string;
 
     // Readonly properties must be initialized at their declaration or in the constructor.
-    constructor(private _host: string, private _pow: Pow, private _token?: string) {
-        //console.log('The Auth Token value is: ' + `${chalk.magenta.underline(_token)}` + '\n' );
-    }
+    constructor(private _host: string, private _pow: Pow, private _token?: string) {}
 
     static async build(tokenval?: string): Promise<Powergate> {
         //const host: string = "http://0.0.0.0:6002"
@@ -42,7 +40,7 @@ export class Powergate implements Pinning {
                 pow.setAdminToken(user?.token);
                 pow.setToken(user?.token);
             } catch (err) {
-                console.log(err);
+                throw err;
             }
         }
 
