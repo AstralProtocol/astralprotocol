@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.58](https://github.com/AstralProtocol/astralprotocol/compare/@astralprotocol/core@1.0.57...@astralprotocol/core@1.0.58) (2021-03-29)
+
+**Note:** Version bump only for package @astralprotocol/core
+
+
+
+
+
 ## [1.0.57](https://github.com/AstralProtocol/astralprotocol/compare/@astralprotocol/core@1.0.56...@astralprotocol/core@1.0.57) (2021-03-29)
 
 **Note:** Version bump only for package @astralprotocol/core
