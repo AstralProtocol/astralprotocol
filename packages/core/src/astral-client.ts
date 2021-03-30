@@ -7,15 +7,6 @@ import { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo, IAssetInfo } fr
 
 export { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
 
-interface DocMap {
-    [key: string]: InstanceInfo;
-}
-
-interface InstanceInfo {
-    authToken: string;
-    cid: string;
-}
-
 export class AstralClient {
     document: Document;
 
@@ -42,7 +33,7 @@ export class AstralClient {
 
     async createGenesisGeoDID(_typeOfGeoDID: string, assets?: IAsset[]): Promise<IDocumentInfo> {
         try {
-            const response: IDocumentInfo = await this.document.addGenesisDocument(_typeOfGeoDID, assets);
+            const response: IDocumentInfo = await this.document.addGenesisDocument(_typeOfGeoDID, this._token, assets);
             return response;
         } catch (e) {
             console.log('Unable to initialize');
@@ -52,7 +43,7 @@ export class AstralClient {
 
     async createChildGeoDID(_typeOfGeoDID: string, _parentID: string, _path: string, assets?: IAsset[]): Promise<IDocumentInfo> {
         try {
-            const response: IDocumentInfo = await this.document.addChildDocument(_typeOfGeoDID, _parentID, _path, assets);
+            const response: IDocumentInfo = await this.document.addChildDocument(_typeOfGeoDID, _parentID, _path, this._token, assets);
             return response;
         } catch (e) {
             console.log('Unable to initialize');

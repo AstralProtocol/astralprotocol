@@ -1,5 +1,5 @@
 import { IAbstractGeoDIDDocument } from '../interfaces/factory-interfaces';
-import { GeoDIDDocument, IMetadata, ILinks, GeoDidType, Relationship } from '../interfaces/global-geo-did-interfaces';
+import { GeoDIDDocument, IMetadata, ILinks, GeoDidType, Relationship, IAsset } from '../interfaces/global-geo-did-interfaces';
 import { GeoDoctypeUtils } from '../doctype-utils/geo-doctype-utils';
 import { ServiceEndpoint, PublicKey } from 'did-resolver';
 
@@ -31,51 +31,12 @@ export class ConcreteDefaultGeoDIDDocument implements IAbstractGeoDIDDocument{
     }
 
     // not implemented for the Base Class
-    prepChildGeoDID(ethAddress: string, parentid: string, path: string) {
-        throw new Error('Method not implemented.');
+    async prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string, _token: string): Promise<void> {
+        throw new Error('Method not implemented for Default.');
     }
 
-    public async prepRootGeoDID(ethAddress: string){
-        
-        // create the GeoDID Identifier
-        try{
-            const geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(ethAddress);
-            this.geoDIDid = GeoDoctypeUtils.normalizeDocId(geoId);
-    
-            this.publicKey = [
-                {
-                    id: this.geoDIDid.concat('#controller'),
-                    type: 'Secp256k1VerificationKey2018',
-                    controller: this.geoDIDid,
-                    ethereumAddress: ethAddress
-                }
-            ];
-            
-            this.didmetadata = {
-                type: GeoDidType.Default,
-                created: new Date()
-            };
-            
-            this.links = [
-                {
-                    id: this.geoDIDid,
-                    type: GeoDidType.Default,
-                    rel: Relationship.Root
-                },
-                {
-                    id: this.geoDIDid,
-                    type: GeoDidType.Default,
-                    rel: Relationship.Self
-                }
-            ]
-
-            this.serviceEndpoint = []
-
-            this.buildDocument();
-        }
-        catch(e){
-            console.log(e);
-        }
+    async prepRootGeoDID(_ethAddress: string, _token: string): Promise<void>{
+        throw new Error('Method not implemented for Default.');
     }
 
     public getDocType(): string{

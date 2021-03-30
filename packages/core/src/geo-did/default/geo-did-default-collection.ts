@@ -10,11 +10,11 @@ export class ConcreteDefaultGeoDIDCollection extends ConcreteDefaultGeoDIDDocume
         return this.geoDIDid;
     }
 
-    public async prepRootGeoDID(ethAddress: string) {
+    public async prepRootGeoDID(_ethAddress: string, _token: string): Promise<void>{
         
         // create the GeoDID Identifier
         try{
-            const geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(ethAddress);
+            const geoId = await GeoDoctypeUtils.createGeodidIdFromGenesis(_ethAddress);
             this.geoDIDid = GeoDoctypeUtils.normalizeDocId(geoId);
 
             this.publicKey = [
@@ -22,7 +22,7 @@ export class ConcreteDefaultGeoDIDCollection extends ConcreteDefaultGeoDIDDocume
                     id: this.geoDIDid.concat('#controller'),
                     type: 'Secp256k1VerificationKey2018',
                     controller: this.geoDIDid,
-                    ethereumAddress: ethAddress
+                    ethereumAddress: _ethAddress
                 }
             ];
 
@@ -49,20 +49,20 @@ export class ConcreteDefaultGeoDIDCollection extends ConcreteDefaultGeoDIDDocume
             this.buildDocument();
         }
         catch(e){
-            console.log(e);
+            throw e;
         }
     }
 
-    public async prepChildGeoDID(ethAddress: string, parentid: string, path: string){
-        this.geoDIDid = parentid.concat('/' + path);
-        const rootGeoDID = GeoDoctypeUtils.getBaseGeoDidId(parentid);
+    public async prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string, _token: string): Promise<void>{
+        this.geoDIDid = _parentid.concat('/' + _path);
+        const rootGeoDID = GeoDoctypeUtils.getBaseGeoDidId(_parentid);
         
         this.publicKey = [
             {
                 id: this.geoDIDid.concat('#controller'),
                 type: 'Secp256k1VerificationKey2018',
                 controller: this.geoDIDid,
-                ethereumAddress: ethAddress
+                ethereumAddress: _ethAddress
             }
         ];
 
@@ -83,7 +83,7 @@ export class ConcreteDefaultGeoDIDCollection extends ConcreteDefaultGeoDIDDocume
                 rel: Relationship.Self
             },
             {
-                id: parentid,
+                id: _parentid,
                 type: GeoDidType.Collection,
                 rel: Relationship.Parent
             }

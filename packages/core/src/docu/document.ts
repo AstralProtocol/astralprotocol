@@ -10,7 +10,7 @@ export class Document {
     constructor(public _ethereumAddress: string){}
 
     // Pin on Powergate 
-    async addGenesisDocument(_typeOfGeoDID: string, assets?: IAsset[]): Promise<IDocumentInfo> {
+    async addGenesisDocument(_typeOfGeoDID: string, _token: string, assets?: IAsset[]): Promise<IDocumentInfo> {
         
         let document: ConcreteDefaultGeoDIDCollection | ConcreteDefaultGeoDIDItem;
         const factory = new ConcreteDefaultFactory();
@@ -18,11 +18,11 @@ export class Document {
         try{
             if(_typeOfGeoDID.toLowerCase() == 'collection'){
                 document = await factory.createGeoDIDDocument(ConcreteDefaultGeoDIDCollection);
-                await document.prepRootGeoDID(this._ethereumAddress);
+                await document.prepRootGeoDID(this._ethereumAddress, _token);
             }
             else if(_typeOfGeoDID.toLowerCase() == 'item'){
                 document = await factory.createGeoDIDDocument(ConcreteDefaultGeoDIDItem);
-                await document.prepRootGeoDID(this._ethereumAddress, assets);
+                await document.prepRootGeoDID(this._ethereumAddress, _token, assets);
             }
             else throw new Error('Invalid Option, please select Item or Collection');
 
@@ -35,13 +35,12 @@ export class Document {
             }
         }
         catch(e){
-            console.log(e);
             throw e;
         }
     }
     
     // Pin on Powergate 
-    async addChildDocument(_typeOfGeoDID: string, _parentID: string, _path: string, assets?: IAsset[]): Promise<IDocumentInfo> {
+    async addChildDocument(_typeOfGeoDID: string, _parentID: string, _path: string, _token: string, assets?: IAsset[]): Promise<IDocumentInfo> {
 
         let document: ConcreteDefaultGeoDIDCollection | ConcreteDefaultGeoDIDItem;
         const factory: ConcreteDefaultFactory = new ConcreteDefaultFactory();
@@ -49,11 +48,11 @@ export class Document {
         try{
             if(_typeOfGeoDID.toLowerCase() == 'collection'){
                 document = await factory.createGeoDIDDocument(ConcreteDefaultGeoDIDCollection);
-                await document.prepChildGeoDID(this._ethereumAddress, _parentID, _path);
+                await document.prepChildGeoDID(this._ethereumAddress, _parentID, _path, _token);
             }
             else if(_typeOfGeoDID.toLowerCase() == 'item'){
                 document = await factory.createGeoDIDDocument(ConcreteDefaultGeoDIDItem);
-                await document.prepChildGeoDID(this._ethereumAddress, _parentID, _path);
+                await document.prepChildGeoDID(this._ethereumAddress, _parentID, _path, _token, assets);
             }
             else throw new Error('Invalid Option, please select Item or Collection');
 
@@ -67,7 +66,6 @@ export class Document {
             } 
         }
         catch(e){
-            console.log(e);
             throw e;
         } 
     }

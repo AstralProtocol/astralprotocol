@@ -11,7 +11,7 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
         super();
     }
     
-    public async prepRootGeoDID(_ethAddress: string, _assets?: IAsset[], _token?: string){
+    public async prepRootGeoDID(_ethAddress: string, _token: string, _assets?: IAsset[]): Promise<void>{
         
         // create the GeoDID Identifier
         try{
@@ -45,21 +45,17 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
                 }
             ];
 
-            if(_assets){
-                this.serviceEndpoint = await this.addAssetsToGenesisItem(_assets, _token);
-            }
-            else{
-                this.serviceEndpoint = [];
-            }
+            if(_assets) this.serviceEndpoint = await this.addAssetsToGenesisItem(_assets, _token); 
+            else this.serviceEndpoint = [];
 
             this.buildDocument();
         }
         catch(e){
-            console.log(e);
+            throw e;
         }
     }
 
-    public async prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string,  _assets?: IAsset[],  _token?: string){
+    public async prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string, _token: string, _assets?: IAsset[]): Promise<void>{
         this.geoDIDid = _parentid.concat('/' + _path);
         const rootGeoDID = GeoDoctypeUtils.getBaseGeoDidId(_parentid);
         
@@ -95,12 +91,8 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
             }
         ];
 
-        if(_assets){
-            this.serviceEndpoint = await this.addAssetsToGenesisItem(_assets, _token);
-        }
-        else{
-            this.serviceEndpoint = [];
-        }
+        if(_assets) try{ this.serviceEndpoint = await this.addAssetsToGenesisItem(_assets, _token); }catch(e){ throw e; }
+        else this.serviceEndpoint = [];
 
         this.buildDocument();
         
@@ -119,15 +111,14 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
             };
 
         } catch (e) {
-            console.log(e);
             throw e;
         }
     }
 
-    async addAssetsToGenesisItem(_assets: IAsset[], _token?: string): Promise<any> {
+    async addAssetsToGenesisItem(_assets: IAsset[], _token: string): Promise<any> {
 
         // by default creates new instance
-        const powergate: Powergate = await GeoUtils.getPowergateInstance();
+        const powergate: Powergate = await Powergate.build(_token);
 
         let services: ServiceEndpoint[] = [];
 
@@ -138,7 +129,6 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
             }
             return services;
         } catch (e) {
-            console.log(e);
             throw e;
         }
     }
