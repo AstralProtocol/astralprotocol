@@ -1,7 +1,6 @@
 import { ConcreteDefaultGeoDIDDocument } from './geo-did-default-document';
 import { GeoDidType, Relationship, IAsset } from '../interfaces/global-geo-did-interfaces';
 import { GeoDoctypeUtils } from '../doctype-utils/geo-doctype-utils';
-import { GeoUtils } from '../../utils/geo-utils';
 import { Powergate } from '../../pin/powergate';
 import { ServiceEndpoint } from 'did-resolver';
 
@@ -11,7 +10,7 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
         super();
     }
     
-    public async prepRootGeoDID(_ethAddress: string, _token: string, _assets?: IAsset[]): Promise<void>{
+    public async prepRootGeoDID(_ethAddress: string, _host: string, _token: string, _assets?: IAsset[]): Promise<void>{
         
         // create the GeoDID Identifier
         try{
@@ -45,7 +44,7 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
                 }
             ];
 
-            if(_assets) this.serviceEndpoint = await this.addAssetsToGenesisItem(_assets, _token); 
+            if(_assets) this.serviceEndpoint = await this.addAssetsToGenesisItem(_assets, _host, _token); 
             else this.serviceEndpoint = [];
 
             this.buildDocument();
@@ -55,7 +54,7 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
         }
     }
 
-    public async prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string, _token: string, _assets?: IAsset[]): Promise<void>{
+    public async prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string, _host: string, _token: string, _assets?: IAsset[]): Promise<void>{
         this.geoDIDid = _parentid.concat('/' + _path);
         const rootGeoDID = GeoDoctypeUtils.getBaseGeoDidId(_parentid);
         
@@ -91,7 +90,7 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
             }
         ];
 
-        if(_assets) try{ this.serviceEndpoint = await this.addAssetsToGenesisItem(_assets, _token); }catch(e){ throw e; }
+        if(_assets) try{ this.serviceEndpoint = await this.addAssetsToGenesisItem(_assets, _host, _token); }catch(e){ throw e; }
         else this.serviceEndpoint = [];
 
         this.buildDocument();
@@ -115,10 +114,10 @@ export class ConcreteDefaultGeoDIDItem extends ConcreteDefaultGeoDIDDocument{
         }
     }
 
-    async addAssetsToGenesisItem(_assets: IAsset[], _token: string): Promise<any> {
+    async addAssetsToGenesisItem(_assets: IAsset[], _host: string, _token: string): Promise<any> {
 
         // by default creates new instance
-        const powergate: Powergate = await Powergate.build(_token);
+        const powergate: Powergate = await Powergate.build(_host, _token);
 
         let services: ServiceEndpoint[] = [];
 

@@ -10,7 +10,7 @@ export class ConcreteDefaultGeoDIDCollection extends ConcreteDefaultGeoDIDDocume
         return this.geoDIDid;
     }
 
-    public async prepRootGeoDID(_ethAddress: string, _token: string): Promise<void>{
+    public async prepRootGeoDID(_ethAddress: string, _host: string, _token: string): Promise<void>{
         
         // create the GeoDID Identifier
         try{
@@ -53,7 +53,7 @@ export class ConcreteDefaultGeoDIDCollection extends ConcreteDefaultGeoDIDDocume
         }
     }
 
-    public async prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string, _token: string): Promise<void>{
+    public async prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string, _host: string, _token: string): Promise<void>{
         this.geoDIDid = _parentid.concat('/' + _path);
         const rootGeoDID = GeoDoctypeUtils.getBaseGeoDidId(_parentid);
         

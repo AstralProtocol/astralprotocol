@@ -31,11 +31,11 @@ export class ConcreteDefaultGeoDIDDocument implements IAbstractGeoDIDDocument{
     }
 
     // not implemented for the Base Class
-    async prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string, _token: string): Promise<void> {
+    async prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string, _host: string, _token: string): Promise<void> {
         throw new Error('Method not implemented for Default.');
     }
 
-    async prepRootGeoDID(_ethAddress: string, _token: string): Promise<void>{
+    async prepRootGeoDID(_ethAddress: string, _host: string, _token: string): Promise<void>{
         throw new Error('Method not implemented for Default.');
     }
 

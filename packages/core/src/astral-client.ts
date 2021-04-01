@@ -1,6 +1,5 @@
 import { Powergate } from './pin/powergate';
 import { Document } from './docu/document';
-import { GeoUtils } from './utils/geo-utils';
 import GeoDIDResolver from './resolver/geo-did-resolver';
 import { DIDDocument, Resolver, ServiceEndpoint } from 'did-resolver';
 import {
@@ -17,12 +16,7 @@ export { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-di
 export class AstralClient {
     document: Document;
 
-    constructor(
-        public _ethereumAddress: string,
-        public _thegraphEndpoint: string,
-        public _host: string,
-        public _token: string,
-    ) {
+    constructor(public _ethereumAddress: string, public _thegraphEndpoint: string, public _host: string, public _token: string) {
         this.document = new Document(_ethereumAddress);
     }
 
@@ -39,7 +33,7 @@ export class AstralClient {
             else token = await powergate.getToken();
 
             return new AstralClient(_ethereumAddress, _thegraphEndpoint, _host, token);
-        } catch (e) {
+        }catch(e){
             throw e;
         }
     }
@@ -50,7 +44,7 @@ export class AstralClient {
 
     async createGenesisGeoDID(_typeOfGeoDID: string, assets?: IAsset[]): Promise<IDocumentInfo> {
         try {
-            const response: IDocumentInfo = await this.document.addGenesisDocument(_typeOfGeoDID, this._token, assets);
+            const response: IDocumentInfo = await this.document.addGenesisDocument(_typeOfGeoDID, this._host, this._token, assets);
             return response;
         } catch (e) {
             console.log('Unable to initialize');
@@ -65,13 +59,7 @@ export class AstralClient {
         assets?: IAsset[],
     ): Promise<IDocumentInfo> {
         try {
-            const response: IDocumentInfo = await this.document.addChildDocument(
-                _typeOfGeoDID,
-                _parentID,
-                _path,
-                this._token,
-                assets,
-            );
+            const response: IDocumentInfo = await this.document.addChildDocument(_typeOfGeoDID, _parentID, _path, this._host, this._token, assets);
             return response;
         } catch (e) {
             console.log('Unable to initialize');
@@ -82,7 +70,7 @@ export class AstralClient {
     async pinDocument(documentInfo: IDocumentInfo): Promise<IPinInfo> {
         try {
             const pinDate: Date = new Date();
-            const powergate: Powergate = await GeoUtils.getPowergateInstance(this._host, this._token);
+            const powergate = await Powergate.build(this._host, this._token);
             const stringdoc = JSON.stringify(documentInfo.documentVal);
             const uint8array = new TextEncoder().encode(stringdoc);
             const cid: string = await powergate.getAssetCid(uint8array);
@@ -141,7 +129,7 @@ export class AstralClient {
     // TODO: Read/Load a GeoDID Document
     async loadDocument(docId: string): Promise<ILoadInfo> {
         try {
-            const powergate: Powergate = await GeoUtils.getPowergateInstance(this._host, this._token);
+            const powergate = await Powergate.build(this._host, this._token);
             const geoDidResolver = GeoDIDResolver.getResolver(this, powergate);
             const didResolver = new Resolver(geoDidResolver);
             const doc: DIDDocument = await didResolver.resolve(docId);
@@ -156,21 +144,22 @@ export class AstralClient {
     // must have a fragment and token of the
     async loadAsset(doc: DIDDocument, docId: string): Promise<IAssetInfo> {
         try {
-            const powergate: Powergate = await GeoUtils.getPowergateInstance(this._host, this._token);
-
+            const powergate = await Powergate.build(this._host, this._token);
+            
             const services: Array<ServiceEndpoint> = doc.service;
 
             for (let i = 0; i < services.length; i++) {
                 if (services[i].id == docId) {
                     const asset_cid = services[i].serviceEndpoint;
                     var bytes: Uint8Array = await powergate.getFromPowergate(asset_cid);
+                    var uint8array = new TextDecoder().decode(bytes);
                     var type = services[i].type;
-
                     break;
                 }
             }
 
-            return { id: docId, type: type, data: bytes };
+            return {id: docId, type: type, data: uint8array};
+
         } catch (e) {
             console.log(e);
             throw e;

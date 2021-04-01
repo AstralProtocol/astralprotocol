@@ -11,8 +11,8 @@ export interface IAbstractGeoDIDFactory {
 export interface IAbstractGeoDIDDocument {
     label: string;
     geoDIDid: string;
-    prepRootGeoDID(_ethAddress: string, _token: string, _assets?: IAsset[]): void;
-    prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string, _token: string, _assets?: IAsset[]): void;
+    prepRootGeoDID(_ethAddress: string, _host: string, _token: string, _assets?: IAsset[]): void;
+    prepChildGeoDID(_ethAddress: string, _parentid: string, _path: string, _host: string, _token: string, _assets?: IAsset[]): void;
     getGeoDIDid(): string;
     getDidDocument(): string;
 }
