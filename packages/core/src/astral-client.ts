@@ -3,26 +3,43 @@ import { Document } from './docu/document';
 import { GeoUtils } from './utils/geo-utils';
 import GeoDIDResolver from './resolver/geo-did-resolver';
 import { DIDDocument, Resolver, ServiceEndpoint } from 'did-resolver';
-import { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo, IAssetInfo } from './geo-did/interfaces/global-geo-did-interfaces';
+import {
+    GeoDidType,
+    IDocumentInfo,
+    IPinInfo,
+    IAsset,
+    ILoadInfo,
+    IAssetInfo,
+} from './geo-did/interfaces/global-geo-did-interfaces';
 
 export { GeoDidType, IDocumentInfo, IPinInfo, IAsset, ILoadInfo } from './geo-did/interfaces/global-geo-did-interfaces';
 
 export class AstralClient {
     document: Document;
 
-    constructor(public _ethereumAddress: string, public _thegraphEndpoint: string, public _token: string) {
+    constructor(
+        public _ethereumAddress: string,
+        public _thegraphEndpoint: string,
+        public _host: string,
+        public _token: string,
+    ) {
         this.document = new Document(_ethereumAddress);
     }
 
-    static async build(_ethereumAddress: string, _thegraphEndpoint = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsfinalv1', _host = 'http://52.168.51.215:6002', _token?: string): Promise<AstralClient> {
-        try{
+    static async build(
+        _ethereumAddress: string,
+        _thegraphEndpoint = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsfinalv1',
+        _host = 'http://52.168.51.215:6002',
+        _token?: string,
+    ): Promise<AstralClient> {
+        try {
             const powergate = await Powergate.build(_host, _token);
-            let token: string = '';
-            if(_token) token = _token;
+            let token = '';
+            if (_token) token = _token;
             else token = await powergate.getToken();
 
-            return new AstralClient(_ethereumAddress, _thegraphEndpoint, token);
-        }catch(e){
+            return new AstralClient(_ethereumAddress, _thegraphEndpoint, _host, token);
+        } catch (e) {
             throw e;
         }
     }
@@ -41,9 +58,20 @@ export class AstralClient {
         }
     }
 
-    async createChildGeoDID(_typeOfGeoDID: string, _parentID: string, _path: string, assets?: IAsset[]): Promise<IDocumentInfo> {
+    async createChildGeoDID(
+        _typeOfGeoDID: string,
+        _parentID: string,
+        _path: string,
+        assets?: IAsset[],
+    ): Promise<IDocumentInfo> {
         try {
-            const response: IDocumentInfo = await this.document.addChildDocument(_typeOfGeoDID, _parentID, _path, this._token, assets);
+            const response: IDocumentInfo = await this.document.addChildDocument(
+                _typeOfGeoDID,
+                _parentID,
+                _path,
+                this._token,
+                assets,
+            );
             return response;
         } catch (e) {
             console.log('Unable to initialize');
@@ -54,7 +82,7 @@ export class AstralClient {
     async pinDocument(documentInfo: IDocumentInfo): Promise<IPinInfo> {
         try {
             const pinDate: Date = new Date();
-            const powergate: Powergate = await GeoUtils.getPowergateInstance(this._token);
+            const powergate: Powergate = await GeoUtils.getPowergateInstance(this._host, this._token);
             const stringdoc = JSON.stringify(documentInfo.documentVal);
             const uint8array = new TextEncoder().encode(stringdoc);
             const cid: string = await powergate.getAssetCid(uint8array);
@@ -78,7 +106,6 @@ export class AstralClient {
                 type: asset.type,
                 serviceEndpoint: seCID,
             };
-
         } catch (e) {
             console.log(e);
             throw e;
@@ -92,10 +119,10 @@ export class AstralClient {
 
         try {
             response = await this.loadDocument(docId);
-            let document_Info: IDocumentInfo = response.documentInfo;
+            const document_Info: IDocumentInfo = response.documentInfo;
 
-            if ((document_Info.documentVal.didmetadata.type).toLowerCase() == GeoDidType.Item ) {
-                for(let i = 0; i < assets.length; i++){
+            if (document_Info.documentVal.didmetadata.type.toLowerCase() == GeoDidType.Item) {
+                for (let i = 0; i < assets.length; i++) {
                     service = await this.pinAsset(docId, response.powergateInstance, assets[i]);
                     await document_Info.documentVal.service.push(service);
                 }
@@ -113,44 +140,40 @@ export class AstralClient {
 
     // TODO: Read/Load a GeoDID Document
     async loadDocument(docId: string): Promise<ILoadInfo> {
-
         try {
-            const powergate: Powergate = await GeoUtils.getPowergateInstance(this._token);
+            const powergate: Powergate = await GeoUtils.getPowergateInstance(this._host, this._token);
             const geoDidResolver = GeoDIDResolver.getResolver(this, powergate);
             const didResolver = new Resolver(geoDidResolver);
             const doc: DIDDocument = await didResolver.resolve(docId);
 
             return { documentInfo: { geodidid: docId, documentVal: doc }, powergateInstance: powergate };
-
         } catch (e) {
             console.log(e);
             throw e;
-        }        
+        }
     }
 
     // must have a fragment and token of the
     async loadAsset(doc: DIDDocument, docId: string): Promise<IAssetInfo> {
-
         try {
-            const powergate: Powergate = await GeoUtils.getPowergateInstance(this._token);
-            
+            const powergate: Powergate = await GeoUtils.getPowergateInstance(this._host, this._token);
+
             const services: Array<ServiceEndpoint> = doc.service;
-            
-            for(let i = 0; i < services.length; i++){
-                if(services[i].id == docId){
-                    const asset_cid = services[i].serviceEndpoint; 
+
+            for (let i = 0; i < services.length; i++) {
+                if (services[i].id == docId) {
+                    const asset_cid = services[i].serviceEndpoint;
                     var bytes: Uint8Array = await powergate.getFromPowergate(asset_cid);
                     var type = services[i].type;
 
                     break;
-                } 
+                }
             }
 
-            return {id: docId, type: type, data: bytes};
-
+            return { id: docId, type: type, data: bytes };
         } catch (e) {
             console.log(e);
             throw e;
-        }        
+        }
     }
 }
