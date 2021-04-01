@@ -28,14 +28,14 @@ export class Powergate implements Pinning {
 
     static async build(tokenval?: string): Promise<Powergate> {
         //const host: string = "http://0.0.0.0:6002"
-        const host = 'http://52.168.51.215:6002';
+        const host = 'https://astralinstance.tk/powergate';
         const pow: Pow = createPow({ host });
         if (tokenval) {
             pow.setAdminToken(tokenval);
             pow.setToken(tokenval);
         } else {
             try {
-                const { user } = await pow.admin.users.create() // save this token for later use!
+                const { user } = await pow.admin.users.create(); // save this token for later use!
                 tokenval = user?.token;
                 pow.setAdminToken(user?.token);
                 pow.setToken(user?.token);
@@ -68,20 +68,19 @@ export class Powergate implements Pinning {
     }
 
     async getAssetCid(buffer: any): Promise<string> {
-        try{
-            const { cid } = await this._pow.data.stage(buffer)
+        try {
+            const { cid } = await this._pow.data.stage(buffer);
             return cid;
-        }
-        catch(e){
+        } catch (e) {
             throw e;
         }
     }
 
     async getFromPowergate(cid: string): Promise<Uint8Array> {
-        try{
-            const bytes = await this._pow.data.get(cid)
+        try {
+            const bytes = await this._pow.data.get(cid);
             return bytes;
-        }catch(e){
+        } catch (e) {
             //console.log(e);
             throw e;
         }
@@ -89,7 +88,7 @@ export class Powergate implements Pinning {
 
     async pin(cid: string): Promise<void> {
         try {
-            const { jobId } = await this._pow.storageConfig.apply(cid)
+            const { jobId } = await this._pow.storageConfig.apply(cid);
             //this.waitForJobStatus(jobId);
         } catch (e) {
             if (e.message.includes('cid already pinned, consider using override flag')) {
@@ -100,20 +99,17 @@ export class Powergate implements Pinning {
         }
     }
 
-    protected waitForJobStatus(
-        jobId: string
-    ): Promise<void> {
+    protected waitForJobStatus(jobId: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-
             const jobsCancel = this._pow.storageJobs.watch((job: any) => {
                 if (job.status === powTypes.JobStatus.JOB_STATUS_CANCELED) {
-                  console.log("job canceled")
+                    console.log('job canceled');
                 } else if (job.status === powTypes.JobStatus.JOB_STATUS_FAILED) {
-                  console.log("job failed")
+                    console.log('job failed');
                 } else if (job.status === powTypes.JobStatus.JOB_STATUS_SUCCESS) {
-                  console.log("job success!")
+                    console.log('job success!');
                 }
-              }, jobId)
+            }, jobId);
         });
     }
 }
