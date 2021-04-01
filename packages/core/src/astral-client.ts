@@ -14,9 +14,9 @@ export class AstralClient {
         this.document = new Document(_ethereumAddress);
     }
 
-    static async build(_ethereumAddress: string, _thegraphEndpoint = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsfinalv1', _token?: string): Promise<AstralClient> {
+    static async build(_ethereumAddress: string, _thegraphEndpoint = 'https://api.thegraph.com/subgraphs/name/astralprotocol/spatialassetsfinalv1', _host = 'http://52.168.51.215:6002', _token?: string): Promise<AstralClient> {
         try{
-            const powergate = await Powergate.build(_token);
+            const powergate = await Powergate.build(_host, _token);
             let token: string = '';
             if(_token) token = _token;
             else token = await powergate.getToken();
