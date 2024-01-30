@@ -7,10 +7,10 @@ assignees: ''
 
 ---
 
-**${\color{blue}Tasks}$**
+**Tasks**
 - [ ] ...
 
-**${\color{green}Please\ Note\ the\ fields\ to\ the\ right}$**
+**Please Note the fields to the right_**
 - [ ] I've selected a milestone or created one.
 - [ ] I've set a suggested priority.
 - [ ] I've set an effor estimation (numerical).
