@@ -4,7 +4,7 @@ about: Create an issue (on core setup board) to be nested to a milestone
 title: "[CORE SETUP - TASK]"
 labels: needs refinement
 assignees: ''
-
+project: Core Set-up
 ---
 
 **Tasks**
