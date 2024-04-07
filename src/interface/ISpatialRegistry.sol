@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.25;
 
+import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import { IERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
 
 /**
@@ -10,17 +11,13 @@ import { IERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensio
  * @author The Astral Protocol team
  */
 interface ISpatialRegistry is IERC721Enumerable {
-    /**
-     * @dev Emitted when a new spatial registry is created
-     * TODO: optionally, inforce specific contract or interface 👇
-     * @param associatedContract Address of the associated contract to the registry, i.e EAS attestation, zkMaps
-     * attestation, dMRV data.
-     * @param owner Registry owner - data provider
-     */
-    event SpatialRegistryCreated(address associatedContract, address owner);
+    // // Address of the associated contract to the registry, i.e EAS attestation, zkMaps
+    // address associatedContract;
 
-    // TODO: input IPFS hashes, as a light weight alternative to storing on the registry contract
-    // Representaion of GeoJSON floating point coordiante
+    /**
+     * @dev Representaion of GeoJSON floating point coordiante
+     * @notice ❗Limited to 12 coordinates of a polygon until IPFS integration
+     *
     struct geoJsonCoord {
         uint64 geoJsonCoordValue;
         uint8 geoJsonCoordFloatingPoint;
