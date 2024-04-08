@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.25;
 
-import { ERC721, IERC165, ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import { ISpatialRegistry } from "@interface/ISpatialRegistry.sol";
 import { Coordinates } from "@contracts/Coordinates.sol";
 
@@ -69,7 +69,7 @@ contract SpatialRegistry is ISpatialRegistry, ERC721 {
      * @inheritdoc ERC721
      * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
      */
-    function supportsInterface(bytes4 interfaceId) public view override(ERC721, IERC165) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view override(ERC721) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 
