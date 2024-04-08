@@ -5,6 +5,7 @@ pragma solidity ^0.8.25;
 
 import { ERC721, IERC165, ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import { ISpatialRegistry } from "@interface/ISpatialRegistry.sol";
+import { Coordinates } from "@contracts/Coordinates.sol";
 
 /**
  * @title SpatialRegistry
@@ -12,87 +13,55 @@ import { ISpatialRegistry } from "@interface/ISpatialRegistry.sol";
  */
 contract SpatialRegistry is ISpatialRegistry, ERC721 {
     address owner;
-    uint256 private currentTokenId = 0;
-    uint256 private currentcoordId = 0;
+    uint256 private currentAssetId = 0;
     /* All coords in the registry (of multiple registryAssets) */
-    mapping(uint256 => geoJsonCoord) public coordId;
+    mapping(uint256 => registryAssets) spatialAssets;
 
     // TODO: add reentrancy, pausable, accessControl..
-
+    Coordinates coordinates;
     constructor(address) ERC721("AstralRegistry", "AST") {
         owner = _msgSender();
+        coordinates = new Coordinates();
     }
 
     /**
      * @inheritdoc ISpatialRegistry
      * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
      */
-    function mintGISPoint(geoJsonCoord calldata lat, geoJsonCoord calldata long) external onlyOwner {
-        currentTokenId++;
-        currentcoordId++;
-
-        _safeMint(owner, currentTokenId);
+    function mintGISPoint(bytes32 lat, bytes32 long) external onlyOwner {
+        currentAssetId++;
+        uint256 CoordinateId = coordinates.addCoordinate(lat, long);
+        spatialAssets[currentAssetId] = registryAssets({ coordinateIdRange: [CoordinateId, CoordinateId] });
+        _safeMint(owner, currentAssetId);
     }
 
     /**
      * @inheritdoc ISpatialRegistry
      * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
      */
-    function mintGISFeature(
-        uint256 coordsCount,
-        geoJsonCoord calldata lat1,
-        geoJsonCoord calldata long1,
-        geoJsonCoord calldata lat2,
-        geoJsonCoord calldata long2,
-        geoJsonCoord calldata lat3,
-        geoJsonCoord calldata long3,
-        geoJsonCoord calldata lat4,
-        geoJsonCoord calldata long4
-    )
-        external
-        override
-    { }
+    function mintGISFeature(bytes32[8] calldata coords) external override {
+        currentAssetId++;
+        uint256[2] memory _coordinatesIdsRange = _iterateCoords(coords);
+        spatialAssets[currentAssetId] = registryAssets({ coordinateIdRange: _coordinatesIdsRange });
+        _safeMint(owner, currentAssetId);
+    }
 
     /**
      * @inheritdoc ISpatialRegistry
      * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
      */
-    function mintGISFeature(
-        uint256 coordsCount,
-        geoJsonCoord calldata lat1,
-        geoJsonCoord calldata long1,
-        geoJsonCoord calldata lat2,
-        geoJsonCoord calldata long2,
-        geoJsonCoord calldata lat3,
-        geoJsonCoord calldata long3,
-        geoJsonCoord calldata lat4,
-        geoJsonCoord calldata long4,
-        geoJsonCoord calldata lat5,
-        geoJsonCoord calldata long5,
-        geoJsonCoord calldata lat6,
-        geoJsonCoord calldata long6,
-        geoJsonCoord calldata lat7,
-        geoJsonCoord calldata long7,
-        geoJsonCoord calldata lat8,
-        geoJsonCoord calldata long8,
-        geoJsonCoord calldata lat9,
-        geoJsonCoord calldata long9,
-        geoJsonCoord calldata lat10,
-        geoJsonCoord calldata long10,
-        geoJsonCoord calldata lat11,
-        geoJsonCoord calldata long11,
-        geoJsonCoord calldata lat12,
-        geoJsonCoord calldata long12
-    )
-        external
-        override
-    { }
+    function mintGISFeature( bytes32[24] calldata coords) external override {
+        currentAssetId++;
+        uint256[2] memory _coordinatesIdsRange = _iterateCoords(coords);
+        spatialAssets[currentAssetId] = registryAssets({ coordinateIdRange: _coordinatesIdsRange });
+        _safeMint(owner, currentAssetId);
+    }
 
     /**
      * @inheritdoc ERC721
      * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
      */
-    function _safeMint(address to, uint256 tokenId) override internal onlyOwner {
+    function _safeMint(address to, uint256 tokenId) internal override onlyOwner {
         _safeMint(to, tokenId);
     }
 
@@ -115,6 +84,7 @@ contract SpatialRegistry is ISpatialRegistry, ERC721 {
      * @inheritdoc ERC721
      * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
      */
+
     function tokenOfOwnerByIndex(address _owner, uint256 index) public view override returns (uint256) {
         tokenOfOwnerByIndex(_owner, index);
     }
@@ -122,14 +92,28 @@ contract SpatialRegistry is ISpatialRegistry, ERC721 {
      * @inheritdoc ERC721
      * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
      */
+
     function tokenByIndex(uint256 index) public view override returns (uint256) {
         tokenByIndex(index);
     }
 
-    /**
-     * @inheritdoc ERC721
-     * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
-     */
+    function _iterateCoords(bytes32[8] calldata _coords) private returns (uint256[2] memory _coordinatesIdsRange) {
+        for (uint i = 0; i < _coords.length; i+=2) {
+            uint256 _coordinateId = coordinates.addCoordinate(_coords[i], _coords[++i]);
+            if(i == 0) _coordinatesIdsRange[0] = _coordinateId;
+            if(i == _coords.length - 1) _coordinatesIdsRange[1] = _coordinateId;
+        }
+        return _coordinatesIdsRange;
+    }
+    function _iterateCoords(bytes32[24] calldata _coords) private returns (uint256[2] memory _coordinatesIdsRange) {
+        for (uint i = 0; i < _coords.length; i+=2) {
+            uint256 _coordinateId = coordinates.addCoordinate(_coords[i], _coords[++i]);
+            if(i == 0) _coordinatesIdsRange[0] = _coordinateId;
+            if(i == _coords.length - 1) _coordinatesIdsRange[1] = _coordinateId;
+        }
+        return _coordinatesIdsRange;
+    }
+
     modifier onlyOwner() {
         require(msg.sender == owner);
         _;

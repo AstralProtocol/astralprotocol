@@ -15,14 +15,21 @@ interface ICoordinate {
     /**
      * @dev Coordinate, used as strings [ATM], signed floating point representation typycally represents a geojson.
      */
-    struct coordinate {
+    struct Coordiante {
+        uint256 coordinateId;
         bytes32 lat;
         bytes32 long;
     }
 
     // TODO: add contractsOnly or a stricter RegistiresOnly modifier.
     //       To be used only by the parent registry.
-    function addCoordinate(bytes32 _lat, bytes32 _long) external;
+    /**
+     *
+     * @param lat Latitude coordinate in byte32.
+     * @param long Longitude coordinate in bytes32.
+     * @return coordinateId to be set on the registry asset
+     */
+    function addCoordinate(bytes32 lat, bytes32 long) external returns (uint256 coordinateId);
 }
 
 /**
