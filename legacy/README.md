@@ -1,9 +1,11 @@
 ![astralDAO](https://github.com/astralDAO/overview/blob/master/brand-identity/Transparent-Logo-Only-Astral.png?raw=true)
 [![Twitter](https://img.shields.io/twitter/follow/astralprotocol?style=social)](https://twitter.com/astralprotocol)
 
-# astral-protocol
+# Research
 
-Monorepo containing the implementation of the Astral Protocol.
+Monorepo containing early research into Web3-native geospatial technologies.
+
+!!! Note that this is NOT the current implementation of the Astral Protocol, and all references to the protocol in this directory are deprecated. 
 
 ## Project Status - `Ropsten testnet / Hosted Powergate` | [![Build Status](https://www.travis-ci.com/AstralProtocol/astralprotocol.svg?branch=master)](https://www.travis-ci.com/AstralProtocol/astralprotocol)
 
