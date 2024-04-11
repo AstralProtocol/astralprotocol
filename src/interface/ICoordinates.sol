@@ -4,13 +4,12 @@
 pragma solidity ^0.8.25;
 
 /**
- * @title ICoordinate.sol
+ * @title Coordinate.sol
  * @author The Astral Protocol team
- * @dev Coordinate contract store to be used by SpatialRegistry.sol
+ * @notice Coordinate contract storage, to be used only by the SpatialRegistry(.sol) that is associated to it.
  * // TODO: Replace with SpatialAssets.sol.
  * https://github.com/AstralProtocol/astralprotocol/blob/main/legacy/packages/contracts/contracts/SpatialAssets.sol
  */
-
 interface ICoordinate {
     /**
      * @dev Coordinate, used as strings [ATM], signed floating point representation typycally represents a geojson.

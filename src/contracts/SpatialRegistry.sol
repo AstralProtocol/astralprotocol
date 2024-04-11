@@ -3,13 +3,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.25;
 
-import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import { ERC721, IERC165 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import { ISpatialRegistry } from "@interface/ISpatialRegistry.sol";
 import { Coordinates } from "@contracts/Coordinates.sol";
 
 /**
  * @title SpatialRegistry
  * @author The Astral Protocol team
+ * @notice SpatialRegistry contract is used to manage spatial assets.
+ *         It is created by the RegistryFactory.sol contract,
+ *         Restrict state change (adding assets) to the deployer - data provider - registry organization.
  */
 contract SpatialRegistry is ISpatialRegistry, ERC721 {
     address owner;
@@ -18,9 +22,11 @@ contract SpatialRegistry is ISpatialRegistry, ERC721 {
     mapping(uint256 => registryAssets) spatialAssets;
 
     // TODO: add reentrancy, pausable, accessControl..
+    // TODO: restrict to RegistryFactory contract.
     Coordinates coordinates;
-    constructor(address) ERC721("AstralRegistry", "AST") {
-        owner = _msgSender();
+
+    constructor(address _owner) ERC721("AstralRegistry", "AST") {
+        owner = _owner;
         coordinates = new Coordinates();
     }
 
@@ -39,77 +45,19 @@ contract SpatialRegistry is ISpatialRegistry, ERC721 {
      * @inheritdoc ISpatialRegistry
      * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
      */
-    function mintGISFeature(bytes32[8] calldata coords) external override {
+    function mintGISFeature(bytes32[] calldata coords) external {
+        // TODO: Limit number of coords to avoid an unbounded loop.
         currentAssetId++;
         uint256[2] memory _coordinatesIdsRange = _iterateCoords(coords);
         spatialAssets[currentAssetId] = registryAssets({ coordinateIdRange: _coordinatesIdsRange });
         _safeMint(owner, currentAssetId);
     }
 
-    /**
-     * @inheritdoc ISpatialRegistry
-     * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
-     */
-    function mintGISFeature( bytes32[24] calldata coords) external override {
-        currentAssetId++;
-        uint256[2] memory _coordinatesIdsRange = _iterateCoords(coords);
-        spatialAssets[currentAssetId] = registryAssets({ coordinateIdRange: _coordinatesIdsRange });
-        _safeMint(owner, currentAssetId);
-    }
-
-    /**
-     * @inheritdoc ERC721
-     * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
-     */
-    function _safeMint(address to, uint256 tokenId) internal override onlyOwner {
-        _safeMint(to, tokenId);
-    }
-
-    /**
-     * @inheritdoc ERC721
-     * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
-     */
-    function supportsInterface(bytes4 interfaceId) public view override(ERC721) returns (bool) {
-        return super.supportsInterface(interfaceId);
-    }
-
-    /**
-     * @inheritdoc ERC721
-     * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
-     */
-    function totalSupply() public view override returns (uint256) {
-        totalSupply();
-    }
-    /**
-     * @inheritdoc ERC721
-     * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
-     */
-
-    function tokenOfOwnerByIndex(address _owner, uint256 index) public view override returns (uint256) {
-        tokenOfOwnerByIndex(_owner, index);
-    }
-    /**
-     * @inheritdoc ERC721
-     * @dev (needed for compiler https://github.com/ethereum/solidity/issues/14397)
-     */
-
-    function tokenByIndex(uint256 index) public view override returns (uint256) {
-        tokenByIndex(index);
-    }
-
-    function _iterateCoords(bytes32[8] calldata _coords) private returns (uint256[2] memory _coordinatesIdsRange) {
-        for (uint i = 0; i < _coords.length; i+=2) {
+    function _iterateCoords(bytes32[] calldata _coords) private returns (uint256[2] memory _coordinatesIdsRange) {
+        for (uint256 i = 0; i < _coords.length; i += 2) {
             uint256 _coordinateId = coordinates.addCoordinate(_coords[i], _coords[++i]);
-            if(i == 0) _coordinatesIdsRange[0] = _coordinateId;
-            if(i == _coords.length - 1) _coordinatesIdsRange[1] = _coordinateId;
-        }
-        return _coordinatesIdsRange;
-    }
-    function _iterateCoords(bytes32[24] calldata _coords) private returns (uint256[2] memory _coordinatesIdsRange) {
-        for (uint i = 0; i < _coords.length; i+=2) {
-            uint256 _coordinateId = coordinates.addCoordinate(_coords[i], _coords[++i]);
-            if(i == 0) _coordinatesIdsRange[0] = _coordinateId;
-            if(i == _coords.length - 1) _coordinatesIdsRange[1] = _coordinateId;
+            if (i == 0) _coordinatesIdsRange[0] = _coordinateId;
+            if (i == _coords.length - 1) _coordinatesIdsRange[1] = _coordinateId;
         }
         return _coordinatesIdsRange;
     }

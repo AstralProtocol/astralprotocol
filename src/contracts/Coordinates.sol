@@ -9,7 +9,7 @@ import { Context } from "@openzeppelin/contracts/utils/Context.sol";
 /**
  * @title Coordinate.sol
  * @author The Astral Protocol team
- * @dev Coordinate contract store to be used by SpatialRegistry.sol
+ * @notice Coordinate contract storage, to be used only by the SpatialRegistry(.sol) that is associated to it.
  * // TODO: Replace with SpatialAssets.sol.
  * https://github.com/AstralProtocol/astralprotocol/blob/main/legacy/packages/contracts/contracts/SpatialAssets.sol
  */
@@ -22,9 +22,9 @@ contract Coordinates is ICoordinate, Context {
         registryAddress = _msgSender();
     }
 
-    function addCoordinate(bytes32 _lat, bytes32 _long) public registryOnly returns (uint256 _coordinateId){
+    function addCoordinate(bytes32 _lat, bytes32 _long) public registryOnly returns (uint256 _coordinateId) {
         coordinateId++;
-        coordinates[coordinateId] = Coordiante({ lat: _lat, long: _long, coordinateId: coordinateId});
+        coordinates[coordinateId] = Coordiante({ lat: _lat, long: _long, coordinateId: coordinateId });
         return coordinateId;
     }
 
