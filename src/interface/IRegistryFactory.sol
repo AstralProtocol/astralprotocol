@@ -17,11 +17,11 @@ interface IRegistryFactory {
      */
     function DeployRegistry(address owner) external;
 
-    /**
-     * @dev Emitted when a new spatial registry is created
-     * TODO: optionally, inforce specific contract or interface 👇
-     * @param associatedContract attestation, dMRV data, custom contract.
-     * @param owner Registry owner - data provider
-     */
-    // event SpatialRegistryDeployed(address associatedContract, address owner);
+    // /**
+    //  * @dev Emitted when a new spatial registry is created
+    //  * TODO: optionally, inforce specific contract or interface 👇
+    //  * @param associatedContract attestation, dMRV data, custom contract.
+    //  * @param owner Registry owner - data provider
+    //  */
+    // // event SpatialRegistryDeployed(address associatedContract, address owner);
 }

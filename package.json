@@ -1,10 +1,10 @@
 {
-  "name": "@prb/foundry-template",
-  "description": "Foundry-based template for developing Solidity smart contracts",
+  "name": "AstralProtocol",
+  "description": "Create extendible, modular spatial assets registries in a smart contract environment.",
   "version": "1.0.0",
   "author": {
-    "name": "Paul Razvan Berg",
-    "url": "https://github.com/PaulRBerg"
+    "name": "The Astral Protocol Team",
+    "url": "https://github.com/AstralProtocol"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.1"
@@ -12,7 +12,7 @@
   "devDependencies": {
     "@prb/test": "^0.6.4",
     "forge-std": "github:foundry-rs/forge-std#v1.7.5",
-    "prettier": "^3.0.0",
+    "prettier": "3.2.5",
     "solhint": "^3.6.2"
   },
   "keywords": [
@@ -29,9 +29,9 @@
     "clean": "rm -rf cache out",
     "build": "forge build",
     "lint": "bun run lint:sol && bun run prettier:check",
-    "lint:sol": "forge fmt --check && bun solhint {script,src,test}/**/*.sol",
-    "prettier:check": "prettier --check \"**/*.{json,md,yml}\" --ignore-path \".prettierignore\"",
-    "prettier:write": "prettier --write \"**/*.{json,md,yml}\" --ignore-path \".prettierignore\"",
+    "lint:sol": "forge fmt --check && bun solhint {script,src}/**/*.sol",
+    "prettier:check": "prettier --check \"*.{json,md,yml}\" --ignore-path \".prettierignore\"",
+    "prettier:write": "prettier --write \"*.{json,md,yml}\" --ignore-path \".prettierignore\"",
     "test": "forge test",
     "test:coverage": "forge coverage",
     "test:coverage:report": "forge coverage --report lcov && genhtml lcov.info --branch-coverage --output-dir coverage"
