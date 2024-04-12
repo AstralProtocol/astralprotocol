@@ -1,0 +1,22 @@
+{
+  geoDIDs {
+    id
+    owner
+    bytes32hash
+    bytes32hashWithQM
+    errors
+    cid
+    storage
+    root
+    isRoot
+    parent
+    edges {
+      id
+      childGeoDID {
+        id
+      }
+    }
+    active
+    type
+  }
+}
