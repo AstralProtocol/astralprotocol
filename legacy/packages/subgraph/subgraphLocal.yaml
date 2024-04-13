@@ -1,0 +1,40 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: SpatialAssets
+    network: mainnet
+    source:
+      address: "0xCfEB869F69431e42cdB54A4F4f105C19C080A601"
+      abi: SpatialAssets
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - SpatialAsset
+        - Node
+      abis:
+        - name: SpatialAssets
+          file: ./abis/SpatialAssets.json
+      eventHandlers:
+        - event: SpatialAssetRegistered(indexed address,indexed bytes32,indexed bytes32,bytes32,bytes32,bool)
+          handler: handleSpatialAssetRegistered
+        - event: SpatialAssetDeactivated(indexed bytes32)
+          handler: handleSpatialAssetDeactivated
+        - event: ParentAdded(indexed bytes32,indexed bytes32)
+          handler: handleParentAdded
+        - event: ChildrenAdded(indexed bytes32,indexed bytes32)
+          handler: handleChildrenAdded
+        - event: ParentRemoved(indexed bytes32,indexed bytes32)
+          handler: handleParentRemoved
+        - event: ChildrenRemoved(indexed bytes32,indexed bytes32)
+          handler: handleChildrenRemoved
+        - event: ChildrenErrorNoParent(indexed bytes32,indexed bytes32)
+          handler: handleChildrenErrorNoParent
+        - event: ChildrenErrorNoExistence(indexed bytes32,indexed bytes32)
+          handler: handleChildrenErrorNoExistence
+        - event: ChildrenErrorHasParent(indexed bytes32,indexed bytes32)
+          handler: handleChildrenErrorHasParent
+      file: ./src/mapping.ts
