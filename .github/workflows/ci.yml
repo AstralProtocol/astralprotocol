@@ -84,7 +84,7 @@ jobs:
           )" >> $GITHUB_ENV
 
       - name: "Run the tests"
-        run: "forge test"
+        run: "forge coverage --report lcov"
 
       - name: "Add test summary"
         run: |
