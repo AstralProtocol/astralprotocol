@@ -84,15 +84,12 @@ jobs:
           )" >> $GITHUB_ENV
 
       - name: "Run the tests"
-        run: "forge test"
+        run: "forge coverage --report lcov"
 
       - name: "Add test summary"
         run: |
           echo "## Tests result" >> $GITHUB_STEP_SUMMARY
           echo "✅ Passed" >> $GITHUB_STEP_SUMMARY
-  coverage:
-    runs-on: ubuntu-latest
-    steps:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
