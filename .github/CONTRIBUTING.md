@@ -5,7 +5,7 @@ Thank you for taking the time! We are excited to have you! We'd like to make it 
 We encourage you to:
 
 - ✉️ Send over any question, suggestion, technical issue to our [engineering@astral.global](engineering@astral.global)
-- 🚀 Add a reature request using the `issue template`.
+- 🚀 Add a feature request using the `issue template`.
 - 🦸 Add Pull request `pr template`.
 
 ## 🌿 GIT Flow
@@ -22,7 +22,7 @@ should be there.
 
 ## 📓 Commits
 
-Often please, and please install the [cz-git](https://github.com/Zhengqbbb/cz-git) cli, the config file is in the repo for easy, eamoji
+Often please, and please install the [cz-git](https://github.com/Zhengqbbb/cz-git) cli, the config file is in the repo for easy, emoji
 filled commits.
 
 ## 💅 Style
