@@ -12,11 +12,11 @@
 [codecov]: https://codecov.io/gh/AstralProtocol/astralprotocol
 [codecov-badge]: https://codecov.io/gh/AstralProtocol/astralprotocol/graph/badge.svg?token=8MPT8407FS
 
-![astralDAO](https://github.com/astralDAO/overview/blob/master/brand-identity/Transparent-Logo-Only-Astral.png?raw=true)
+![Astral-jambo](https://github.com/AstralProtocol/astralprotocol/assets/7093389/e2f31237-1259-47e8-8830-d8caebff9f47)
 
 # Astral Protocol
 
-Deploy, extend, and maintain GeoLocation apps in a decentralized environment.
+Deploy, extend, and maintain GeoLocation apps in a decentralized environment. Visit [astral.global](https://astral.global).
 
 ## Design
 
