@@ -24,4 +24,5 @@ Deploy, extend, and maintain GeoLocation apps in a decentralized environment.
 
 ## ❤️ Contribute
 
-Please check our [contributing guide](.github/CONTRIBUTING.md)! We deeply appreciate any help, review, suggestion!
+Please check our [contributing guide](https://github.com/AstralProtocol/astralprotocol/wiki/Contributing-guidelines)! We deeply appreciate
+any help, review, suggestion!
