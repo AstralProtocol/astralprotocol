@@ -18,6 +18,10 @@
 
 Deploy, extend, and maintain GeoLocation apps in a decentralized environment. Visit [astral.global](https://astral.global).
 
+## Documentation
+
+Check out the Astral Protocol Docs hosted on [gitbook](https://astral-protocol.gitbook.io/astral).
+
 ## Design
 
 ![Astral-diagram](https://github.com/AstralProtocol/astralprotocol/assets/7093389/562936df-c748-4527-a743-33f6520bac64)
