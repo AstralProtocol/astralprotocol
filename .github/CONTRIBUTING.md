@@ -1,4 +1,4 @@
-# ❤️:sparkles: Contributing to Astral
+# ❤️✨ Contributing to Astral
 
 Thank you for taking the time! We are excited to have you! We'd like to make it as easiest to contribute,
 
