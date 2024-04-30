@@ -7,28 +7,28 @@ assignees: ""
 project: Core Set-up
 ---
 
-## Story (required for top level issues pls)
+## 📘 Story (required for top level issues pls)
 
 As a [`persona`], I'd like to [`feat`], so that [`benefit`].
 
-## Description
+## 💬 Description
 
 A clear and concise description of what you expected to happen.
 
-## 📖 Context
+## 🗞️ Context
 
 Relevant context to this issue-story.
 
-## TO-DO (tasks or sub-issues)
+## 🏗️ TO-DO (tasks or sub-issues)
 
 - [ ]
 - [ ]
 
-## Acceptance criteria
+## ✅ Acceptance criteria
 
 - [ ]
 - [ ]
 
-## Screenshots
+## 📷 Screenshots
 
 ## 📓 Notes
