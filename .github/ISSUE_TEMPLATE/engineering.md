@@ -4,7 +4,7 @@ about: Create an issue (on core setup board) to be nested to a milestone
 title: "[FEAT]"
 # labels: needs refinement
 assignees: ""
-project: AstralProtocol/7
+projects: ["AstralProtocol/7"]
 ---
 
 ## 📘 Story (required for top level issues pls)
