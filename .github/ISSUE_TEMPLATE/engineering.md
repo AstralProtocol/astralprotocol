@@ -2,9 +2,9 @@
 name: New Issue
 about: Create an issue (on core setup board) to be nested to a milestone
 title: "[FEAT]"
-labels: needs refinement
+# labels: needs refinement
 assignees: ""
-project: Core Set-up
+project: "AstralProtocol/projects/7"
 ---
 
 ## 📘 Story (required for top level issues pls)
