@@ -1,0 +1,55 @@
+{
+  "name": "@astralprotocol/contracts",
+  "version": "1.0.12",
+  "description": "These contracts serve as the Registry for the Astral Protocol GeoDIDs. It allows binding of a GeoDID to an ethereum address and CID name resolving. ",
+  "author": "Astral <contact@astral.global>",
+  "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
+  "license": "MIT OR Apache-2.0",
+  "main": "truffle-config.js",
+  "directories": {
+    "build": "build",
+    "contracts": "contracts",
+    "migrations": "migrations"
+  },
+  "files": [
+    "build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AstralProtocol/astralprotocol.git",
+    "directory": "packages/contracts"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "console": "truffle console --network development",
+    "ganache": "ganache-cli -h 0.0.0.0 -p 8545 -d -i 333",
+    "deployGeoDIDs": "truffle exec scripts/deployGeoDIDs.js --network ropsten",
+    "testg": "truffle exec scripts/test.js --network development",
+    "new-instance": "truffle exec scripts/newInstance.js --network development",
+    "remove-links": "truffle exec scripts/newInstance-remove.js --network development",
+    "truffle-build": "truffle compile -all",
+    "truffle": "truffle compile --all && truffle migrate --network development --reset && cp -vr ./build/contracts/SpatialAssets.json ../subgraph/abis/SpatialAssets.json",
+    "truffle-ropsten": "truffle compile --all && truffle migrate --network ropsten --reset && cp -vr ./build/contracts/SpatialAssets.json ../subgraph/abis/SpatialAssets.json",
+    "mythx": "truffle run verify",
+    "truffle-test": "truffle test",
+    "coverage": "truffle run coverage --solcoverjs ./.solcover.js --network development"
+  },
+  "bugs": {
+    "url": "https://github.com/AstralProtocol/astralprotocol/issues",
+    "access": "public"
+  },
+  "dependencies": {
+    "@astralprotocol/core": "^0.1.10",
+    "@openzeppelin/contracts": "^3.2.0",
+    "@truffle/hdwallet-provider": "^1.1.1",
+    "bs58": "^4.0.1",
+    "coveralls": "^3.1.0",
+    "dotenv": "^8.2.0",
+    "solidity-coverage": "^0.7.13",
+    "truffle": "^5.1.49"
+  }
+}
