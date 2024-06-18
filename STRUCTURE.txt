@@ -5,16 +5,16 @@
 ├── STRUCTURE.txt
 ├── bun.lockb
 ├── foundry.toml
-├── legacy
-│   ├── LICENSE-APACHE
-│   ├── README.md
-│   ├── lerna.json
-│   ├── package.json
-│   ├── packages
-|   ...
+├── legacy                                // Should probably delete this no?
+│   ├── LICENSE-APACHE                    // Should probably delete this no?
+│   ├── README.md                         // Should probably delete this no?
+│   ├── lerna.json                        // Should probably delete this no?
+│   ├── package.json                      // Should probably delete this no?
+│   ├── packages                          // Should probably delete this no?
+|   ...                                  
 ├── location-proof-protocol.md
-├── node_modules
-|   ...
+├── node_modules                          // Best practice to .gitignore this no? 
+|   ...                                   // Best practice to .gitignore this no? 
 ├── package.json
 ├── remappings.txt
 ├── script
@@ -33,11 +33,25 @@
 │   │   │   ├── recipes
 |   │   │   │   ├── RECIPES.md
 |   │   │   │   ├── recipe-id-1
-|   │   │   │   |    ├── README.md
+|   │   │   │   |    ├── README.md          // Defines shape + content of the `recipe` bytes
 |   │   │   │   |    ├── RecipeId1.sol      // Implementation contract with `verify` method
-|   │   │   │   |    └── recipe-id-1.ts     // Implementation contract with `verify` method
-|   │   │   │   ├── recipe-id-1
+|   │   │   │   |    └── recipe-id-1.ts     // Client library to create, revoke and verify location proofs according to Recipe ID 1. (This should probably not be in the `contracts/` directory!?)
 |   │   │   │   ├── recipe-id-2
+|   │   │   │   |    ├── README.md
+|   │   │   │   |    ├── RecipeId2.sol      // Implementation contract with `verify` method
+|   │   │   │   |    └── recipe-id-2.py     // Client library to create, revoke and verify location proofs according to Recipe ID 1. (This should probably not be in the `contracts/` directory!?)
+|   │   │   │   ├── ...                     // Anyone can open a pull request and submit a new recipe.
+│   │   │   ├── media
+|   │   │   │   ├── README.md
+|   │   │   │   ├── recipe-id-1
+|   │   │   │   |    ├── README.md       
+|   │   │   │   |    ├── RecipeId1.sol   
+|   │   │   │   |    └── recipe-id-1.ts  
+|   │   │   │   ├── recipe-id-2
+|   │   │   │   |    ├── README.md
+|   │   │   │   |    ├── RecipeId2.sol   
+|   │   │   │   |    └── recipe-id-2.py  
+|   │   │   │   ├── ...                  
 │   │   │   ├── 
 │   └── interface
 │       ├── ICoordinates.sol                 // ??
