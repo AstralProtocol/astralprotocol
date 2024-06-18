@@ -69,22 +69,3 @@
 └── yarn.lock
 
 331 directories, 3746 files
-
-
-AstralClientSDK:
-
-import {Astral} from 'astral-protocol'
-
-const astral = new Astral(provider);
-
-astral.createProof({
-    payload: {
-        attestations: [],
-        zk: //data
-    }
-}).addMedia({
-    type: 'png',
-    cid: 'basd...',
-})
-
-astral.foam.verifyProof(proof);
