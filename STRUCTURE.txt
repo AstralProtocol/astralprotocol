@@ -5,21 +5,21 @@
 ├── STRUCTURE.txt
 ├── bun.lockb
 ├── foundry.toml
-├── legacy                                // Should probably delete this no?
-│   ├── LICENSE-APACHE                    // Should probably delete this no?
-│   ├── README.md                         // Should probably delete this no?
-│   ├── lerna.json                        // Should probably delete this no?
-│   ├── package.json                      // Should probably delete this no?
-│   ├── packages                          // Should probably delete this no?
+├── legacy                                   // Should probably delete this no?
+│   ├── LICENSE-APACHE                       // Should probably delete this no?
+│   ├── README.md                            // Should probably delete this no?
+│   ├── lerna.json                           // Should probably delete this no?
+│   ├── package.json                         // Should probably delete this no?
+│   ├── packages                             // Should probably delete this no?
 |   ...                                  
 ├── location-proof-protocol.md
-├── node_modules                          // Best practice to .gitignore this no? 
-|   ...                                   // Best practice to .gitignore this no? 
+├── node_modules                             // Best practice to .gitignore this no? 
+|   ...                                      // Best practice to .gitignore this no? 
 ├── package.json
 ├── remappings.txt
-├── script
-│   ├── Base.s.sol
-│   └── Deploy.s.sol
+├── script                                   // This is specific to forge, right? How do we handle multiple contributions from different recipe developers?
+│   ├── Base.s.sol                           // This is specific to forge, right? How do we handle multiple contributions from different recipe developers?
+│   └── Deploy.s.sol                         // This is specific to forge, right? How do we handle multiple contributions from different recipe developers?
 ├── src
 │   ├── contracts
 │   │   ├── spatial-registry
@@ -42,19 +42,11 @@
 |   │   │   │   |    └── recipe-id-2.py     // Client library to create, revoke and verify location proofs according to Recipe ID 1. (This should probably not be in the `contracts/` directory!?)
 |   │   │   │   ├── ...                     // Anyone can open a pull request and submit a new recipe.
 │   │   │   ├── media
-|   │   │   │   ├── README.md
-|   │   │   │   ├── recipe-id-1
-|   │   │   │   |    ├── README.md       
-|   │   │   │   |    ├── RecipeId1.sol   
-|   │   │   │   |    └── recipe-id-1.ts  
-|   │   │   │   ├── recipe-id-2
-|   │   │   │   |    ├── README.md
-|   │   │   │   |    ├── RecipeId2.sol   
-|   │   │   │   |    └── recipe-id-2.py  
-|   │   │   │   ├── ...                  
-│   │   │   ├── 
+|   │   │   │   ├── README.md               // Not quite sure how to support adding different media types.
+|   │   │   │   ├── ???                     // Does this require anything onchain? Or just in client libraries? 
+|   |   |   |    ...                 
 │   └── interface
-│       ├── ICoordinates.sol                 // ??
+│       ├── ICoordinates.sol                // ??
 │       ├── IRegistryFactory.sol
 │       └── ISpatialRegistry.sol
 ├── test
