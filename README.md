@@ -1,36 +1,32 @@
-![astralDAO](https://github.com/astralDAO/overview/blob/master/brand-identity/Transparent-Logo-Only-Astral.png?raw=true)
+[![Github Actions][gha-badge]][gha] [![Foundry][foundry-badge]][foundry] [![License: MIT][license-badge]][license]
+[![codecov][codecov-badge]][codecov]
 [![Twitter](https://img.shields.io/twitter/follow/astralprotocol?style=social)](https://twitter.com/astralprotocol)
 
-# astral-protocol
+[gitpod-badge]: https://img.shields.io/badge/Gitpod-Open%20in%20Gitpod-FFB45B?logo=gitpod
+[gha]: https://github.com/AstralProtocol/astralprotocol/actions
+[gha-badge]: https://github.com/AstralProtocol/astralprotocol/actions/workflows/ci.yml/badge.svg
+[foundry]: https://getfoundry.sh/
+[foundry-badge]: https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg
+[license]: https://opensource.org/licenses/MIT
+[license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
+[codecov]: https://codecov.io/gh/AstralProtocol/astralprotocol
+[codecov-badge]: https://codecov.io/gh/AstralProtocol/astralprotocol/graph/badge.svg?token=8MPT8407FS
 
-Monorepo containing the implementation of the Astral Protocol.
+![Astral-jambo](https://github.com/AstralProtocol/astralprotocol/assets/7093389/e2f31237-1259-47e8-8830-d8caebff9f47)
 
-## Project Status - `Ropsten testnet / Hosted Powergate` | [![Build Status](https://www.travis-ci.com/AstralProtocol/astralprotocol.svg?branch=master)](https://www.travis-ci.com/AstralProtocol/astralprotocol)
+# Astral Protocol
 
-## Project Structure
+Deploy, extend, and maintain GeoLocation apps in a decentralized environment. Visit [astral.global](https://astral.global).
 
-This monorepo is made up of several different packages.
+## Documentation
 
-| Package                              | Current Version                                                           | Coverage                                                                                                                                                                                                                                                                                                                                           | Description                              |
-| ------------------------------------ | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| @astralprotocol/core                 | ![npm](https://img.shields.io/npm/v/@astralprotocol/core)                 | --                                                                                                                                                                                                                                                                                                                                           | Core Astral Protocol Implementation      |
-| @astralprotocol/contracts            | ![npm](https://img.shields.io/npm/v/@astralprotocol/contracts)            | [![Coverage Status](https://coveralls.io/repos/github/AstralProtocol/astralprotocol/badge.svg?branch=master)](https://coveralls.io/github/AstralProtocol/astralprotocol?branch=master) | Astral Smart Contracts - GeoDID Registry |
-| @astralprotocol/subgraph             | ![npm](https://img.shields.io/npm/v/@astralprotocol/subgraph)             | --                                                                                                                                                                                                                                                                                                                                           | Subgraph for astral-protocol-contracts   |
-| @astralprotocol/stac-validator-js    | ![npm](https://img.shields.io/npm/v/@astralprotocol/stac-validator-js)    | --                                                                                                                                                                                                                                                                                                                                           | Node validator for stac item files       |
-| @astralprotocol/ipld-encoded-geotiff | ![npm](https://img.shields.io/npm/v/@astralprotocol/ipld-encoded-geotiff) | --                                                                                                                                                                                                                                                                                                                                           | IPLD Encoded GeoTIFFs                    |
+Check out the Astral Protocol Docs hosted on [gitbook](https://astral-protocol.gitbook.io/astral).
 
-## Development
+## Design
 
-### Project setup
+![Astral-diagram](https://github.com/AstralProtocol/astralprotocol/assets/7093389/562936df-c748-4527-a743-33f6520bac64)
 
-This project uses yarn and lerna to manage packages and dependencies. To install dependencies for all packages in this repo, go to root dir and run:
+## ❤️ Contribute
 
-```
-$ yarn install
-```
-
-Then build all packages:
-
-```
-$ yarn run build
-```
+Please check our [contributing guide](https://github.com/AstralProtocol/astralprotocol/wiki/Contributing-guidelines)! We deeply appreciate
+any help, review, suggestion!
