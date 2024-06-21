@@ -1,9 +1,9 @@
 {
-  "name": "AstralProtocol",
-  "description": "Create extendible, modular spatial assets registries in a smart contract environment.",
+  "name": "@AstralProtocol/astralprotocol",
+  "description": "Tools and infrastructure for onchain location-based apps.",
   "version": "1.0.0",
   "author": {
-    "name": "The Astral Protocol Team",
+    "name": "AstralProtocol",
     "url": "https://github.com/AstralProtocol"
   },
   "dependencies": {
