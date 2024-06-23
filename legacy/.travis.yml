@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "14"
+notifications:
+  email: false
+branches:
+  only:
+    - master
+matrix:
+  include:
+    - env: TARGET=packages/contracts
+script: if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $TARGET; then echo "$TARGET is being built" &&  yarn install && yarn contracts-coverage; else echo "$TARGET is NOT being built"; fi
