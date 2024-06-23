@@ -1,0 +1,41 @@
+{
+  "name": "@astralprotocol/stac-validator-js",
+  "version": "0.0.7",
+  "description": "Node implementation of a Stac file validator ",
+  "author": "Astral <contact@astral.global>",
+  "homepage": "https://github.com/AstralProtocol/astralprotocol#readme",
+  "license": "MIT OR Apache-2.0",
+  "main": "src/stac-validator.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AstralProtocol/astralprotocol.git",
+    "directory": "packages/stac-validator-js"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "test": "jest --coverage --runInBand",
+    "prebuild": "yarn run clean",
+    "lint": "eslint ./src '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "clean": "rm -rf ./lib",
+    "validate": "node ./src/index.js"
+  },
+  "bugs": {
+    "url": "https://github.com/AstralProtocol/astralprotocol/issues"
+  },
+  "dependencies": {
+    "@apidevtools/json-schema-ref-parser": "^9.0.1",
+    "ajv": "^6.12.2",
+    "compare-versions": "^3.6.0"
+  },
+  "gitHead": "d1177c83e76b00ec51e6b0532b6588e3bc29fa77"
+}

@@ -1,0 +1,10 @@
+{
+  "extends": "./node_modules/@graphprotocol/graph-ts/tsconfig.json",
+  "compilerOptions": {
+    "types": ["@graphprotocol/graph-ts"],
+    "outDir": "./lib",
+    "rootDir": "./src",
+    "composite": true,
+    "strictNullChecks": false
+  }
+}
