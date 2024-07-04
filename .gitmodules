@@ -1,6 +1,0 @@
-[submodule "eas-dapp-scuffold-eth"]
-	path = eas-dapp-scuffold-eth
-	url = https://github.com/scaffold-eth/scaffold-eth-2
-[submodule "eas-dapp-checkin"]
-	path = eas-dapp-checkin
-	url = https://github.com/scaffold-eth/scaffold-eth-2
