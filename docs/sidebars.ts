@@ -1,10 +1,10 @@
 const sidebars = {
   docs: [
-    // {
-    //   type: 'category',
-    //   label: 'What is Astral?',
-    //   items: ['introducing-astral'],
-    // },
+    {
+      type: 'category',
+      label: 'Astral',
+      items: ['introduction'],
+    },
     // {
     //   type: 'category',
     //   label: 'Core Concepts',
