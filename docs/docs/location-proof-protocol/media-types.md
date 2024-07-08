@@ -15,9 +15,10 @@ This is the alpha version and is subject to change!
 Currently, the location proofs we're registering on EAS have two fields related to media:
 
 - **`mediaType`**: an array of strings, each a unique designator of the media attached, to ease parsing when location proofs are read
-- **`mediaData`**: an array of bytes containing either the media itself or some kind of media identifier, likely a CID
+- **`mediaData`**: an array of strings containing some kind of media identifier, likely a
+  [CID](https://docs.ipfs.tech/concepts/content-addressing/)
 
-Of course, elements in each array correspond accoding to index.
+Of course, elements in each array correspond according to index.
 
 In this way, any set of media data can be attached to a location proof. This opens use cases such as geotagged photos and videos, dMRV data
 for impact / regeneration projects, etc.
@@ -30,8 +31,7 @@ surrounding area (i.e. of known landmarks), this data should be included in the 
 :::
 
 At this point, we have not fully scoped the requirements of the `mediaType` string designators. Any content can be attached to a location
-proof (which is why we selected the versatile `bytes` data type) — but note there is no standardized way of knowing what type of file / data
-is attached. Stay tuned here.
+proof — but note there is no standardized way of knowing what type of file / data is attached. Stay tuned here.
 
 ## Future Media Types
 

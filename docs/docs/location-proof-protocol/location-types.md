@@ -13,8 +13,7 @@ data management, while still offering flexibility for different proof types.
 
 **Initially, location proofs will use WGS84 decimal degree coordinates, ordered as `[longitude, latitude]`.**
 
-These coordinate pairs will be formatted as strings, converted to bytes for storage onchain. The working `locationType` will be set to
-`DecimalDegrees<string>`.
+These coordinate pairs will be formatted as strings. The working `locationType` will be set to `DecimalDegrees<string>`.
 
 :::
 
@@ -56,4 +55,5 @@ reference systems, such as:
 - Presence in a vehicle or a specific room
 
 Astral's Location Proof Protocol aims to support location proofs within a wide range of different spatial reference systems, both global and
-relative. However, initial development of the protocol will focus on positioning objects / events on Earth.
+relative. However, initial development of the protocol will focus on positioning objects / events on Earth. For this reason, we included the
+`srs` field as part of the core location proof schema.
