@@ -1,0 +1,33 @@
+{
+  "name": "astralprotocol",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "packages/subgraph/@graphprotocol/graph-ts",
+      "packages/subgraph/@graphprotocol/graph-ts/**"
+    ]
+  },
+  "scripts": {
+    "contracts-coverage": "yarn workspace @astralprotocol/contracts coverage && cat coverage/lcov.info | coveralls",
+    "test": "lerna run test",
+    "build": "lerna run build",
+    "publish:force": "lerna publish --force-publish",
+    "publish:simple": "lerna publish",
+    "publish": "lerna run tsc && lerna publish",
+    "publish:from": "lerna publish from-package --conventional-commits",
+    "publish:next": "lerna run tsc && lerna publish --no-push --conventional-prerelease --dist-tag next",
+    "publish:latest": "lerna run tsc && lerna publish --allow-branch master --conventional-graduate --create-release github",
+    "lint": "lerna run lint",
+    "clean": "rm -rf ./lib",
+    "lerna-add": "lerna add @astralprotocol/core --scope=@astralprotocol/contracts"
+  },
+  "dependencies": {
+    "lerna": "^3.20.2",
+    "ts-node": "^9.0.0",
+    "typedoc": "^0.19.2",
+    "typescript": "^3.8.3"
+  }
+}

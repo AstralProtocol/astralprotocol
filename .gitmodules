@@ -1,0 +1,12 @@
+[submodule "eas-dapp-scuffold-eth"]
+	path = eas-dapp-scuffold-eth
+	url = https://github.com/scaffold-eth/scaffold-eth-2
+[submodule "eas-dapp-checkin"]
+	path = eas-dapp-checkin
+	url = https://github.com/scaffold-eth/scaffold-eth-2
+[submodule "lib/eas-contracts"]
+	path = lib/eas-contracts
+	url = https://github.com/ethereum-attestation-service/eas-contracts
+[submodule "lib/forge-std"]
+	path = lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
