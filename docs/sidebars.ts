@@ -28,6 +28,19 @@ const sidebars = {
         'location-proof-protocol/media-types',
       ],
     },
+    {
+      type: 'category',
+      label: 'Logbook',
+      items: [
+        'logbook/introduction',
+        'logbook/registering-entries',
+        'logbook/viewing-entries',
+        'logbook/multi-entry-views',
+        'logbook/frames',
+        'logbook/developers',
+        'logbook/contributing',
+      ],
+    },
     // {
     //   type: 'category',
     //   label: 'Spatial Registries',
