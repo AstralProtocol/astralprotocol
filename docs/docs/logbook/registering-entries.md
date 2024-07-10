@@ -20,7 +20,7 @@ TODO: screenshot
 
 ### Location
 
-Every log entry needs a location. For v0.1, locations are represented as WGS84 (TODO: is this it?) coordinates, ordered
+Every log entry needs a location. For v0.1, locations are represented as WGS84 (TODO: is this it?) decimal degree coordinates, ordered
 `[longitude, latitude]`, aligned with the [GeoJSON](https://www.google.com/search?q=geojson+standard) convention.
 
 To add a location to a log entry, in the Register Entry page pan + zoom the map to the spot you want to anchor the entry, and tap. On tap, a

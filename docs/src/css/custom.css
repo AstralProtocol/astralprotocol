@@ -60,7 +60,3 @@ body {
 .col {
   margin-left: 5px;
 }
-
-.menu__link--sublist-caret {
-  /* background: var(--ifm-menu-link-sublist-icon) 50% / 1.5rem 1.5rem;  */
-}

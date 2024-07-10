@@ -41,8 +41,3 @@ The Logbook was built using Scaffold-ETH 2 — huge thanks to the BuidlGuidl for
 The Astral Logbook is built on the [Ethereum Attestation Service](https://attest.sh) running on [Celo](https://celo.org) and
 [Arbitrum](https://arbitrum.io), and [IPFS](https://ipfs.io). The dapp is built using [Scaffold-eth 2](TODO) and
 [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js), and is open source (TODO: which license?).
-
-## Contributing
-
-If you want to help us build new features for the Logbook, or fix bugs you find, you're very welcome to! To learn more about chipping in,
-see our [contributing guidelines](https://github.com/AstralProtocol/astralprotocol/wiki/Contributing-guidelines).
