@@ -1,7 +1,5 @@
 # Introduction
 
-// TODO: Astral Logbook Logo
-
 # Astral Logbook
 
 The Astral Logbook is a decentralized application built on Astral's Location Proof Protocol. The Logbook empowers you to register geotagged
@@ -34,10 +32,10 @@ You can find documentation about the Location Proof Protocol [here](../location-
 
 :::
 
-The Logbook was built using Scaffold-ETH 2 — huge thanks to the BuidlGuidl for this resource!
+The Logbook was built using [Scaffold-ETH 2](https://scaffoldeth.io/) — huge thanks to the BuidlGuidl for this resource!
 
 ## The Stack
 
 The Astral Logbook is built on the [Ethereum Attestation Service](https://attest.sh) running on [Celo](https://celo.org) and
-[Arbitrum](https://arbitrum.io), and [IPFS](https://ipfs.io). The dapp is built using [Scaffold-eth 2](TODO) and
-[Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js), and is open source (TODO: which license?).
+[Arbitrum](https://arbitrum.io), and [IPFS](https://ipfs.io). The dapp is built using [Scaffold-eth 2](https://scaffoldeth.io/) and
+[Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js).

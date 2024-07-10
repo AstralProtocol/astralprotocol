@@ -5,10 +5,10 @@ features.
 
 Multi-entry views display collections of log entries overlaid on a map. This interface can give you:
 
-- a bird's-eye view of all of the entries you've recorded
-- entries recorded in a particular area over a particular timeframe
-- entries from a curated list of addresses, say of friends or particular token holders
-- entries that share a hashtag or work in the string memo
+- a bird's-eye view of all of the entries you've recorded (i.e. address view)
+- entries recorded in a particular area over a particular timeframe (location view)
+- entries from a curated list of addresses, say of friends or particular token holders (group view)
+- entries that share a hashtag or work in the string memo (hashtag / topic view)
 
 This provides a location-based discovery tool to see what people are posting about places that are relevant to you.
 
