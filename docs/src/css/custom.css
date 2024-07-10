@@ -28,3 +28,39 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* src/css/custom.css */
+
+body {
+  font-family: "Inter", sans-serif; /* Vitepress uses Inter font */
+  background-color: #f8f8f8; /* Example background color similar to Vitepress */
+  color: #333;
+}
+
+/* Style the navbar */
+.navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+}
+
+/* Style the sidebar */
+.sidebar {
+  background-color: #ffffff;
+  border-right: 1px solid #eaeaea;
+}
+
+/* Style the main content area */
+.main {
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Add other styles as needed */
+.col {
+  margin-left: 5px;
+}
+
+.menu__link--sublist-caret {
+  /* background: var(--ifm-menu-link-sublist-icon) 50% / 1.5rem 1.5rem;  */
+}
