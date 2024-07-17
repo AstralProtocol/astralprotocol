@@ -5,8 +5,8 @@
 The Astral Logbook is a decentralized application built on Astral's Location Proof Protocol. The Logbook empowers you to register geotagged
 **log entries** onchain + on IPFS.
 
-Log entries are location proofs with attached media — geotagged content built on the decentralized web. Recording details of important
-events in your life lets you create a digital trail of your life, controlled by you.
+Log entries are [location proofs](../location-proof-protocol/introduction.md) with attached media — geotagged content built on the
+decentralized web. Recording details of important events lets you create a digital trail of your life, controlled by you.
 
 :::warning
 

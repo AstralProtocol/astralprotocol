@@ -8,8 +8,10 @@ To learn how to set up a wallet and use Web3 applications, we recommend
 
 ## Connecting
 
-Load logbook.astral.global/register and connect your wallet, making sure the correct network is selected. This is the page where you'll
-input the entry details.
+Load logbook.astral.global/register. This is the page where you'll input the entry details.
+
+Connect your wallet, making sure you are connected to Ethereum Sepolia testnet with testnet ETH. (Here's a
+[guide](https://medium.com/@razor07/how-to-get-sepolia-eth-from-a-faucet-7420e5ceacb3).)
 
 ## Log Entry Fields
 
@@ -23,8 +25,8 @@ The Logbook provides a UI for you to add relevant data to a log entry. These fie
 
 ### Location
 
-Every log entry needs a location. For v0.1, locations are represented as WGS84 (TODO: is this it?) decimal degree coordinates, ordered
-`[longitude, latitude]`, aligned with the [GeoJSON](https://www.google.com/search?q=geojson+standard) convention.
+Every log entry needs a location. For v0.1, locations are represented as WGS84 decimal degree coordinates, ordered `[longitude, latitude]`,
+aligned with the [GeoJSON](https://www.google.com/search?q=geojson+standard) convention.
 
 To add a location to a log entry, in the Register Entry page pan + zoom the map to the spot you want to anchor the entry, and tap. On tap, a
 form should appear, and a marker should be added to the map. To adjust the location, simply tap elsewhere on the map — the coordinates in
@@ -36,11 +38,12 @@ Use the datetime picker popup to choose the date and time of the event being rec
 
 ### Memo
 
-Input any string in the Memo field — get creative here! You can also include emojis and hashtags. Memos are limited to TODO x characters.
+Input any string in the Memo field — get creative here! You can also include emojis and hashtags. Keep your memo entries reasonably short,
+each character will cost gas.
 
 ### Media
 
-Attach any media to log entries using the Media Upload feature. For now, images are supported and can be viewed in our front end, but data
+Attach any media to log entries using the Media Upload feature. For now, one image is supported and can be viewed in our front end, but data
 in any format can be attached. Media files are stored on IPFS.
 
 ## Broadcasting the log entry
