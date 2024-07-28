@@ -3,9 +3,12 @@
 ## Location Proof Protocol: Core Schema v0.1 (Sepolia Testnet)
 
 The core layer of the Location Proof Protocol includes a standard data model. v0.1 of the data model is described in this document. The
-current working schema is deployed on Ethereum Sepolia testnet, Schema #2266, UID
-`0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2`
-([view on EASScan](https://sepolia.easscan.org/schema/view/0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2)).
+current working schema is deployed on:
+
+- Ethereum Sepolia testnet, Schema 2266 / UID `0xd928da08c10180b639e31c5f46acf4ea011d88ec7ac44bd95f32385e2d66032b`
+  ([view on Sepolia EASScan](https://sepolia.easscan.org/schema/view/0xd928da08c10180b639e31c5f46acf4ea011d88ec7ac44bd95f32385e2d66032b)).
+- Celo Mainnet, Schema 59 / UID `0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2`
+  ([view on Celo EASScan](https://celo.easscan.org/schema/view/0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2)).
 
 | Field                    | Description                                                                                                                                                                                                                 | Key              | Data Type  | Source                                                                                                           |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------- | ---------------------------------------------------------------------------------------------------------------- |
