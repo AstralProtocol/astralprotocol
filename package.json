@@ -6,6 +6,10 @@
     "name": "AstralProtocol",
     "url": "https://github.com/AstralProtocol"
   },
+  "workspaces": [
+    "packages/*",
+    "docs"
+  ],
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.1"
   },
@@ -32,6 +36,9 @@
     "lint:sol": "forge fmt --check && bun solhint {script,src}/**/*.sol",
     "prettier:check": "prettier --check '*.{json,md,yml}' --ignore-path '.prettierignore'",
     "prettier:write": "prettier --write '*.{json,md,yml}' --ignore-path '.prettierignore'",
+    "docs:dev": "yarn workspace docs start",
+    "docs:build": "yarn workspace docs build",
+    "docs:deploy": "yarn workspace docs deploy",
     "test": "forge test",
     "test:coverage": "forge coverage",
     "test:coverage:report": "forge coverage --report lcov && genhtml lcov.info --branch-coverage --output-dir coverage"
