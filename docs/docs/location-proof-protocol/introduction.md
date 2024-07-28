@@ -20,7 +20,8 @@ The structure is subject to change — these docs are the most current!
 
 This section of the monorepo currently contains:
 
-- Specifications of the core [Ethereum Attestation Service (EAS) schema](./eas-schema.md) for the protocol
+- Specifications of the core [Ethereum Attestation Service (EAS) schema](./eas-schema.md) for the protocol, and UIDs of deployments on Celo
+  Mainnet and Ethereum Sepolia testnet.
 - Details on how to create location proofs using different [location types](./location-types.md)
 - A framework (in development) for building ["recipes"](./strategies-recipes.md) that allow for many different strategies for proving
   location to be added (WIP)

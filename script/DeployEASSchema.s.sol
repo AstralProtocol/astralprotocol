@@ -9,6 +9,7 @@ import "eas-contracts/contracts/ISchemaRegistry.sol";
 contract DeployEASSchema is Script {
     // EAS contract address (replace with the correct address for your target network)
     address constant EAS_CONTRACT_ADDRESS = 0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0; // Sepolia SchemaRegistry
+    address constant CELO_EAS_CONTRACT_ADDRESS = 0x5ece93bE4BDCF293Ed61FA78698B594F2135AF34; // Celo Mainnet SchemaRegistry
 
     function run() public {
         // Start broadcasting transactions
@@ -63,6 +64,10 @@ contract DeployEASSchema is Script {
 
 7. Run the script:
    forge script script/DeployEASSchema.s.sol:DeployEASSchema --rpc-url <your-rpc-url> --private-key <your-private-key>
+
+8. Broadcast the tx:
+   forge script script/DeployEASSchema.s.sol:DeployEASSchema --rpc-url <your-rpc-url> --private-key <your-private-key> --broadcast
+
 
 Replace <your-rpc-url> and <your-private-key> with appropriate values.
 */
