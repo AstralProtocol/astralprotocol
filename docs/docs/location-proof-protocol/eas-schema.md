@@ -9,6 +9,8 @@ current working schema is deployed on:
   ([view on Sepolia EASScan](https://sepolia.easscan.org/schema/view/0xd928da08c10180b639e31c5f46acf4ea011d88ec7ac44bd95f32385e2d66032b)).
 - Celo Mainnet, Schema 59 / UID `0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2`
   ([view on Celo EASScan](https://celo.easscan.org/schema/view/0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2)).
+- Arbitrum One mainnet, Schema 228 / UID `0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2`
+  ([view on Arbitrum EASScan](https://arbitrum.easscan.org/schema/view/0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2))
 
 | Field                    | Description                                                                                                                                                                                                                 | Key              | Data Type  | Source                                                                                                           |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------- | ---------------------------------------------------------------------------------------------------------------- |
@@ -27,6 +29,7 @@ current working schema is deployed on:
 | Memo                     | An arbitrary message                                                                                                                                                                                                        | `memo`           | `string`   | User input                                                                                                       |
 
 Raw schema:
+
 `uint256 eventTimestamp,string srs,string locationType,string location,string[] recipeType,bytes[] recipePayload,string[] mediaType,string[] mediaData,string memo`
 
 Note that this design supports location proofs that include multiple recipe types / recipe payloads and media type / media data.

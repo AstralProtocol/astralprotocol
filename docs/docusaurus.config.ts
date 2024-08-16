@@ -56,7 +56,7 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',  // todo: replace with actual image
+    image: 'img/astral-social-card.jpg', 
     navbar: {
       title: 'Astral',
       logo: {
