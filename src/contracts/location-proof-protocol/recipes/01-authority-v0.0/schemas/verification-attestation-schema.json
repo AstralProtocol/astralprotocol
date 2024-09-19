@@ -1,0 +1,6 @@
+{
+  "schema": "bool isValid, string comments)",
+  "types": ["bool", "string"],
+  "name": "VerificationAttestation",
+  "version": "1.0"
+}
