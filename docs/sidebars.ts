@@ -5,6 +5,11 @@ const sidebars = {
       label: 'Astral',
       items: ['introduction'],
     },
+    {
+      type:'category',
+      label: 'Tools',
+      items: ['tools/introduction']
+    },
     // {
     //   type: 'category',
     //   label: 'Core Concepts',
@@ -39,6 +44,13 @@ const sidebars = {
         'logbook/frames',
         'logbook/developers',
         'logbook/contributing',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Decentralized Geospatial Data',
+      items: [
+        'decentralized-spatial-data/introduction',
       ],
     },
     // {

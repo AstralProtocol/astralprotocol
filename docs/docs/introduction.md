@@ -1,8 +1,19 @@
 # Introduction
 
-![Astral Protocol](/img/astral-logo.png)
+<img src="/img/astral-logo.png" alt="Astral" width="250" />
 
-Our mission is to make it possible to build location-based apps on the decentralized web. We're doing this by researching and developing a
-set of open source standards and software tools that help Web3 developers work with geospatial data.
+Astral is an open source R+D studio building software for the decentralized geospatial web. Our pillars are:
 
-Start by learning about our [Location Proof Protocol](./location-proof-protocol/introduction.md).
+- **Decentralized location proofs**
+- **Onchain GIS**
+- **Decentralized spatial data storage**.
+
+We're currently sponsoring the [Funding the Commons & Earth Commons Hackathon](https://dorahacks.io/hackathon/ftc-2024/detail). We want
+builders to experiment with our new [Location Proof Protocol](./location-proof-protocol), extend the [Astral Logbook](./logbook) client
+dapp, use the tools we’ve built to store and query [geospatial data on IPFS](./decentralized-spatial-data), or build with any of the open
+source projects we’ve worked on.
+
+Our emphasis is on projects focused on novel, **location-based public goods funding ideas** and **decentralized tools for climate action**,
+but if you have another idea — social, gaming, anything — reach out, we’d love to support.
+
+You can join our Telegram to ask the team for support or guidance [here](https://t.me/+UkTOSXnDcDM5ZTBk).

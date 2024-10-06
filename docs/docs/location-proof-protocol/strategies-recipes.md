@@ -8,7 +8,7 @@ strategy to the protocol. (For a clearer idea of our design, see the [Architectu
 
 :::note
 
-A contributing guide, along with documentation on specific strategies, is in the work. If you want to help us develop this, reach out!
+A contributing guide, along with documentation on specific strategies, is in the works. We've created an unstable example recipe implementation on Github, [here](https://github.com/AstralProtocol/astralprotocol/tree/main/src/contracts/location-proof-protocol/recipes/01-authority-v0.0). If you want to help us develop this, reach out!
 
 :::
 
