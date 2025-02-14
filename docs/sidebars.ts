@@ -25,12 +25,19 @@ const sidebars = {
       label: 'Location Proof Protocol',
       items: [
         'location-proof-protocol/introduction',
+        'location-proof-protocol/quickstart',
         'location-proof-protocol/rationale',
-        'location-proof-protocol/architecture',
         'location-proof-protocol/eas-schema',
         'location-proof-protocol/location-types',
         'location-proof-protocol/strategies-recipes',
         'location-proof-protocol/media-types',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Verifiable Geocomputation',
+      items: [
+        'verifiable-geocomputation/introduction',
       ],
     },
     {
