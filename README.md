@@ -14,6 +14,18 @@
 
 ![Astral-jambo](https://github.com/AstralProtocol/astralprotocol/assets/7093389/e2f31237-1259-47e8-8830-d8caebff9f47)
 
+# Migration Notice
+
+**Repository Archived**  
+
+This repository is no longer maintained.  
+
+- Documentation has migrated to: [AstralProtocol/docs](https://github.com/AstralProtocol/docs)  
+- Location Proof Protocol has migrated to: [DecentralizedGeo/location-proofs](https://github.com/DecentralizedGeo/location-proofs)  
+
+For the latest updates and contributions, please visit the new repositories.
+
+
 # Astral Protocol
 
 Deploy, extend, and maintain GeoLocation apps in a decentralized environment. Visit [astral.global](https://astral.global).
@@ -22,11 +34,6 @@ Deploy, extend, and maintain GeoLocation apps in a decentralized environment. Vi
 
 Check out the Astral Protocol Docs hosted on [gitbook](https://astral-protocol.gitbook.io/astral).
 
-## Design
-
-![Astral-diagram](https://github.com/AstralProtocol/astralprotocol/assets/7093389/562936df-c748-4527-a743-33f6520bac64)
-
 ## ❤️ Contribute
 
-Please check our [contributing guide](https://github.com/AstralProtocol/astralprotocol/wiki/Contributing-guidelines)! We deeply appreciate
-any help, review, suggestion!
+Please check our [contributing guide](https://github.com/AstralProtocol/astralprotocol/wiki/Contributing-guidelines)! We deeply appreciate any help, review, suggestion!
