@@ -4,7 +4,7 @@ The generalized location proof protocol is designed as it is to accommodate the 
 decentralized web, while also provided a standard way of representing these proofs.
 
 In this section of the documentation, we will define these different location proof strategies, and document how to contribute a new
-strategy to the protocol. (For a clearer idea of our design, see the [Architecture](./architecture.md) page).
+strategy to the protocol.
 
 :::note
 

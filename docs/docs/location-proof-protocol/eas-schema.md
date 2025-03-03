@@ -4,15 +4,18 @@
 
 ### Deployments
 
-The core layer of the Location Proof Protocol includes a standard data model. v0.1 of the data model is described in this document. The
-current working schema is deployed on:
+The core layer of the Location Proof Protocol includes a standard data model. v0.1 of the data model is described in this document.
 
-- Arbitrum One mainnet, Schema 228 / UID `0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2`
-  ([view on Arbitrum EASScan](https://arbitrum.easscan.org/schema/view/0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2)).
-- Celo Mainnet, Schema 59 / UID `0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2`
-  ([view on Celo EASScan](https://celo.easscan.org/schema/view/0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2)).
-- Ethereum Sepolia testnet, Schema 2266 / UID `0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2`
-  ([view on Sepolia EASScan](https://sepolia.easscan.org/schema/view/0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2)).
+the v0.1 schema UID is`0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2` across all chains.
+
+Raw schema: `uint256 eventTimestamp,string srs,string locationType,string location,string[] recipeType,bytes[] recipePayload,string[] mediaType,string[] mediaData,string memo`
+
+The current working schema is deployed on:
+
+- **Arbitrum One mainnet**, Schema 228 — [view on Arbitrum EASScan](https://arbitrum.easscan.org/schema/view/0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2)
+- **Celo mainnet**, Schema 59 — [view on Celo EASScan](https://celo.easscan.org/schema/view/0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2)
+- **Ethereum Sepolia testnet**, Schema 2266 — [view on Sepolia EASScan](https://sepolia.easscan.org/schema/view/0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2)
+- **Base mainnet**, Schema 544 — [view on Base EASScan](https://base.easscan.org/schema/view/0xba4171c92572b1e4f241d044c32cdf083be9fd946b8766977558ca6378c824e2)
 
 ### Schema Details
 
@@ -31,9 +34,5 @@ current working schema is deployed on:
 | Media Type               | A unique string referring to the media to be included in a `bytes` field, Media Data. This pattern is similar to OpenGraph Protocol’s `type` definition.                                                                    | `mediaType`      | `string[]` | Defined from a set of supported media types, to be stored in the @/media directory                               |
 | Media Data               | A `string` field allowing the attachment of arbitrary data to a location proof, referenced by CID. This data is intended to be irrelevant to the location proof and not required/utilized in the proof recipe verification. | `mediaData`      | `string[]` | Attached by user                                                                                                 |
 | Memo                     | An arbitrary message                                                                                                                                                                                                        | `memo`           | `string`   | User input                                                                                                       |
-
-Raw schema:
-
-`uint256 eventTimestamp,string srs,string locationType,string location,string[] recipeType,bytes[] recipePayload,string[] mediaType,string[] mediaData,string memo`
 
 Note that this design supports location proofs that include multiple recipe types / recipe payloads and media type / media data.

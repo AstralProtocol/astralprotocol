@@ -1,6 +1,6 @@
 # Spatial.sol 
 
-Enabling Onchain Geospatial Computation on the EVM
+Enabling Onchain Geospatial Computation in the EVM
 
 ## Overview
 

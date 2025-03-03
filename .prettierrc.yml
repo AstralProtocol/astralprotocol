@@ -1,6 +1,6 @@
 bracketSpacing: true
 printWidth: 140
-proseWrap: "always"
+proseWrap: "preserve"
 singleQuote: false
 tabWidth: 2
 trailingComma: "all"

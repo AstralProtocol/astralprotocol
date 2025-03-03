@@ -1,4 +1,4 @@
-# Multi-entry Views
+# Multi-entry Views (in development)
 
 Viewing one log entry is valuable, but the real power of the Logbook lies with our multi-entry dashboards. We're actively working on these
 features.

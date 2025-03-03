@@ -13,7 +13,7 @@ and improve upon these tools.
 
 ### Location Proof Protocol
 
-A protocol for proving location on the decentralized web in a flexible, standardized way (v0.1 deployed) — [**documentation**](../location-proof-protocol/introduction).
+A protocol for proving location on the decentralized web in a flexible, standardized way (v0.1 deployed) — [**documentation**](../location-proof-protocol/introduction.md).
 
 - Core schema for location proofs, built on EAS, deployed on Arbitrum, Celo, Ethereum Sepolia
 - Extensions for diverse location types and media types
@@ -33,9 +33,7 @@ A client application built on the Location Proof Protocol for creating and visua
 
 ### zkMaps
 
-Zero knowledge location proofs, developed by zkMaps.
-
-[Code](https://github.com/zkMaps/zkMaps).
+Zero knowledge location proofs, developed by zkMaps — [**code**](https://github.com/zkMaps/zkMaps).
 
 - Verify whether a point is within a geographic area without revealing the point and or the polygon.
 
